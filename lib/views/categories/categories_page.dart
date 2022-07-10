@@ -1,6 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/views/categories/body_focus_page.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 
 class CategoriesPage extends StatelessWidget {
@@ -9,7 +9,7 @@ class CategoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: "Categories"),
+      appBar: customAppBar(context, title: "Categories"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
@@ -24,7 +24,13 @@ class CategoriesPage extends StatelessWidget {
                   .copyWith(fontWeight: FontWeight.w900, color: primaryColor),
             ),
             const SizedBox(height: kDefaultPadding),
-            const CategoryItem(image: workout, title: "Body Focus"),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const BodyFocusPage()));
+              },
+              child: const CategoryItem(image: workout, title: "Body Focus"),
+            ),
             const SizedBox(height: kDefaultPadding),
             const CategoryItem(image: training, title: "Training Type"),
             const SizedBox(height: kDefaultPadding),
