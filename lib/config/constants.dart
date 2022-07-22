@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 const String appName = 'UKFITNESSHUB';
 const Color primaryColor = Color(0xff026a94);
 const Color secondaryColor = Color(0xff0E364C);
+const Color tertiaryColor = Color.fromARGB(255, 195, 222, 237);
 const double kDefaultPadding = 16.0;
 
 //Images Constants
@@ -38,6 +39,25 @@ const String calendar = '${_iconsPath}calendar.png';
 const String progress = '${_iconsPath}progress.png';
 //result
 const String result = '${_iconsPath}result.png';
+
+//Lower Body Items
+const String _lowerBodyPath = '${_iconsPath}lower body items/';
+
+const String abductors = '${_lowerBodyPath}Abductors.png';
+//Adductors
+const String adductors = '${_lowerBodyPath}Adductors.png';
+//Calves
+const String calves = '${_lowerBodyPath}Calves.png';
+//Glutes
+const String glutes = '${_lowerBodyPath}Glutes.png';
+//Hamstrings
+const String hamstrings = '${_lowerBodyPath}Hamstrings.png';
+//Quadriceps
+const String quadriceps = '${_lowerBodyPath}Quadriceps.png';
+
+//Others
+const String videoIcon = "${_iconsPath}video.png";
+const String programmeImage = "${_imagePath}programme.png";
 
 class HiveConstants {
   HiveConstants._();

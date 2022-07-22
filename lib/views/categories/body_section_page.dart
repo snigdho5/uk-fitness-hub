@@ -1,16 +1,19 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ukfitnesshub/config/constants.dart';
-import 'package:ukfitnesshub/views/categories/body_section_page.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
+import 'package:ukfitnesshub/views/programme/programme_page.dart';
 
-class BodyFocusPage extends StatelessWidget {
-  const BodyFocusPage({Key? key}) : super(key: key);
+class BodySectionPage extends StatelessWidget {
+  final String title;
+  const BodySectionPage({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, title: "Body Focus"),
+      appBar: customAppBar(context, title: title),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -18,7 +21,7 @@ class BodyFocusPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(kDefaultPadding),
             child: Text(
-              "Body Focus".toUpperCase(),
+              title.toUpperCase(),
               style: Theme.of(context)
                   .textTheme
                   .headline6!
@@ -28,53 +31,52 @@ class BodyFocusPage extends StatelessWidget {
           const SizedBox(height: kDefaultPadding),
           Expanded(
             child: GridView.builder(
-              itemCount: _bodyFocusItems.length,
+              itemCount: _lowerBodyItems.length,
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
               shrinkWrap: true,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.7,
+                childAspectRatio: 1,
                 crossAxisSpacing: kDefaultPadding / 2,
                 mainAxisSpacing: kDefaultPadding / 2,
               ),
               itemBuilder: (context, index) {
-                final item = _bodyFocusItems[index];
+                final item = _lowerBodyItems[index];
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => BodySectionPage(title: item),
+                        builder: (context) => const ProgrammePage(),
                       ),
                     );
                   },
                   child: GridTile(
-                    footer: Container(
-                      margin:
-                          const EdgeInsets.only(bottom: kDefaultPadding * 2),
-                      child: GridTileBar(
-                        backgroundColor: primaryColor,
-                        title: Text(
-                          item,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white),
-                        ),
+                    footer: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: kDefaultPadding,
+                      ),
+                      child: Text(
+                        item.title,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6!
+                            .copyWith(fontWeight: FontWeight.w900),
                       ),
                     ),
                     child: Container(
+                      padding: const EdgeInsets.all(kDefaultPadding * 3),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(kDefaultPadding),
                           color: Colors.white,
                           border: Border.all(color: primaryColor, width: 1)),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(kDefaultPadding),
-                        child: CachedNetworkImage(
-                            imageUrl: exerciseImage, fit: BoxFit.cover),
+                        child: Image.asset(
+                          item.image,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -88,9 +90,42 @@ class BodyFocusPage extends StatelessWidget {
   }
 }
 
-final List<String> _bodyFocusItems = [
-  "Lower Body",
-  "Upper Body",
-  "Core",
-  "Total Body",
+class LowerBodyItem {
+  final String title;
+  final String image;
+  LowerBodyItem({
+    required this.title,
+    required this.image,
+  });
+}
+
+final List<LowerBodyItem> _lowerBodyItems = [
+  //Glutes
+  LowerBodyItem(
+    title: 'Glutes',
+    image: glutes,
+  ), //Quadriceps
+  LowerBodyItem(
+    title: 'Quadriceps',
+    image: quadriceps,
+  ), //Hamstrings
+  LowerBodyItem(
+    title: 'Hamstrings',
+    image: hamstrings,
+  ), //Adductors
+  LowerBodyItem(
+    title: 'Adductors',
+    image: adductors,
+  ),
+  //Abductors
+  LowerBodyItem(
+    title: 'Abductors',
+    image: abductors,
+  ),
+
+  //Calves
+  LowerBodyItem(
+    title: 'Calves',
+    image: calves,
+  ),
 ];
