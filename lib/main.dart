@@ -5,7 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/helper/config_loading.dart';
+import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/auth/login_page.dart';
+import 'package:ukfitnesshub/views/bottom_nav_bar_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +48,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginPage(),
+          builder: (context) => const LandingWidget(),
         ),
       );
     });
@@ -66,6 +68,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         ),
       ),
     );
+  }
+}
+
+class LandingWidget extends ConsumerWidget {
+  const LandingWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userProfileRef = ref.watch(userHiveProvider);
+    final user = userProfileRef.getUser();
+
+    return user == null ? const LoginPage() : const BottomNavbarPage();
   }
 }
 

@@ -63,6 +63,8 @@ class HiveConstants {
   HiveConstants._();
 
   static const String hiveBox = 'ukfitnesshub';
+
+  static const String userProfile = 'userProfile';
 }
 
 const String exerciseImage =

@@ -1,11 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/providers/user_provider.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends ConsumerWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final userProfileRef = ref.watch(userHiveProvider);
+    final userImage = userProfileRef.getUser()?.image;
+    final userName = userProfileRef.getUser()?.name;
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -67,17 +74,17 @@ class ProfilePage extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius:
                             BorderRadius.circular(kDefaultPadding * 5),
-                        // child: user?.imageUrl == null || user!.imageUrl!.isEmpty
-                        //     ? const Icon(Icons.person,
-                        //         size: kDefaultPadding * 5, color: Colors.white)
-                        //     : CachedNetworkImage(
-                        //         imageUrl: user.imageUrl!,
-                        //         height: kDefaultPadding * 5,
-                        //         width: kDefaultPadding * 5,
-                        //         fit: BoxFit.cover,
-                        //       ),
-                        child: const Icon(Icons.person,
-                            size: kDefaultPadding * 5, color: Colors.white),
+                        child: userImage == null ||
+                                userImage == "na" ||
+                                userImage.isEmpty
+                            ? const Icon(Icons.person,
+                                size: kDefaultPadding * 5, color: Colors.white)
+                            : CachedNetworkImage(
+                                imageUrl: userImage,
+                                height: kDefaultPadding * 5,
+                                width: kDefaultPadding * 5,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
                     Positioned(
@@ -95,6 +102,17 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+            const SizedBox(height: kDefaultPadding),
+            Center(
+              child: Text(
+                userName ?? "User",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),

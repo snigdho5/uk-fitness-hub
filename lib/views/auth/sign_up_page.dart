@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/models/user_profile_model.dart';
+import 'package:ukfitnesshub/providers/auth_providers.dart';
+import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
 import 'package:ukfitnesshub/views/custom/custom_text_field.dart';
 
-class SignUpPage extends StatefulWidget {
+class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  ConsumerState<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageState extends ConsumerState<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController(); //Password
   final _passwordController = TextEditingController();
@@ -32,6 +37,36 @@ class _SignUpPageState extends State<SignUpPage> {
   final _hearAboutUsController = TextEditingController();
 
   bool _isAcceptTerms = false;
+
+  bool? _isMale;
+
+  void _onSignUp() async {
+    final Map<String, String> data = {
+      "email": _emailController.text.trim(),
+      "password": _passwordController.text.trim(),
+      "title": _isMale == true ? "Mr" : "Mrs",
+      "name": _nameController.text.trim(),
+      "age": _ageController.text.trim(),
+      "weight": _weightController.text.trim(),
+      "height": _heightController.text.trim(),
+      "country": _countryController.text.trim(),
+      "country_code": "na",
+      "goal": _goalController.text.trim(),
+      "hear_from": _hearAboutUsController.text.trim(),
+    };
+    EasyLoading.show(status: 'loading...');
+    await AuthProvider.signUp(data: data).then((value) async {
+      if (value != null) {
+        Navigator.pop(context);
+        EasyLoading.showToast(
+          "Sign up successfully! You can login now.",
+          toastPosition: EasyLoadingToastPosition.bottom,
+        );
+      } else {
+        EasyLoading.dismiss();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +156,8 @@ class _SignUpPageState extends State<SignUpPage> {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "Please enter your password";
+                              } else if (value.length < 8) {
+                                return "Password must be at least 8 characters";
                               }
                               return null;
                             },
@@ -140,6 +177,76 @@ class _SignUpPageState extends State<SignUpPage> {
                               }
                               return null;
                             },
+                          ),
+                          const SizedBox(height: kDefaultPadding),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: kDefaultPadding,
+                                vertical: kDefaultPadding / 2),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.circular(kDefaultPadding),
+                              border: Border.all(color: Colors.grey),
+                              boxShadow: const [
+                                BoxShadow(
+                                    offset: Offset(0, 6),
+                                    blurRadius: 4,
+                                    color: Colors.black12),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text("Gender"),
+                                const SizedBox(height: kDefaultPadding / 2),
+                                Row(
+                                  children: [
+                                    ChoiceChip(
+                                      selectedColor: primaryColor,
+                                      label: Text(
+                                        "Male",
+                                        style: TextStyle(
+                                            color: _isMale == true
+                                                ? Colors.white
+                                                : null),
+                                      ),
+                                      selected: _isMale == true,
+                                      onSelected: (value) {
+                                        setState(() {
+                                          if (value) {
+                                            _isMale = true;
+                                          } else {
+                                            _isMale = null;
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    const SizedBox(width: kDefaultPadding / 2),
+                                    ChoiceChip(
+                                      selectedColor: primaryColor,
+                                      label: Text(
+                                        "Female",
+                                        style: TextStyle(
+                                            color: _isMale == false
+                                                ? Colors.white
+                                                : null),
+                                      ),
+                                      selected: _isMale == false,
+                                      onSelected: (value) {
+                                        setState(() {
+                                          if (value) {
+                                            _isMale = false;
+                                          } else {
+                                            _isMale = null;
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: kDefaultPadding),
                           CustomTextFormField(
@@ -227,10 +334,16 @@ class _SignUpPageState extends State<SignUpPage> {
                             text: "Create Account",
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                if (_isAcceptTerms) {
-                                  print("Form is valid");
+                                if (_isMale != null) {
+                                  if (_isAcceptTerms) {
+                                    _onSignUp();
+                                  } else {
+                                    EasyLoading.showInfo(
+                                        "Please accept the terms and conditions");
+                                  }
                                 } else {
-                                  print("Please accept terms and conditions");
+                                  EasyLoading.showInfo(
+                                      "Please select your gender.");
                                 }
                               }
                             },
