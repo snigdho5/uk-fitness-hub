@@ -1,8 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/providers/auth_providers.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
+import 'package:ukfitnesshub/views/profile/update_profile_page.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -10,8 +16,8 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final userProfileRef = ref.watch(userHiveProvider);
-    final userImage = userProfileRef.getUser()?.image;
-    final userName = userProfileRef.getUser()?.name;
+
+    final user = userProfileRef.getUser();
 
     return Scaffold(
       body: Container(
@@ -35,30 +41,28 @@ class ProfilePage extends ConsumerWidget {
             const SizedBox(height: kDefaultPadding * 2),
             GestureDetector(
               onTap: () async {
-                // if (user != null) {
-                //   final ImagePicker picker = ImagePicker();
+                if (user != null) {
+                  final ImagePicker picker = ImagePicker();
 
-                //   final XFile? image =
-                //       await picker.pickImage(source: ImageSource.gallery);
+                  final XFile? image =
+                      await picker.pickImage(source: ImageSource.gallery);
 
-                //   if (image != null) {
-                //     final userFuture = ref.read(userProvider);
-                //     final imageInBase64 =
-                //         base64Encode(File(image.path).readAsBytesSync());
+                  if (image != null) {
+                    final imageInBase64 =
+                        base64Encode(File(image.path).readAsBytesSync());
 
-                //     final newProfile = await updateUserProfilePicture(
-                //       id: user.id,
-                //       token: user.token,
-                //       imageBase64: imageInBase64,
-                //     );
-
-                //     if (newProfile != null) {
-                //       await userFuture.setUserProfileModel(newProfile);
-                //     } else {
-                //       EasyLoading.showError('Failed to update profile picture');
-                //     }
-                //   }
-                // }
+                    await AuthProvider.uploadProfileImage(
+                            userId: user.id,
+                            token: user.token,
+                            imageBase64: imageInBase64)
+                        .then((value) async {
+                      if (value != null) {
+                        final userProfileRef = ref.read(userHiveProvider);
+                        await userProfileRef.saveUser(value).then((value) {});
+                      }
+                    });
+                  }
+                }
               },
               child: Center(
                 child: Stack(
@@ -74,16 +78,20 @@ class ProfilePage extends ConsumerWidget {
                       child: ClipRRect(
                         borderRadius:
                             BorderRadius.circular(kDefaultPadding * 5),
-                        child: userImage == null ||
-                                userImage == "na" ||
-                                userImage.isEmpty
+                        child: user?.image == null ||
+                                user?.image == "na" ||
+                                user!.image.isEmpty
                             ? const Icon(Icons.person,
                                 size: kDefaultPadding * 5, color: Colors.white)
                             : CachedNetworkImage(
-                                imageUrl: userImage,
+                                imageUrl: user.image,
                                 height: kDefaultPadding * 5,
                                 width: kDefaultPadding * 5,
                                 fit: BoxFit.cover,
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error_outline,
+                                        size: kDefaultPadding * 3,
+                                        color: Colors.white),
                               ),
                       ),
                     ),
@@ -108,7 +116,7 @@ class ProfilePage extends ConsumerWidget {
             const SizedBox(height: kDefaultPadding),
             Center(
               child: Text(
-                userName ?? "User",
+                user?.name ?? "User",
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -122,19 +130,30 @@ class ProfilePage extends ConsumerWidget {
                 color: Theme.of(context).scaffoldBackgroundColor,
                 child: SingleChildScrollView(
                   child: Column(
-                    children: const [
+                    children: [
                       ListTile(
-                        title: Text("Update Information"),
-                        subtitle: Text("Edit your account details."),
-                        leading: Icon(Icons.edit),
+                        title: const Text("Update Information"),
+                        subtitle: const Text("Edit your account details."),
+                        leading: const Icon(Icons.edit),
+                        onTap: () {
+                          if (user != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditProfilePage(user: user),
+                              ),
+                            );
+                          }
+                        },
                       ),
-                      Divider(height: 0),
-                      ListTile(
+                      const Divider(height: 0),
+                      const ListTile(
                         title: Text("Create your own program"),
                         subtitle: Text("Make your own workout videos"),
                         leading: Icon(Icons.video_library),
                       ),
-                      Divider(height: 0),
+                      const Divider(height: 0),
                     ],
                   ),
                 ),

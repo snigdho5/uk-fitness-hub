@@ -38,8 +38,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           //   (Route<dynamic> route) => false,
           // );
         });
-      } else {
-        EasyLoading.dismiss();
       }
     });
   }
