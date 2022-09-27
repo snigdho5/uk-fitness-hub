@@ -6,7 +6,6 @@ import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/providers/auth_providers.dart';
 import 'package:ukfitnesshub/providers/package_info_provider.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
-import 'package:ukfitnesshub/views/auth/login_page.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/profile/profile_page.dart';
 import 'package:ukfitnesshub/views/settings/settings_page.dart';

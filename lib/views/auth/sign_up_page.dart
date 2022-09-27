@@ -1,10 +1,11 @@
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:ukfitnesshub/config/constants.dart';
-import 'package:ukfitnesshub/models/user_profile_model.dart';
 import 'package:ukfitnesshub/providers/auth_providers.dart';
-import 'package:ukfitnesshub/providers/user_provider.dart';
+import 'package:ukfitnesshub/providers/country_provider.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
 import 'package:ukfitnesshub/views/custom/custom_text_field.dart';
 
@@ -30,11 +31,11 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   //Height
   final _heightController = TextEditingController();
   //Country
-  final _countryController = TextEditingController();
+  final _countryController = SingleValueDropDownController();
   //Goal
-  final _goalController = TextEditingController();
+  final _goalController = SingleValueDropDownController();
   //How did you hear about us?
-  final _hearAboutUsController = TextEditingController();
+  final _hearAboutUsController = SingleValueDropDownController();
 
   bool _isAcceptTerms = false;
 
@@ -49,10 +50,18 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
       "age": _ageController.text.trim(),
       "weight": _weightController.text.trim(),
       "height": _heightController.text.trim(),
-      "country": _countryController.text.trim(),
-      "country_code": "na",
-      "goal": _goalController.text.trim(),
-      "hear_from": _hearAboutUsController.text.trim(),
+      "country": _countryController.dropDownValue == null
+          ? ""
+          : _countryController.dropDownValue!.name,
+      "country_code": _countryController.dropDownValue == null
+          ? ""
+          : _countryController.dropDownValue!.value.toString(),
+      "goal": _goalController.dropDownValue == null
+          ? ""
+          : _goalController.dropDownValue!.name,
+      "hear_from": _hearAboutUsController.dropDownValue == null
+          ? ""
+          : _hearAboutUsController.dropDownValue!.name,
     };
     EasyLoading.show(status: 'loading...');
     await AuthProvider.signUp(data: data).then((value) async {
@@ -70,6 +79,8 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final countryProvider = ref.watch(countriesProvider);
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -290,25 +301,47 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                             },
                           ),
                           const SizedBox(height: kDefaultPadding),
-                          CustomTextFormField(
-                            controller: _countryController,
+                          CustomDropdownTextField(
+                            contoller: _countryController,
+                            items: countryProvider.countries.map((e) {
+                              return DropDownValueModel(
+                                  name: e.countryName, value: e.countryCode);
+                            }).toList(),
                             title: "Your Country",
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return "Please enter your country";
+                                return "Please select your country";
                               }
                               return null;
                             },
                           ),
                           const SizedBox(height: kDefaultPadding),
-                          CustomTextFormField(
-                            controller: _goalController,
+                          CustomDropdownTextField(
+                            contoller: _goalController,
+                            items: yourGoalItems.map((e) {
+                              return DropDownValueModel(name: e, value: e);
+                            }).toList(),
                             title: "Your Goal",
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please select your goal";
+                              }
+                              return null;
+                            },
                           ),
                           const SizedBox(height: kDefaultPadding),
-                          CustomTextFormField(
-                            controller: _hearAboutUsController,
+                          CustomDropdownTextField(
+                            contoller: _hearAboutUsController,
+                            items: howDidYouHearAboutUsItems.map((e) {
+                              return DropDownValueModel(name: e, value: e);
+                            }).toList(),
                             title: "How did you hear about us?",
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please select something!";
+                              }
+                              return null;
+                            },
                           ),
                           const SizedBox(height: kDefaultPadding),
                           ListTile(
@@ -362,3 +395,18 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     );
   }
 }
+
+List<String> howDidYouHearAboutUsItems = [
+  "Google",
+  "Word of Mouth",
+  "Instagram",
+  "Facebook",
+  "In Person Events",
+];
+
+List<String> yourGoalItems = [
+  "Get Healthy in Body and Mind",
+  "Lose Weight or Fat",
+  "Gain Weight or Muscle",
+  "Lose Fat & Gain Muscle (AKA Tone Up)",
+];

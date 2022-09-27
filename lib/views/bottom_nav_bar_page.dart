@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ukfitnesshub/config/constants.dart';
-import 'package:ukfitnesshub/views/categories/categories_page.dart';
+import 'package:ukfitnesshub/views/home/home_page.dart';
 
 class BottomNavbarPage extends StatelessWidget {
   const BottomNavbarPage({Key? key}) : super(key: key);
@@ -8,7 +8,7 @@ class BottomNavbarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const CategoriesPage(),
+      body: const HomePage(),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: primaryColor,
         selectedItemColor: Colors.white,

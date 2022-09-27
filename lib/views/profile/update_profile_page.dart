@@ -1,10 +1,13 @@
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/models/user_profile_model.dart';
 import 'package:ukfitnesshub/providers/auth_providers.dart';
+import 'package:ukfitnesshub/providers/country_provider.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
+import 'package:ukfitnesshub/views/auth/sign_up_page.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
 import 'package:ukfitnesshub/views/custom/custom_text_field.dart';
 
@@ -31,12 +34,14 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   final _weightController = TextEditingController();
   //Height
   final _heightController = TextEditingController();
-  //Country
-  final _countryController = TextEditingController();
+
   //Goal
-  final _goalController = TextEditingController();
+  late SingleValueDropDownController _goalController;
   //How did you hear about us?
-  final _hearAboutUsController = TextEditingController();
+  late SingleValueDropDownController _hearAboutUsController;
+
+  //Country
+  late SingleValueDropDownController _countryController;
 
   bool? _isMale;
 
@@ -47,10 +52,20 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     _ageController.text = widget.user.age.toString();
     _weightController.text = widget.user.weight.toString();
     _heightController.text = widget.user.height.toString();
-    _countryController.text = widget.user.country;
-    _goalController.text = widget.user.goal;
-    _hearAboutUsController.text = widget.user.hearFrom;
+
     _isMale = widget.user.title == 'Mr';
+
+    _goalController = SingleValueDropDownController(
+        data: DropDownValueModel(
+            name: widget.user.goal, value: widget.user.goal));
+
+    _hearAboutUsController = SingleValueDropDownController(
+        data: DropDownValueModel(
+            name: widget.user.hearFrom, value: widget.user.hearFrom));
+
+    _countryController = SingleValueDropDownController(
+        data: DropDownValueModel(
+            name: widget.user.country, value: widget.user.countryCode));
 
     super.initState();
   }
@@ -64,10 +79,18 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
       "age": _ageController.text.trim(),
       "weight": _weightController.text.trim(),
       "height": _heightController.text.trim(),
-      "country": _countryController.text.trim(),
-      "country_code": "na",
-      "goal": _goalController.text.trim(),
-      "hear_from": _hearAboutUsController.text.trim(),
+      "country": _countryController.dropDownValue == null
+          ? ""
+          : _countryController.dropDownValue!.name,
+      "country_code": _countryController.dropDownValue == null
+          ? ""
+          : _countryController.dropDownValue!.value.toString(),
+      "goal": _goalController.dropDownValue == null
+          ? ""
+          : _goalController.dropDownValue!.name,
+      "hear_from": _hearAboutUsController.dropDownValue == null
+          ? ""
+          : _hearAboutUsController.dropDownValue!.name,
     };
     EasyLoading.show(status: 'loading...');
     await AuthProvider.updateProfile(data, widget.user.token)
@@ -83,6 +106,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final countryProvider = ref.watch(countriesProvider);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -272,25 +296,47 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                             },
                           ),
                           const SizedBox(height: kDefaultPadding),
-                          CustomTextFormField(
-                            controller: _countryController,
+                          CustomDropdownTextField(
+                            contoller: _countryController,
+                            items: countryProvider.countries.map((e) {
+                              return DropDownValueModel(
+                                  name: e.countryName, value: e.countryCode);
+                            }).toList(),
                             title: "Your Country",
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return "Please enter your country";
+                                return "Please select your country";
                               }
                               return null;
                             },
                           ),
                           const SizedBox(height: kDefaultPadding),
-                          CustomTextFormField(
-                            controller: _goalController,
+                          CustomDropdownTextField(
+                            contoller: _goalController,
+                            items: yourGoalItems.map((e) {
+                              return DropDownValueModel(name: e, value: e);
+                            }).toList(),
                             title: "Your Goal",
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please select your goal";
+                              }
+                              return null;
+                            },
                           ),
                           const SizedBox(height: kDefaultPadding),
-                          CustomTextFormField(
-                            controller: _hearAboutUsController,
+                          CustomDropdownTextField(
+                            contoller: _hearAboutUsController,
+                            items: howDidYouHearAboutUsItems.map((e) {
+                              return DropDownValueModel(name: e, value: e);
+                            }).toList(),
                             title: "How did you hear about us?",
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please select something!";
+                              }
+                              return null;
+                            },
                           ),
                           const SizedBox(height: kDefaultPadding),
                           CustomButton(

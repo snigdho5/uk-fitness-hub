@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/helper/config_loading.dart';
+import 'package:ukfitnesshub/providers/country_provider.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/auth/login_page.dart';
 import 'package:ukfitnesshub/views/bottom_nav_bar_page.dart';
@@ -42,18 +43,22 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
-    //Delay for splash screen
-
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LandingWidget(),
-        ),
-      );
-    });
+    initalize();
 
     super.initState();
+  }
+
+  Future<void> initalize() async {
+    await ref.read(countriesProvider).getCountries().then((value) {
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LandingWidget(),
+          ),
+        );
+      });
+    });
   }
 
   @override

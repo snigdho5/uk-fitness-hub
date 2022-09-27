@@ -3,13 +3,13 @@ import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/views/categories/body_focus_page.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 
-class CategoriesPage extends StatelessWidget {
-  const CategoriesPage({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, title: "Categories"),
+      appBar: customAppBar(context, title: "UK Fitness Hub"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
@@ -17,7 +17,7 @@ class CategoriesPage extends StatelessWidget {
           children: [
             const SizedBox(height: kDefaultPadding),
             Text(
-              "Categories".toUpperCase(),
+              "Main Menu".toUpperCase(),
               style: Theme.of(context)
                   .textTheme
                   .headline6!

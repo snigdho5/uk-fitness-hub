@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/views/categories/body_section_page.dart';
@@ -73,8 +72,10 @@ class BodyFocusPage extends StatelessWidget {
                           border: Border.all(color: primaryColor, width: 1)),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(kDefaultPadding),
-                        child: CachedNetworkImage(
-                            imageUrl: exerciseImage, fit: BoxFit.cover),
+                        child: Image.asset(
+                          _bodyFocusImages[index],
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -93,4 +94,11 @@ final List<String> _bodyFocusItems = [
   "Upper Body",
   "Core",
   "Total Body",
+];
+
+final List<String> _bodyFocusImages = [
+  lowerBody,
+  upperBody,
+  core,
+  totalBody,
 ];

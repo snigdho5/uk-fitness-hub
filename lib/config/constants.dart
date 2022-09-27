@@ -10,7 +10,6 @@ const double kDefaultPadding = 16.0;
 //Images Constants
 const String _imagePath = 'assets/images/';
 const String _iconsPath = 'assets/icons/';
-const String _navPath = 'assets/images/nav/';
 
 //Images
 const String splash = '${_imagePath}splash.png';
@@ -59,6 +58,13 @@ const String quadriceps = '${_lowerBodyPath}Quadriceps.png';
 const String videoIcon = "${_iconsPath}video.png";
 const String programmeImage = "${_imagePath}programme.png";
 
+//Body focus images
+const String _bodyFocusPath = '${_imagePath}body_focus/';
+const String lowerBody = '${_bodyFocusPath}lower_body.png';
+const String upperBody = '${_bodyFocusPath}upper_body.png';
+const String core = '${_bodyFocusPath}core.png';
+const String totalBody = '${_bodyFocusPath}total_body.png';
+
 class HiveConstants {
   HiveConstants._();
 
@@ -66,6 +72,3 @@ class HiveConstants {
 
   static const String userProfile = 'userProfile';
 }
-
-const String exerciseImage =
-    "https://images.unsplash.com/photo-1470468969717-61d5d54fd036?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=744&q=80";

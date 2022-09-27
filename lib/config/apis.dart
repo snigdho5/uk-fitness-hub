@@ -9,4 +9,7 @@ class APIs {
   static const String changePassword = "change-password";
   static const String editProfile = "edit-profile";
   static const String uploadProfileImage = "upload-image";
+
+  //countries
+  static const String countries = "countries";
 }
