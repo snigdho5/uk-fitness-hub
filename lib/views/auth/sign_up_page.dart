@@ -308,6 +308,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                                   name: e.countryName, value: e.countryCode);
                             }).toList(),
                             title: "Your Country",
+                            isSearchable: true,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "Please select your country";

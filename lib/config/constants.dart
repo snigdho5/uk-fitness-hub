@@ -12,7 +12,7 @@ const String _imagePath = 'assets/images/';
 const String _iconsPath = 'assets/icons/';
 
 //Images
-const String splash = '${_imagePath}splash.png';
+const String splash = '${_imagePath}splash.jpg';
 const String logo = '${_imagePath}logo.png';
 const String bg = '${_imagePath}bg.png';
 const String loginBg = '${_imagePath}login.png';

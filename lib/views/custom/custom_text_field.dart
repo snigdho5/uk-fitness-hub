@@ -92,6 +92,10 @@ class CustomDropdownTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(kDefaultPadding),
               borderSide: const BorderSide(color: primaryColor)),
         ),
+        dropdownRadius: kDefaultPadding,
+        searchAutofocus: true,
+        searchKeyboardType: TextInputType.text,
+        dropDownIconProperty: IconProperty(color: primaryColor),
       ),
     );
   }

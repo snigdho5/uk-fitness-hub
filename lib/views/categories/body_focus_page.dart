@@ -33,8 +33,8 @@ class BodyFocusPage extends StatelessWidget {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.7,
-                crossAxisSpacing: kDefaultPadding / 2,
-                mainAxisSpacing: kDefaultPadding / 2,
+                crossAxisSpacing: kDefaultPadding,
+                mainAxisSpacing: kDefaultPadding,
               ),
               itemBuilder: (context, index) {
                 final item = _bodyFocusItems[index];
@@ -50,18 +50,23 @@ class BodyFocusPage extends StatelessWidget {
                   child: GridTile(
                     footer: Container(
                       margin:
-                          const EdgeInsets.only(bottom: kDefaultPadding * 2),
-                      child: GridTileBar(
-                        backgroundColor: primaryColor,
-                        title: Text(
-                          item,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white),
+                          const EdgeInsets.only(bottom: kDefaultPadding * 1.5),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding * 1.5,
+                            vertical: kDefaultPadding / 2),
+                        color: primaryColor,
+                        child: Center(
+                          child: Text(
+                            item,
+                            textAlign: TextAlign.center,
+                            style:
+                                Theme.of(context).textTheme.bodyText1!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                          ),
                         ),
                       ),
                     ),

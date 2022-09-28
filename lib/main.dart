@@ -68,7 +68,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(splash),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
         ),
       ),
