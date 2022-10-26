@@ -37,8 +37,8 @@ class BodySectionPage extends StatelessWidget {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 1,
-                crossAxisSpacing: kDefaultPadding / 2,
-                mainAxisSpacing: kDefaultPadding / 2,
+                crossAxisSpacing: kDefaultPadding,
+                mainAxisSpacing: kDefaultPadding,
               ),
               itemBuilder: (context, index) {
                 final item = _lowerBodyItems[index];

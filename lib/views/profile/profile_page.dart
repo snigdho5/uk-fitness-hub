@@ -15,8 +15,9 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final userProfileRef = ref.watch(userHiveProvider);
-
     final user = userProfileRef.getUser();
+
+    print(user!.toJson());
 
     return Scaffold(
       body: Container(

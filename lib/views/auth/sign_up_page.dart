@@ -403,6 +403,7 @@ List<String> howDidYouHearAboutUsItems = [
   "Instagram",
   "Facebook",
   "In Person Events",
+  "Other",
 ];
 
 List<String> yourGoalItems = [

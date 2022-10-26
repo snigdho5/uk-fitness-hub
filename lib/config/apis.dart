@@ -12,4 +12,9 @@ class APIs {
 
   //countries
   static const String countries = "countries";
+
+  //Categories
+  static const String categories = "categories";
+  //SubCategories
+  static const String subCategories = "sub-categories";
 }
