@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/views/home/home_page.dart';
+import 'package:ukfitnesshub/views/programme/programme_listing_page.dart';
 
 class BottomNavbarPage extends StatelessWidget {
   const BottomNavbarPage({Key? key}) : super(key: key);
@@ -42,6 +43,14 @@ class BottomNavbarPage extends StatelessWidget {
         ],
         onTap: (index) {
           //TODO: Ontap nav items
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProgrammeListingPage(),
+              ),
+            );
+          }
         },
       ),
     );

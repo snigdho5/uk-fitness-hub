@@ -9,8 +9,8 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return Scaffold(
-      appBar:
-          customAppBar(context, title: "Settings", showActionButtons: false),
+      appBar: customAppBar(context,
+          title: "Settings", showDefaultActionButtons: false),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

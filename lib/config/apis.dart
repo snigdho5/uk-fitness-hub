@@ -16,5 +16,10 @@ class APIs {
   //Categories
   static const String categories = "categories";
   //SubCategories
-  static const String subCategories = "sub-categories";
+  static const String allSubCategories = "sub-categories";
+  static const String getSubCategoriesByCategoryId = "get-sub-category";
+
+  //Exercises
+  static const String allExercises = "exercises";
+  static const String getExercisesBySubCategoryId = "get-exercises";
 }

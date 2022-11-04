@@ -4,7 +4,9 @@ import 'package:ukfitnesshub/views/custom/menu_page.dart';
 import 'package:ukfitnesshub/views/profile/profile_page.dart';
 
 AppBar customAppBar(BuildContext context,
-    {required String title, bool showActionButtons = true}) {
+    {required String title,
+    bool showDefaultActionButtons = true,
+    List<Widget>? customActions}) {
   return AppBar(
     flexibleSpace: Container(
       decoration: const BoxDecoration(
@@ -24,7 +26,7 @@ AppBar customAppBar(BuildContext context,
         Expanded(child: Text(title.toUpperCase())),
       ],
     ),
-    actions: showActionButtons
+    actions: showDefaultActionButtons
         ? [
             Image.asset(notification, width: kDefaultPadding * 1.2),
             const SizedBox(width: kDefaultPadding / 2),
@@ -44,6 +46,6 @@ AppBar customAppBar(BuildContext context,
             ),
             const SizedBox(width: kDefaultPadding),
           ]
-        : null,
+        : customActions,
   );
 }

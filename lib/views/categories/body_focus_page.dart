@@ -122,16 +122,16 @@ class BodyFocusPage extends ConsumerWidget {
   }
 }
 
-final List<String> _bodyFocusItems = [
-  "Lower Body",
-  "Upper Body",
-  "Core",
-  "Total Body",
-];
+// final List<String> _bodyFocusItems = [
+//   "Lower Body",
+//   "Upper Body",
+//   "Core",
+//   "Total Body",
+// ];
 
-final List<String> _bodyFocusImages = [
-  lowerBody,
-  upperBody,
-  core,
-  totalBody,
-];
+// final List<String> _bodyFocusImages = [
+//   lowerBody,
+//   upperBody,
+//   core,
+//   totalBody,
+// ];

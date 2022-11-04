@@ -17,7 +17,8 @@ class MenuPage extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final packageRef = ref.watch(packageInfoProvider);
     return Scaffold(
-      appBar: customAppBar(context, title: "Menu", showActionButtons: false),
+      appBar:
+          customAppBar(context, title: "Menu", showDefaultActionButtons: false),
       body: Column(
         children: [
           Expanded(

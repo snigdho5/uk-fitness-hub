@@ -47,7 +47,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
       },
       child: Scaffold(
         appBar: customAppBar(context,
-            title: "Change Password", showActionButtons: false),
+            title: "Change Password", showDefaultActionButtons: false),
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(

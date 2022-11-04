@@ -88,47 +88,6 @@ class LandingWidget extends ConsumerWidget {
   }
 }
 
-// class LandingWidget extends ConsumerWidget {
-//   final Widget child;
-//   const LandingWidget({
-//     Key? key,
-//     required this.child,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final loginFuture = ref.read(loginProvider);
-//     final userFuture = ref.read(userProvider);
-//     final UserProfileModel? savedUser = userFuture.getUserProfileModel();
-
-//     if (savedUser == null) {
-//       return const LoginPage();
-//     } else {
-//       return FutureBuilder<bool>(
-//         future: loginFuture.checkLoggedInUser(savedUser),
-//         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-//           if (snapshot.hasData && snapshot.data != null) {
-//             if (snapshot.data!) {
-//               return child;
-//             } else {
-//               return const LoginPage();
-//             }
-//           } else {
-//             return Scaffold(
-//               appBar: AppBar(
-//                 title: const Text(appName),
-//                 centerTitle: true,
-//               ),
-//               body: const Center(
-//                   child: CircularProgressIndicator(color: primaryColor)),
-//             );
-//           }
-//         },
-//       );
-//     }
-//   }
-// }
-
 final _primarySwatch = MaterialColor(primaryColor.value, _swatch);
 final _swatch = {
   50: primaryColor.withOpacity(0.1),
