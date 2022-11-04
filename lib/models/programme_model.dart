@@ -1,26 +1,25 @@
-class SubCategoryModel {
-  SubCategoryModel({
+class ProgrammeModel {
+  ProgrammeModel({
     required this.id,
-    required this.categoryId,
+    required this.exerciseIds,
     required this.name,
     this.description,
     this.image,
-    this.addedDtime,
+    required this.addedDtime,
     this.v,
   });
 
   String id;
-  String categoryId;
+  List<String> exerciseIds;
   String name;
   String? description;
   String? image;
-  String? addedDtime;
+  String addedDtime;
   int? v;
 
-  factory SubCategoryModel.fromJson(Map<String, dynamic> json) =>
-      SubCategoryModel(
+  factory ProgrammeModel.fromJson(Map<String, dynamic> json) => ProgrammeModel(
         id: json["_id"],
-        categoryId: json["category_id"],
+        exerciseIds: (json["exercise_ids"] as String).substring(1).split(","),
         name: json["name"],
         description: json["description"],
         image: json["image"],
@@ -30,7 +29,7 @@ class SubCategoryModel {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "category_id": categoryId,
+        "exercise_ids": ",${exerciseIds.join(",")}",
         "name": name,
         "description": description,
         "image": image,

@@ -15,6 +15,7 @@ class APIs {
 
   //Categories
   static const String categories = "categories";
+
   //SubCategories
   static const String allSubCategories = "sub-categories";
   static const String getSubCategoriesByCategoryId = "get-sub-category";
@@ -22,4 +23,10 @@ class APIs {
   //Exercises
   static const String allExercises = "exercises";
   static const String getExercisesBySubCategoryId = "get-exercises";
+
+  //Programme
+  static const String programmes = "programmes";
+  static const String addProgramme = "add-programme";
+  static const String editProgramme = "edit-programme";
+  static const String deleteProgramme = "delete-programme";
 }

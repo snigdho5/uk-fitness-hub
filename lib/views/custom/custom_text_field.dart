@@ -12,6 +12,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool isNumber;
   final TextInputType keyboardType;
   final String? suffix;
+  final bool showTitleAsHint;
 
   const CustomTextFormField({
     Key? key,
@@ -23,6 +24,7 @@ class CustomTextFormField extends StatelessWidget {
     this.isNumber = false,
     this.keyboardType = TextInputType.text,
     this.suffix,
+    this.showTitleAsHint = false,
   }) : super(key: key);
 
   @override
@@ -42,7 +44,8 @@ class CustomTextFormField extends StatelessWidget {
             isNumber ? [FilteringTextInputFormatter.digitsOnly] : null,
         decoration: InputDecoration(
           suffix: suffix != null ? Text(suffix!) : null,
-          labelText: title,
+          labelText: showTitleAsHint ? null : title,
+          hintText: showTitleAsHint ? title : null,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(kDefaultPadding),
               borderSide: const BorderSide(color: primaryColor)),

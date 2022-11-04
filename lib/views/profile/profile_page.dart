@@ -17,6 +17,8 @@ class ProfilePage extends ConsumerWidget {
     final userProfileRef = ref.watch(userHiveProvider);
     final user = userProfileRef.getUser();
 
+    print(userProfileRef.getUser()?.token);
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,

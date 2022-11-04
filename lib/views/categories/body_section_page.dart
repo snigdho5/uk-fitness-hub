@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
-import 'package:ukfitnesshub/views/programme/programme_page.dart';
+import 'package:ukfitnesshub/views/programme/programme_details_page.dart';
 
 class BodySectionPage extends StatelessWidget {
   final String title;
