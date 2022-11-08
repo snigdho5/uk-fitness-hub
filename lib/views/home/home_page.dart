@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/views/categories/body_focus_page.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
+import 'package:ukfitnesshub/views/programme/programme_listing_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -32,7 +33,14 @@ class HomePage extends StatelessWidget {
               child: const CategoryItem(image: workout, title: "Body Focus"),
             ),
             const SizedBox(height: kDefaultPadding),
-            const CategoryItem(image: training, title: "Training Type"),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        const ProgrammeListingPage(isBuiltIn: true)));
+              },
+              child: const CategoryItem(image: training, title: "Training"),
+            ),
             const SizedBox(height: kDefaultPadding),
             const CategoryItem(image: equipment, title: "Equipment"),
           ],

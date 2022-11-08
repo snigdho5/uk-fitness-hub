@@ -128,9 +128,14 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
                       CustomButton(
                           text: 'Submit',
                           onPressed: () {
-                            setState(() {
-                              _programmeName = _programmeNameController.text;
-                            });
+                            if (_programmeNameController.text.isNotEmpty) {
+                              setState(() {
+                                _programmeName = _programmeNameController.text;
+                              });
+                            } else {
+                              EasyLoading.showInfo(
+                                  'Please enter a name for the programme');
+                            }
                           }),
                     ],
                   ),

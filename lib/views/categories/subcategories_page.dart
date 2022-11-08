@@ -2,27 +2,22 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/models/categories/category_model.dart';
 import 'package:ukfitnesshub/providers/category_provider.dart';
-import 'package:ukfitnesshub/views/categories/subcategories_page.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
+import 'package:ukfitnesshub/views/programme/exercise/exercise_details_page.dart';
 
-class BodyFocusPage extends ConsumerWidget {
-  const BodyFocusPage({Key? key}) : super(key: key);
+class SubCategoriesPage extends ConsumerWidget {
+  final CategoryModel categoryModel;
+  const SubCategoriesPage({Key? key, required this.categoryModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
-    final categoriesRef = ref.watch(categoriesFutureProvider);
-
-    print(categoriesRef.when(
-      data: (data) {
-        return data.map((e) => e.toJson());
-      },
-      error: (error, stackTrace) => error.toString(),
-      loading: () => "Loading...",
-    ));
+    final subCategoriesRef = ref.watch(allSubCategoriesFutureProvider);
 
     return Scaffold(
-      appBar: customAppBar(context, title: "Body Focus"),
+      appBar: customAppBar(context, title: categoryModel.name),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -30,7 +25,7 @@ class BodyFocusPage extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(kDefaultPadding),
             child: Text(
-              "Body Focus".toUpperCase(),
+              categoryModel.name.toUpperCase(),
               style: Theme.of(context)
                   .textTheme
                   .headline6!
@@ -38,9 +33,68 @@ class BodyFocusPage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: kDefaultPadding),
+          // Expanded(
+          //   child: GridView.builder(
+          //     itemCount: _lowerBodyItems.length,
+          //     padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+          //     shrinkWrap: true,
+          //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          //       crossAxisCount: 2,
+          //       childAspectRatio: 1,
+          //       crossAxisSpacing: kDefaultPadding,
+          //       mainAxisSpacing: kDefaultPadding,
+          //     ),
+          //     itemBuilder: (context, index) {
+          //       final item = _lowerBodyItems[index];
+          //       return GestureDetector(
+          //         onTap: () {
+          //           Navigator.push(
+          //             context,
+          //             MaterialPageRoute(
+          //               builder: (context) => const ExerciseDetailsPage(),
+          //             ),
+          //           );
+          //         },
+          //         child: GridTile(
+          //           footer: Padding(
+          //             padding: const EdgeInsets.symmetric(
+          //               vertical: kDefaultPadding,
+          //             ),
+          //             child: Text(
+          //               item.title,
+          //               textAlign: TextAlign.center,
+          //               style: Theme.of(context)
+          //                   .textTheme
+          //                   .headline6!
+          //                   .copyWith(fontWeight: FontWeight.w900),
+          //             ),
+          //           ),
+          //           child: Container(
+          //             padding: const EdgeInsets.all(kDefaultPadding * 3),
+          //             decoration: BoxDecoration(
+          //                 borderRadius: BorderRadius.circular(kDefaultPadding),
+          //                 color: Colors.white,
+          //                 border: Border.all(color: primaryColor, width: 1)),
+          //             child: ClipRRect(
+          //               borderRadius: BorderRadius.circular(kDefaultPadding),
+          //               child: Image.asset(
+          //                 item.image,
+          //                 fit: BoxFit.cover,
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
           Expanded(
-            child: categoriesRef.when(
+            child: subCategoriesRef.when(
               data: (data) {
+                data = data
+                    .where((element) => element.categoryId == categoryModel.id)
+                    .toList();
+
                 return GridView.builder(
                   itemCount: data.length,
                   padding:
@@ -56,13 +110,13 @@ class BodyFocusPage extends ConsumerWidget {
                     final item = data[index];
                     return GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                SubCategoriesPage(categoryModel: item),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) =>
+                        //         SubCategoriesPage(categoryModel: item),
+                        //   ),
+                        // );
                       },
                       child: GridTile(
                         footer: Container(
@@ -122,16 +176,42 @@ class BodyFocusPage extends ConsumerWidget {
   }
 }
 
-// final List<String> _bodyFocusItems = [
-//   "Lower Body",
-//   "Upper Body",
-//   "Core",
-//   "Total Body",
-// ];
+class LowerBodyItem {
+  final String title;
+  final String image;
+  LowerBodyItem({
+    required this.title,
+    required this.image,
+  });
+}
 
-// final List<String> _bodyFocusImages = [
-//   lowerBody,
-//   upperBody,
-//   core,
-//   totalBody,
-// ];
+final List<LowerBodyItem> _lowerBodyItems = [
+  //Glutes
+  LowerBodyItem(
+    title: 'Glutes',
+    image: glutes,
+  ), //Quadriceps
+  LowerBodyItem(
+    title: 'Quadriceps',
+    image: quadriceps,
+  ), //Hamstrings
+  LowerBodyItem(
+    title: 'Hamstrings',
+    image: hamstrings,
+  ), //Adductors
+  LowerBodyItem(
+    title: 'Adductors',
+    image: adductors,
+  ),
+  //Abductors
+  LowerBodyItem(
+    title: 'Abductors',
+    image: abductors,
+  ),
+
+  //Calves
+  LowerBodyItem(
+    title: 'Calves',
+    image: calves,
+  ),
+];
