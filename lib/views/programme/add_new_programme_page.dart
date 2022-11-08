@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/models/exercise_model.dart';
 import 'package:ukfitnesshub/models/programme_model.dart';
 import 'package:ukfitnesshub/providers/exercises_provider.dart';
 import 'package:ukfitnesshub/providers/programme_provider.dart';
@@ -11,6 +13,15 @@ import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
 import 'package:ukfitnesshub/views/custom/custom_text_field.dart';
 import 'package:ukfitnesshub/views/programme/add_exercises_for_programme_page.dart';
+
+class ExerciseIdModel {
+  String id;
+  int time;
+  ExerciseIdModel({
+    required this.id,
+    required this.time,
+  });
+}
 
 class AddNewProgrammePage extends ConsumerStatefulWidget {
   final ProgrammeModel? programme;
@@ -29,14 +40,19 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
   final TextEditingController _programmeNameController =
       TextEditingController();
 
-  List<String> _exerciseIds = [];
+  final List<ExerciseIdModel> _exerciseIds = [];
 
   @override
   void initState() {
     if (widget.programme != null) {
       _programmeName = widget.programme!.name;
       _programmeNameController.text = _programmeName!;
-      _exerciseIds = widget.programme!.exerciseIds;
+      for (var element in widget.programme!.exerciseIds) {
+        _exerciseIds.add(ExerciseIdModel(
+            id: element,
+            time: widget.programme!.exerciseTimes[
+                widget.programme!.exerciseIds.indexOf(element)]));
+      }
     }
     super.initState();
   }
@@ -49,6 +65,7 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
       onWillPop: () async {
         return await showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (context) => AlertDialog(
             title: const Text('Are you sure?'),
             content: const Text('You will lose all the changes!'),
@@ -74,7 +91,7 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
                 message: 'Add Exercises',
                 child: IconButton(
                     onPressed: () async {
-                      final List<String>? data = await Navigator.push(
+                      final List<ExerciseIdModel>? data = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => AddExercisesForProgrammePage(
@@ -84,7 +101,8 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
 
                       if (data != null) {
                         setState(() {
-                          _exerciseIds = data;
+                          _exerciseIds.clear();
+                          _exerciseIds.addAll(data);
                         });
                       }
                     },
@@ -139,16 +157,20 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
                           )),
                     ),
                     allExercisesRef.when(
-                      data: (exercises) {
-                        exercises = exercises
-                            .where(
-                                (element) => _exerciseIds.contains(element.id))
-                            .toList();
+                      data: (e) {
+                        final List<ExerciseModel> exercisesList = [];
+
+                        for (var exerciseId in _exerciseIds) {
+                          if (e.any((element) => element.id == exerciseId.id)) {
+                            exercisesList.add(e.firstWhere(
+                                (element) => element.id == exerciseId.id));
+                          }
+                        }
 
                         return Expanded(
                           child: Column(
                             children: [
-                              exercises.isEmpty
+                              exercisesList.isEmpty
                                   ? Expanded(
                                       child: Center(
                                         child: Column(
@@ -170,7 +192,8 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
                                               message: 'Add Exercises',
                                               child: IconButton(
                                                   onPressed: () async {
-                                                    final List<String>? data =
+                                                    final List<ExerciseIdModel>?
+                                                        data =
                                                         await Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -183,7 +206,9 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
 
                                                     if (data != null) {
                                                       setState(() {
-                                                        _exerciseIds = data;
+                                                        _exerciseIds.clear();
+                                                        _exerciseIds
+                                                            .addAll(data);
                                                       });
                                                     }
                                                   },
@@ -201,7 +226,7 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: kDefaultPadding / 2),
                                         itemBuilder: (context, index) {
-                                          final exercise = exercises[index];
+                                          final exercise = exercisesList[index];
                                           return Card(
                                             elevation: 0,
                                             key: ValueKey(exercise.id),
@@ -210,7 +235,7 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
                                                 exercise.name,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .headline6!
+                                                    .bodyLarge!
                                                     .copyWith(
                                                         fontWeight:
                                                             FontWeight.bold),
@@ -218,28 +243,29 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
                                               leading:
                                                   const Icon(Icons.drag_handle),
                                               minLeadingWidth: 16,
-                                              trailing: IconButton(
-                                                  onPressed: () {
+                                              trailing: InkWell(
+                                                  onTap: () {
                                                     setState(() {
-                                                      _exerciseIds
-                                                          .remove(exercise.id);
+                                                      _exerciseIds.removeWhere(
+                                                          (element) =>
+                                                              element.id ==
+                                                              exercise.id);
                                                     });
                                                   },
-                                                  icon:
-                                                      const Icon(Icons.delete)),
+                                                  child: const Icon(
+                                                      CupertinoIcons.trash)),
                                             ),
                                           );
                                         },
-                                        itemCount: exercises.length,
+                                        itemCount: exercisesList.length,
                                         onReorder: (oldIndex, newIndex) {
                                           setState(() {
                                             if (newIndex > oldIndex) {
                                               newIndex -= 1;
                                             }
-                                            final exercise =
-                                                exercises.removeAt(oldIndex);
-                                            exercises.insert(
-                                                newIndex, exercise);
+                                            final ExerciseIdModel item =
+                                                _exerciseIds.removeAt(oldIndex);
+                                            _exerciseIds.insert(newIndex, item);
                                           });
                                         },
                                       ),
@@ -261,29 +287,41 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
                                           await ProgrammeProvider
                                               .addNewProgramme(
                                             token: user.token,
+                                            userId: user.id,
                                             programName: _programmeName!,
-                                            exerciseIds: _exerciseIds,
+                                            exerciseIds: _exerciseIds
+                                                .map((e) => e.id)
+                                                .toList(),
+                                            exerciseTimes: _exerciseIds
+                                                .map((e) => e.time)
+                                                .toList(),
                                           ).then((value) {
                                             if (value) {
                                               EasyLoading.showSuccess(
                                                   'Programme Added');
                                               ref.invalidate(
-                                                  programmesFutureProvider);
+                                                  userProgrammesFutureProvider);
                                               Navigator.pop(context);
                                             }
                                           });
                                         } else {
                                           await ProgrammeProvider.editProgramme(
                                             token: user.token,
+                                            userId: user.id,
                                             programName: _programmeName!,
-                                            exerciseIds: _exerciseIds,
+                                            exerciseIds: _exerciseIds
+                                                .map((e) => e.id)
+                                                .toList(),
+                                            exerciseTimes: _exerciseIds
+                                                .map((e) => e.time)
+                                                .toList(),
                                             programmeId: widget.programme!.id,
                                           ).then((value) {
                                             if (value) {
                                               EasyLoading.showSuccess(
                                                   'Programme Updated');
                                               ref.invalidate(
-                                                  programmesFutureProvider);
+                                                  userProgrammesFutureProvider);
                                               Navigator.pop(context);
                                             }
                                           });

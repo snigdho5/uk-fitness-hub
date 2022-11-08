@@ -54,6 +54,7 @@ dependencies:
   package_info_plus: ^3.0.1
   dropdown_textfield: ^1.0.5
   flutter_riverpod: ^2.1.1
+  percent_indicator: ^4.2.2
 
 dev_dependencies:
   flutter_test:

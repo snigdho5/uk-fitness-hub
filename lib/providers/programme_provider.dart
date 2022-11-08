@@ -7,7 +7,49 @@ import 'package:ukfitnesshub/config/apis.dart';
 import 'package:ukfitnesshub/models/programme_model.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
 
-final programmesFutureProvider =
+final userProgrammesFutureProvider =
+    FutureProvider<List<ProgrammeModel>>((ref) async {
+  final userProfileRef = ref.watch(userHiveProvider);
+  final user = userProfileRef.getUser();
+
+  if (user != null) {
+    final url = Uri.parse(baseUrl + APIs.userProgrammes);
+
+    final headers = {
+      "Authorization": "Bearer ${user.token}",
+    };
+
+    var body = {"user_id": user.id};
+
+    final Response response = await post(url, headers: headers, body: body);
+
+    final responseBody = jsonDecode(response.body);
+    final responseStatus = responseBody['status'];
+
+    if (responseStatus == "1") {
+      try {
+        final responseData = responseBody['respdata'];
+        final items = List<ProgrammeModel>.from(
+            responseData.map((x) => ProgrammeModel.fromJson(x)));
+        return items;
+      } catch (e) {
+        debugPrint(e.toString());
+        return [];
+      }
+    } else {
+      EasyLoading.showToast(
+        responseBody['message'],
+        toastPosition: EasyLoadingToastPosition.bottom,
+      );
+
+      return [];
+    }
+  } else {
+    return [];
+  }
+});
+
+final builtInProgrammesFutureProvider =
     FutureProvider<List<ProgrammeModel>>((ref) async {
   final userProfileRef = ref.watch(userHiveProvider);
   final user = userProfileRef.getUser();
@@ -18,7 +60,10 @@ final programmesFutureProvider =
     final headers = {
       "Authorization": "Bearer ${user.token}",
     };
-    final Response response = await get(url, headers: headers);
+
+    var body = {"exc_type": "admin"};
+
+    final Response response = await post(url, headers: headers, body: body);
 
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
@@ -49,8 +94,10 @@ final programmesFutureProvider =
 class ProgrammeProvider {
   static Future<bool> addNewProgramme({
     required String token,
+    required String userId,
     required String programName,
     required List<String> exerciseIds,
+    required List<int> exerciseTimes,
   }) async {
     final url = Uri.parse(baseUrl + APIs.addProgramme);
 
@@ -61,6 +108,8 @@ class ProgrammeProvider {
     final body = {
       "programme_name": programName,
       "exercise_ids": ",${exerciseIds.join(",")}",
+      "exercise_my_time": ",${exerciseTimes.join(",")}",
+      "user_id": userId,
     };
 
     final Response response = await post(url, headers: headers, body: body);
@@ -88,8 +137,10 @@ class ProgrammeProvider {
   //Edit Programme
   static Future<bool> editProgramme({
     required String token,
+    required String userId,
     required String programName,
     required List<String> exerciseIds,
+    required List<int> exerciseTimes,
     required String programmeId,
   }) async {
     final url = Uri.parse(baseUrl + APIs.editProgramme);
@@ -101,7 +152,9 @@ class ProgrammeProvider {
     final body = {
       "programme_name": programName,
       "exercise_ids": ",${exerciseIds.join(",")}",
+      "exercise_my_time": ",${exerciseTimes.join(",")}",
       "programme_id": programmeId,
+      "user_id": userId,
     };
 
     final Response response = await post(url, headers: headers, body: body);

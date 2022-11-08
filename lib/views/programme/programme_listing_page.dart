@@ -7,6 +7,7 @@ import 'package:ukfitnesshub/providers/programme_provider.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/programme/add_new_programme_page.dart';
+import 'package:ukfitnesshub/views/programme/programme_details_page.dart';
 
 class ProgrammeListingPage extends ConsumerWidget {
   const ProgrammeListingPage({
@@ -15,12 +16,12 @@ class ProgrammeListingPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final programmesRef = ref.watch(programmesFutureProvider);
+    final programmesRef = ref.watch(userProgrammesFutureProvider);
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: customAppBar(
         context,
-        title: 'Listing',
+        title: 'My programmes',
         showDefaultActionButtons: false,
         customActions: [
           IconButton(
@@ -44,7 +45,7 @@ class ProgrammeListingPage extends ConsumerWidget {
           data: (programmes) {
             return RefreshIndicator(
               onRefresh: () async {
-                ref.invalidate(programmesFutureProvider);
+                ref.invalidate(userProgrammesFutureProvider);
               },
               child: ListView(
                 padding: const EdgeInsets.all(kDefaultPadding),
@@ -53,17 +54,18 @@ class ProgrammeListingPage extends ConsumerWidget {
                     Card(
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(kDefaultPadding)),
+                          borderRadius:
+                              BorderRadius.circular(kDefaultPadding / 2)),
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: kDefaultPadding,
                           vertical: kDefaultPadding / 2,
                         ),
                         title: Text(
-                          programmes[i].name,
+                          programmes[i].name.toUpperCase(),
                           style: Theme.of(context)
                               .textTheme
-                              .headline6!
+                              .bodyLarge!
                               .copyWith(fontWeight: FontWeight.bold),
                         ),
                         subtitle: programmes[i].description != null &&
@@ -82,8 +84,8 @@ class ProgrammeListingPage extends ConsumerWidget {
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            IconButton(
-                              onPressed: () {
+                            InkWell(
+                              onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -92,35 +94,71 @@ class ProgrammeListingPage extends ConsumerWidget {
                                   ),
                                 );
                               },
-                              icon: const Icon(Icons.edit),
+                              child: const Icon(Icons.edit),
                             ),
-                            IconButton(
-                              onPressed: () async {
-                                print(programmes[i].id);
+                            const SizedBox(width: kDefaultPadding / 2),
+                            InkWell(
+                              onTap: () async {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                          title: const Text('Delete programme'),
+                                          content: const Text(
+                                              'Are you sure you want to delete this programme?'),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                child: const Text('No')),
+                                            TextButton(
+                                                onPressed: () async {
+                                                  print(programmes[i].id);
 
-                                final userProfileRef =
-                                    ref.read(userHiveProvider);
-                                final user = userProfileRef.getUser();
+                                                  final userProfileRef = ref
+                                                      .read(userHiveProvider);
+                                                  final user =
+                                                      userProfileRef.getUser();
 
-                                if (user != null) {
-                                  await ProgrammeProvider.deleteProgramme(
-                                    token: user.token,
-                                    programmeId: programmes[i].id,
-                                  ).then((value) {
-                                    if (value) {
-                                      print('deleted');
-                                      ref.invalidate(programmesFutureProvider);
-                                    }
-                                  });
-                                } else {
-                                  EasyLoading.showError('User not found');
-                                }
+                                                  if (user != null) {
+                                                    await ProgrammeProvider
+                                                        .deleteProgramme(
+                                                      token: user.token,
+                                                      programmeId:
+                                                          programmes[i].id,
+                                                    ).then((value) {
+                                                      if (value) {
+                                                        print('deleted');
+                                                        ref.invalidate(
+                                                            userProgrammesFutureProvider);
+                                                        Navigator.pop(context);
+                                                      }
+                                                    });
+                                                  } else {
+                                                    EasyLoading.showError(
+                                                        'User not found');
+                                                  }
+                                                },
+                                                child: const Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                      color: Colors.red),
+                                                )),
+                                          ],
+                                        ));
                               },
-                              icon: const Icon(CupertinoIcons.trash),
+                              child: const Icon(CupertinoIcons.trash),
                             ),
                           ],
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ProgramDetailsPage(programme: programmes[i]),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   const SizedBox(height: kDefaultPadding),

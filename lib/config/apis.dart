@@ -26,6 +26,7 @@ class APIs {
 
   //Programme
   static const String programmes = "programmes";
+  static const String userProgrammes = "user-programmes";
   static const String addProgramme = "add-programme";
   static const String editProgramme = "edit-programme";
   static const String deleteProgramme = "delete-programme";

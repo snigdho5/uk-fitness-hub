@@ -110,6 +110,6 @@ ThemeData _buildTheme(Brightness brightness) {
   );
 
   return baseTheme.copyWith(
-    textTheme: GoogleFonts.ralewayTextTheme(baseTheme.textTheme),
+    textTheme: GoogleFonts.oswaldTextTheme(baseTheme.textTheme),
   );
 }

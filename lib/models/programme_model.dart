@@ -2,6 +2,7 @@ class ProgrammeModel {
   ProgrammeModel({
     required this.id,
     required this.exerciseIds,
+    required this.exerciseTimes,
     required this.name,
     this.description,
     this.image,
@@ -11,6 +12,7 @@ class ProgrammeModel {
 
   String id;
   List<String> exerciseIds;
+  List<int> exerciseTimes;
   String name;
   String? description;
   String? image;
@@ -20,20 +22,21 @@ class ProgrammeModel {
   factory ProgrammeModel.fromJson(Map<String, dynamic> json) => ProgrammeModel(
         id: json["_id"],
         exerciseIds: (json["exercise_ids"] as String).substring(1).split(","),
+        exerciseTimes: json["exercise_my_time"] == null
+            ? (json["exercise_ids"] as String)
+                .substring(1)
+                .split(",")
+                .map((e) => 30)
+                .toList()
+            : (json["exercise_my_time"] as String)
+                .substring(1)
+                .split(",")
+                .map((e) => int.parse(e))
+                .toList(),
         name: json["name"],
         description: json["description"],
         image: json["image"],
         addedDtime: json["added_dtime"],
         v: json["__v"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "_id": id,
-        "exercise_ids": ",${exerciseIds.join(",")}",
-        "name": name,
-        "description": description,
-        "image": image,
-        "added_dtime": addedDtime,
-        "__v": v,
-      };
 }

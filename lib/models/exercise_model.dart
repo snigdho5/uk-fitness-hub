@@ -1,4 +1,15 @@
 class ExerciseModel {
+  String id;
+  String? equipmentIds;
+  String name;
+  String? description;
+  String? image;
+  String addedDtime;
+  int? v;
+  String categoryId;
+  List<String> subcategoryIds;
+  String defaultTime;
+
   ExerciseModel({
     required this.id,
     this.equipmentIds,
@@ -12,28 +23,42 @@ class ExerciseModel {
     required this.defaultTime,
   });
 
-  String id;
-  String? equipmentIds;
-  String name;
-  String? description;
-  String? image;
-  DateTime addedDtime;
-  int? v;
-  String categoryId;
-  List<String> subcategoryIds;
-  String defaultTime;
-
   factory ExerciseModel.fromJson(Map<String, dynamic> json) => ExerciseModel(
         id: json["_id"],
         equipmentIds: json["equipment_ids"],
         name: json["name"],
         description: json["description"],
         image: json["image"],
-        addedDtime: DateTime.parse(json["added_dtime"]),
+        addedDtime: json["added_dtime"],
         v: json["__v"],
         categoryId: json["category_id"],
-        subcategoryIds:
-            (json["subcategory_ids"] as String).substring(1).split(","),
+        subcategoryIds: (json["sub_category_ids"] as String).split(","),
         defaultTime: json["default_time"],
       );
+
+  ExerciseModel copyWith({
+    String? id,
+    String? equipmentIds,
+    String? name,
+    String? description,
+    String? image,
+    String? addedDtime,
+    int? v,
+    String? categoryId,
+    List<String>? subcategoryIds,
+    String? defaultTime,
+  }) {
+    return ExerciseModel(
+      id: id ?? this.id,
+      equipmentIds: equipmentIds ?? this.equipmentIds,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      image: image ?? this.image,
+      addedDtime: addedDtime ?? this.addedDtime,
+      v: v ?? this.v,
+      categoryId: categoryId ?? this.categoryId,
+      subcategoryIds: subcategoryIds ?? this.subcategoryIds,
+      defaultTime: defaultTime ?? this.defaultTime,
+    );
+  }
 }
