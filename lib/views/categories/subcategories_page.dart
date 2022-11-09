@@ -7,7 +7,6 @@ import 'package:ukfitnesshub/models/categories/category_model.dart';
 import 'package:ukfitnesshub/providers/category_provider.dart';
 import 'package:ukfitnesshub/views/categories/exercises_list_page.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
-import 'package:ukfitnesshub/views/programme/exercise/exercise_details_page.dart';
 
 class SubCategoriesPage extends ConsumerWidget {
   final CategoryModel categoryModel;
@@ -181,43 +180,3 @@ class SubCategoriesPage extends ConsumerWidget {
     );
   }
 }
-
-class LowerBodyItem {
-  final String title;
-  final String image;
-  LowerBodyItem({
-    required this.title,
-    required this.image,
-  });
-}
-
-final List<LowerBodyItem> _lowerBodyItems = [
-  //Glutes
-  LowerBodyItem(
-    title: 'Glutes',
-    image: glutes,
-  ), //Quadriceps
-  LowerBodyItem(
-    title: 'Quadriceps',
-    image: quadriceps,
-  ), //Hamstrings
-  LowerBodyItem(
-    title: 'Hamstrings',
-    image: hamstrings,
-  ), //Adductors
-  LowerBodyItem(
-    title: 'Adductors',
-    image: adductors,
-  ),
-  //Abductors
-  LowerBodyItem(
-    title: 'Abductors',
-    image: abductors,
-  ),
-
-  //Calves
-  LowerBodyItem(
-    title: 'Calves',
-    image: calves,
-  ),
-];

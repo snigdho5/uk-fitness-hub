@@ -13,6 +13,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final String? suffix;
   final bool showTitleAsHint;
+  final int? maxLines;
 
   const CustomTextFormField({
     Key? key,
@@ -25,6 +26,7 @@ class CustomTextFormField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.suffix,
     this.showTitleAsHint = false,
+    this.maxLines,
   }) : super(key: key);
 
   @override
@@ -40,11 +42,13 @@ class CustomTextFormField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
+        maxLines: maxLines,
         inputFormatters:
             isNumber ? [FilteringTextInputFormatter.digitsOnly] : null,
         decoration: InputDecoration(
           suffix: suffix != null ? Text(suffix!) : null,
           labelText: showTitleAsHint ? null : title,
+          alignLabelWithHint: true,
           hintText: showTitleAsHint ? title : null,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(kDefaultPadding),

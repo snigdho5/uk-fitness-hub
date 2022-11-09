@@ -19,11 +19,13 @@ const String loginBg = '${_imagePath}login.png';
 //appbarbg
 const String appbarbg = '${_imagePath}appbarbg.png';
 //equipment
-const String equipment = '${_imagePath}equipment.png';
+
 //training
-const String training = '${_imagePath}training.png';
+const String training = '${_imagePath}training.jpg';
 //workout
-const String workout = '${_imagePath}workout.png';
+const String bodyFocus = '${_imagePath}body_focus.jpg';
+//Rehabitation
+const String rehabitation = '${_imagePath}rehabitation.jpg';
 
 //Icons
 //menu
@@ -64,6 +66,9 @@ const String lowerBody = '${_bodyFocusPath}lower_body.png';
 const String upperBody = '${_bodyFocusPath}upper_body.png';
 const String core = '${_bodyFocusPath}core.png';
 const String totalBody = '${_bodyFocusPath}total_body.png';
+
+//Contacts Images
+const String contactImage = '${_imagePath}contact_image.png';
 
 class HiveConstants {
   HiveConstants._();

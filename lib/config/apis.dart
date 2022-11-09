@@ -30,4 +30,7 @@ class APIs {
   static const String addProgramme = "add-programme";
   static const String editProgramme = "edit-programme";
   static const String deleteProgramme = "delete-programme";
+
+  //Contact with travis
+  static const String contactWithTravis = "add-travis-contact";
 }

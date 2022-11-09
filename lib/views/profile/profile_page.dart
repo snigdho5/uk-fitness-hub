@@ -162,7 +162,7 @@ class ProfilePage extends ConsumerWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const ProgrammeListingPage(),
+                                    const ProgramListingTabView(),
                               ),
                             );
                           }),

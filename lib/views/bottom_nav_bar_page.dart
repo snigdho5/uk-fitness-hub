@@ -24,7 +24,7 @@ class BottomNavbarPage extends StatelessWidget {
                 width: kDefaultPadding, color: Colors.white),
             activeIcon: Image.asset(calendar,
                 width: kDefaultPadding, color: Colors.white),
-            label: "Program",
+            label: "Programmes",
           ),
           BottomNavigationBarItem(
             icon: Image.asset(progress,
@@ -47,7 +47,7 @@ class BottomNavbarPage extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ProgrammeListingPage(),
+                builder: (context) => const ProgramListingTabView(),
               ),
             );
           }

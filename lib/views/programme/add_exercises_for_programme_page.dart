@@ -65,8 +65,8 @@ class _AddExercisesForProgrammePageState
                   for (var i = 0; i < subCategories.length; i++) {
                     final subCategory = subCategories[i];
                     final exercises = allExercises
-                        .where((exercise) =>
-                            exercise.subcategoryIds.contains(subCategory.id))
+                        .where((exercise) => exercise.subcategoryIds
+                            .any((element) => element.trim() == subCategory.id))
                         .toList();
 
                     items.add(SelectionItem(
@@ -158,7 +158,7 @@ class AddExercisesBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: TabBar(
               isScrollable: true,
               labelColor: primaryColor,

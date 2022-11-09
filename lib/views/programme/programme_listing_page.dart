@@ -10,9 +10,80 @@ import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/programme/add_new_programme_page.dart';
 import 'package:ukfitnesshub/views/programme/programme_details_page.dart';
 
-class ProgrammeListingPage extends ConsumerWidget {
+class ProgramListingTabView extends StatefulWidget {
+  const ProgramListingTabView({super.key});
+
+  @override
+  State<ProgramListingTabView> createState() => _ProgramListingTabViewState();
+}
+
+class _ProgramListingTabViewState extends State<ProgramListingTabView> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: customAppBar(
+        context,
+        title: 'All Programmes',
+        showDefaultActionButtons: false,
+        customActions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddNewProgrammePage(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
+      ),
+      body: DefaultTabController(
+        length: 2,
+        child: Column(
+          children: [
+            Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              child: TabBar(
+                labelColor: primaryColor,
+                unselectedLabelColor: Colors.black87,
+                labelStyle: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(fontWeight: FontWeight.bold),
+                unselectedLabelStyle: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Colors.black54),
+                tabs: const [
+                  Tab(
+                    text: 'My Programmes',
+                  ),
+                  Tab(
+                    text: 'Admin Programmes',
+                  ),
+                ],
+              ),
+            ),
+            const Expanded(
+              child: TabBarView(
+                children: [
+                  ProgrammeListingBody(),
+                  ProgrammeListingBody(isBuiltIn: true),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProgrammeListingBody extends ConsumerWidget {
   final bool isBuiltIn;
-  const ProgrammeListingPage({
+  const ProgrammeListingBody({
     Key? key,
     this.isBuiltIn = false,
   }) : super(key: key);
@@ -25,26 +96,6 @@ class ProgrammeListingPage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: primaryColor,
-      appBar: customAppBar(
-        context,
-        title: isBuiltIn ? 'All Programmes' : 'My Programmes',
-        showDefaultActionButtons: false,
-        customActions: isBuiltIn
-            ? null
-            : [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AddNewProgrammePage(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.add),
-                ),
-              ],
-      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(image: AssetImage(bg), fit: BoxFit.fill),
@@ -60,7 +111,7 @@ class ProgrammeListingPage extends ConsumerWidget {
                 }
               },
               child: ListView(
-                padding: const EdgeInsets.all(kDefaultPadding),
+                padding: const EdgeInsets.all(kDefaultPadding / 2),
                 children: [
                   for (var i = 0; i < programmes.length; i++)
                     Card(
@@ -70,9 +121,8 @@ class ProgrammeListingPage extends ConsumerWidget {
                               BorderRadius.circular(kDefaultPadding / 2)),
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding,
-                          vertical: kDefaultPadding / 2,
-                        ),
+                            horizontal: kDefaultPadding,
+                            vertical: kDefaultPadding / 2),
                         title: Text(
                           programmes[i].name.toUpperCase(),
                           style: Theme.of(context)
@@ -91,10 +141,9 @@ class ProgrammeListingPage extends ConsumerWidget {
                             : null,
                         leading: isBuiltIn
                             ? SizedBox(
-                                width: 50,
+                                width: 80,
                                 child: CachedNetworkImage(
                                   imageUrl: programmes[i].image ?? "",
-                                  fit: BoxFit.fill,
                                   placeholder: (context, url) => const Center(
                                     child: CupertinoActivityIndicator(),
                                   ),
