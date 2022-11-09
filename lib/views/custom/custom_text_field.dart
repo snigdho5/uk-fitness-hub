@@ -42,7 +42,7 @@ class CustomTextFormField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
-        maxLines: maxLines,
+        maxLines: obscureText ? 1 : maxLines,
         inputFormatters:
             isNumber ? [FilteringTextInputFormatter.digitsOnly] : null,
         decoration: InputDecoration(

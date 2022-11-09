@@ -142,93 +142,92 @@ class _ReadyTogoPageState extends State<ReadyToGoPage> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.all(kDefaultPadding),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Spacer(),
-            CachedNetworkImage(
-              imageUrl: widget.exercise.image ?? "",
-              placeholder: (context, url) => const Center(
-                child: CupertinoActivityIndicator(),
+      child: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: kDefaultPadding),
+              CachedNetworkImage(
+                imageUrl: widget.exercise.image ?? "",
+                placeholder: (context, url) => const Center(
+                  child: CupertinoActivityIndicator(),
+                ),
+                width: MediaQuery.of(context).size.height * 0.25,
               ),
-              width: MediaQuery.of(context).size.height * 0.25,
-            ),
-            const SizedBox(height: kDefaultPadding * 2),
-            Text("Ready to go!".toUpperCase(),
-                style: Theme.of(context).textTheme.headline4!.copyWith(
-                    fontWeight: FontWeight.bold, color: secondaryColor)),
-            Text(widget.exercise.name,
-                style: Theme.of(context).textTheme.headline6!.copyWith(
-                    fontWeight: FontWeight.bold, color: primaryColor)),
-            const SizedBox(height: kDefaultPadding),
-            CircularPercentIndicator(
-              radius: MediaQuery.of(context).size.height * 0.1,
-              lineWidth: 5.0,
-              percent: _initialSeconds / _totalSeconds,
-              center: Text(
-                _initialSeconds.toString(),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4!
-                    .copyWith(fontWeight: FontWeight.bold),
+              const SizedBox(height: kDefaultPadding * 2),
+              Text("Ready to go!".toUpperCase(),
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                      fontWeight: FontWeight.bold, color: secondaryColor)),
+              Text(widget.exercise.name,
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                      fontWeight: FontWeight.bold, color: primaryColor)),
+              const SizedBox(height: kDefaultPadding),
+              CircularPercentIndicator(
+                radius: MediaQuery.of(context).size.height * 0.1,
+                lineWidth: 5.0,
+                percent: _initialSeconds / _totalSeconds,
+                center: Text(
+                  _initialSeconds.toString(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+                progressColor: Colors.green,
               ),
-              progressColor: Colors.green,
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(kDefaultPadding * 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: CustomButton(
-                      text: "+5 Secs",
-                      onPressed: () {
-                        setState(() {
-                          _initialSeconds += 5;
-                          _totalSeconds += 5;
-                        });
-                      },
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.all(kDefaultPadding),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        text: "+5 Secs",
+                        onPressed: () {
+                          setState(() {
+                            _initialSeconds += 5;
+                            _totalSeconds += 5;
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: kDefaultPadding / 2),
-                  MaterialButton(
-                    padding: const EdgeInsets.all(kDefaultPadding),
-                    shape: const CircleBorder(),
-                    color: primaryColor,
-                    onPressed: () {
-                      if (_timer.isActive) {
-                        setState(() {
+                    MaterialButton(
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      shape: const CircleBorder(),
+                      color: primaryColor,
+                      onPressed: () {
+                        if (_timer.isActive) {
+                          setState(() {
+                            _timer.cancel();
+                          });
+                        } else {
+                          setState(() {});
+                          _initTimer();
+                        }
+                      },
+                      child: _timer.isActive
+                          ? const Icon(Icons.pause, color: Colors.white)
+                          : const Icon(Icons.play_arrow, color: Colors.white),
+                    ),
+                    Expanded(
+                      child: CustomButton(
+                        text: "Skip",
+                        onPressed: () {
                           _timer.cancel();
-                        });
-                      } else {
-                        setState(() {});
-                        _initTimer();
-                      }
-                    },
-                    child: _timer.isActive
-                        ? const Icon(Icons.pause, color: Colors.white)
-                        : const Icon(Icons.play_arrow, color: Colors.white),
-                  ),
-                  const SizedBox(width: kDefaultPadding / 2),
-                  Expanded(
-                    child: CustomButton(
-                      text: "Skip",
-                      onPressed: () {
-                        _timer.cancel();
-                        widget.onPlayFinished();
-                        _totalSeconds = 0;
-                        _initialSeconds = 0;
-                      },
+                          widget.onPlayFinished();
+                          _totalSeconds = 0;
+                          _initialSeconds = 0;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -288,83 +287,81 @@ class _RestingPageState extends State<RestingPage> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.all(kDefaultPadding),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Spacer(),
-            const SizedBox(height: kDefaultPadding),
-            Text("Have Rest!".toUpperCase(),
-                style: Theme.of(context).textTheme.headline4!.copyWith(
-                    fontWeight: FontWeight.bold, color: secondaryColor)),
-            const SizedBox(height: kDefaultPadding * 2),
-            CircularPercentIndicator(
-              radius: MediaQuery.of(context).size.height * 0.1,
-              lineWidth: 5.0,
-              percent: _initialSeconds / _totalSeconds,
-              center: Text(
-                _initialSeconds.toString(),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4!
-                    .copyWith(fontWeight: FontWeight.bold),
+      child: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Spacer(),
+              Text("Have Rest!".toUpperCase(),
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                      fontWeight: FontWeight.bold, color: secondaryColor)),
+              const SizedBox(height: kDefaultPadding * 2),
+              CircularPercentIndicator(
+                radius: MediaQuery.of(context).size.height * 0.1,
+                lineWidth: 5.0,
+                percent: _initialSeconds / _totalSeconds,
+                center: Text(
+                  _initialSeconds.toString(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+                progressColor: Colors.green,
               ),
-              progressColor: Colors.green,
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(kDefaultPadding * 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: CustomButton(
-                      text: "+5 Secs",
-                      onPressed: () {
-                        setState(() {
-                          _initialSeconds += 5;
-                          _totalSeconds += 5;
-                        });
-                      },
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.all(kDefaultPadding),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        text: "+5 Secs",
+                        onPressed: () {
+                          setState(() {
+                            _initialSeconds += 5;
+                            _totalSeconds += 5;
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: kDefaultPadding / 2),
-                  MaterialButton(
-                    padding: const EdgeInsets.all(kDefaultPadding),
-                    shape: const CircleBorder(),
-                    color: primaryColor,
-                    onPressed: () {
-                      if (_timer.isActive) {
-                        setState(() {
+                    MaterialButton(
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      shape: const CircleBorder(),
+                      color: primaryColor,
+                      onPressed: () {
+                        if (_timer.isActive) {
+                          setState(() {
+                            _timer.cancel();
+                          });
+                        } else {
+                          setState(() {});
+                          _initTimer();
+                        }
+                      },
+                      child: _timer.isActive
+                          ? const Icon(Icons.pause, color: Colors.white)
+                          : const Icon(Icons.play_arrow, color: Colors.white),
+                    ),
+                    Expanded(
+                      child: CustomButton(
+                        text: "Skip",
+                        onPressed: () {
                           _timer.cancel();
-                        });
-                      } else {
-                        setState(() {});
-                        _initTimer();
-                      }
-                    },
-                    child: _timer.isActive
-                        ? const Icon(Icons.pause, color: Colors.white)
-                        : const Icon(Icons.play_arrow, color: Colors.white),
-                  ),
-                  const SizedBox(width: kDefaultPadding / 2),
-                  Expanded(
-                    child: CustomButton(
-                      text: "Skip",
-                      onPressed: () {
-                        _timer.cancel();
-                        widget.onRestingFinished();
-                        _totalSeconds = 0;
-                        _initialSeconds = 0;
-                      },
+                          widget.onRestingFinished();
+                          _totalSeconds = 0;
+                          _initialSeconds = 0;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
