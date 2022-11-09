@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -166,9 +167,14 @@ class AddExercisesBody extends StatelessWidget {
                 horizontal: 20,
                 vertical: 12,
               ),
-              labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-              unselectedLabelStyle:
-                  const TextStyle(fontWeight: FontWeight.normal),
+              labelStyle: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontWeight: FontWeight.bold),
+              unselectedLabelStyle: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(color: Colors.black54),
               tabs: items
                   .map(
                     (item) => Text(item.subCategory.name),
@@ -202,6 +208,9 @@ class AddExercisesBody extends StatelessWidget {
                               width: 50,
                               child: CachedNetworkImage(
                                 imageUrl: exercise.image ?? "",
+                                placeholder: (context, url) => const Center(
+                                  child: CupertinoActivityIndicator(),
+                                ),
                                 errorWidget: (context, url, error) =>
                                     const Icon(Icons.error),
                               ),

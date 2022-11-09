@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:animated_check/animated_check.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -150,6 +151,9 @@ class _ReadyTogoPageState extends State<ReadyToGoPage> {
             const Spacer(),
             CachedNetworkImage(
               imageUrl: widget.exercise.image ?? "",
+              placeholder: (context, url) => const Center(
+                child: CupertinoActivityIndicator(),
+              ),
               width: MediaQuery.of(context).size.height * 0.25,
             ),
             const SizedBox(height: kDefaultPadding * 2),
@@ -435,6 +439,9 @@ class _ExercisePlayPageState extends State<ExercisePlayPage> {
           Expanded(
             child: CachedNetworkImage(
               imageUrl: widget.exercise.image ?? "",
+              placeholder: (context, url) => const Center(
+                child: CupertinoActivityIndicator(),
+              ),
             ),
           ),
           const SizedBox(height: kDefaultPadding * 2),
@@ -522,12 +529,33 @@ class _ExercisePlayPageState extends State<ExercisePlayPage> {
   }
 }
 
-class FinishedPage extends StatelessWidget {
+class FinishedPage extends StatefulWidget {
   final bool isProgramme;
   const FinishedPage({
     super.key,
     required this.isProgramme,
   });
+
+  @override
+  State<FinishedPage> createState() => _FinishedPageState();
+}
+
+class _FinishedPageState extends State<FinishedPage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+        parent: _animationController, curve: Curves.easeInOutCirc));
+
+    _animationController.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -539,30 +567,33 @@ class FinishedPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(kDefaultPadding),
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.width * 0.5,
-              decoration: BoxDecoration(
-                color: primaryColor,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: primaryColor.withOpacity(0.4),
-                    spreadRadius: 3,
-                    blurRadius: 10,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: const Icon(Icons.check, color: Colors.white, size: 100),
-            ),
+                padding: const EdgeInsets.all(kDefaultPadding),
+                width: MediaQuery.of(context).size.width * 0.5,
+                height: MediaQuery.of(context).size.width * 0.5,
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: primaryColor.withOpacity(0.4),
+                      spreadRadius: 3,
+                      blurRadius: 10,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: AnimatedCheck(
+                  progress: _animation,
+                  size: MediaQuery.of(context).size.width * 0.3,
+                  color: Colors.white,
+                )),
             const SizedBox(height: kDefaultPadding * 2),
             Text("Congratulations!",
                 style: Theme.of(context).textTheme.headline5!.copyWith(
                     fontWeight: FontWeight.bold, color: primaryColor)),
             const SizedBox(height: kDefaultPadding / 2),
             Text(
-              "You have completed the ${isProgramme ? 'programme' : 'exercise'}",
+              "You have completed the ${widget.isProgramme ? 'programme' : 'exercise'}",
             ),
             const SizedBox(height: kDefaultPadding * 2),
             Padding(

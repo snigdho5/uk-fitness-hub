@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,6 +9,7 @@ import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/providers/auth_providers.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/profile/update_profile_page.dart';
+import 'package:ukfitnesshub/views/programme/programme_listing_page.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -87,6 +89,9 @@ class ProfilePage extends ConsumerWidget {
                                 imageUrl: user.image,
                                 height: kDefaultPadding * 5,
                                 width: kDefaultPadding * 5,
+                                placeholder: (context, url) => const Center(
+                                  child: CupertinoActivityIndicator(),
+                                ),
                                 fit: BoxFit.cover,
                                 errorWidget: (context, url, error) =>
                                     const Icon(Icons.error_outline,
@@ -148,11 +153,19 @@ class ProfilePage extends ConsumerWidget {
                         },
                       ),
                       const Divider(height: 0),
-                      const ListTile(
-                        title: Text("Create your own program"),
-                        subtitle: Text("Make your own workout videos"),
-                        leading: Icon(Icons.video_library),
-                      ),
+                      ListTile(
+                          title: const Text("Create your own program"),
+                          subtitle: const Text("Make your own workout videos"),
+                          leading: const Icon(Icons.video_library),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const ProgrammeListingPage(),
+                              ),
+                            );
+                          }),
                       const Divider(height: 0),
                     ],
                   ),

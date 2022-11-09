@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -84,16 +85,25 @@ class ProgrammeListingPage extends ConsumerWidget {
                                 programmes[i].description!.isNotEmpty
                             ? Text(
                                 programmes[i].description!,
-                                maxLines: 2,
+                                maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .copyWith(fontWeight: FontWeight.w500),
                               )
                             : null,
-                        leading: isBuiltIn ? Text("${i + 1}") : null,
-                        minLeadingWidth: 8,
+                        leading: isBuiltIn
+                            ? SizedBox(
+                                width: 50,
+                                child: CachedNetworkImage(
+                                  imageUrl: programmes[i].image ?? "",
+                                  fit: BoxFit.fill,
+                                  placeholder: (context, url) => const Center(
+                                    child: CupertinoActivityIndicator(),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.info_outline),
+                                ),
+                              )
+                            : Text("${i + 1}."),
+                        minLeadingWidth: 0,
                         trailing: isBuiltIn
                             ? const Icon(
                                 Icons.arrow_forward_ios,

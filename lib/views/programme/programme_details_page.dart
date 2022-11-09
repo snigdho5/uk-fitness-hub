@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -90,6 +91,9 @@ class _ProgramDetailsPageState extends ConsumerState<ProgramDetailsPage> {
                               width: 50,
                               child: CachedNetworkImage(
                                 imageUrl: exercise.image ?? "",
+                                placeholder: (context, url) => const Center(
+                                  child: CupertinoActivityIndicator(),
+                                ),
                                 errorWidget: (context, url, error) =>
                                     const Icon(Icons.error),
                               ),

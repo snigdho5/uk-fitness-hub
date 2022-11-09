@@ -4,19 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/models/categories/category_model.dart';
+import 'package:ukfitnesshub/models/categories/sub_category_model.dart';
 import 'package:ukfitnesshub/providers/category_provider.dart';
-import 'package:ukfitnesshub/views/categories/exercises_list_page.dart';
+import 'package:ukfitnesshub/providers/exercises_provider.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/programme/exercise/exercise_details_page.dart';
 
-class SubCategoriesPage extends ConsumerWidget {
-  final CategoryModel categoryModel;
-  const SubCategoriesPage({Key? key, required this.categoryModel})
+class ExercisesListPage extends ConsumerWidget {
+  final SubCategoryModel categoryModel;
+  const ExercisesListPage({Key? key, required this.categoryModel})
       : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
-    final subCategoriesRef = ref.watch(allSubCategoriesFutureProvider);
+    final exercisesRef = ref.watch(allExercisesFutureProvider);
 
     return Scaffold(
       appBar: customAppBar(context,
@@ -92,81 +93,56 @@ class SubCategoriesPage extends ConsumerWidget {
           //   ),
           // ),
           Expanded(
-            child: subCategoriesRef.when(
+            child: exercisesRef.when(
               data: (data) {
-                data = data
-                    .where((element) => element.categoryId == categoryModel.id)
-                    .toList();
+                data = data.where((element) {
+                  return element.subcategoryIds
+                      .any((element) => element.trim() == categoryModel.id);
+                }).toList();
 
-                return GridView.builder(
+                return ListView.builder(
                   itemCount: data.length,
                   padding:
                       const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                   shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.9,
-                    crossAxisSpacing: kDefaultPadding,
-                    mainAxisSpacing: kDefaultPadding,
-                  ),
                   itemBuilder: (context, index) {
-                    final item = data[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ExercisesListPage(categoryModel: item),
-                          ),
-                        );
-                      },
-                      child: GridTile(
-                        footer: Container(
-                          margin: const EdgeInsets.only(
-                              bottom: kDefaultPadding * 1.5),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: kDefaultPadding * 1.5,
-                                vertical: kDefaultPadding / 2),
-                            color: primaryColor,
-                            child: Center(
-                              child: Text(
-                                item.name.toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
-                              ),
+                    final exercise = data[index];
+
+                    return Card(
+                      elevation: 0,
+                      child: ListTile(
+                        title: Text(
+                          exercise.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        leading: SizedBox(
+                          width: 50,
+                          child: CachedNetworkImage(
+                            imageUrl: exercise.image ?? "",
+                            placeholder: (context, url) => const Center(
+                              child: CupertinoActivityIndicator(),
                             ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
                         ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(kDefaultPadding),
-                              color: Colors.white,
-                              border:
-                                  Border.all(color: primaryColor, width: 1)),
-                          child: ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(kDefaultPadding),
-                            child: CachedNetworkImage(
-                              imageUrl: item.image ?? "",
-                              placeholder: (context, url) => const Center(
-                                child: CupertinoActivityIndicator(),
-                              ),
-                              fit: BoxFit.cover,
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
-                          ),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios,
+                          color: primaryColor,
                         ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ExerciseDetailsPage(
+                                exercise: exercise,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     );
                   },
@@ -181,43 +157,3 @@ class SubCategoriesPage extends ConsumerWidget {
     );
   }
 }
-
-class LowerBodyItem {
-  final String title;
-  final String image;
-  LowerBodyItem({
-    required this.title,
-    required this.image,
-  });
-}
-
-final List<LowerBodyItem> _lowerBodyItems = [
-  //Glutes
-  LowerBodyItem(
-    title: 'Glutes',
-    image: glutes,
-  ), //Quadriceps
-  LowerBodyItem(
-    title: 'Quadriceps',
-    image: quadriceps,
-  ), //Hamstrings
-  LowerBodyItem(
-    title: 'Hamstrings',
-    image: hamstrings,
-  ), //Adductors
-  LowerBodyItem(
-    title: 'Adductors',
-    image: adductors,
-  ),
-  //Abductors
-  LowerBodyItem(
-    title: 'Abductors',
-    image: abductors,
-  ),
-
-  //Calves
-  LowerBodyItem(
-    title: 'Calves',
-    image: calves,
-  ),
-];

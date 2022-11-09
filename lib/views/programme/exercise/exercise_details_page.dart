@@ -1,92 +1,81 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/models/exercise_model.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
+import 'package:ukfitnesshub/views/programme/play_program_page.dart';
 
 class ExerciseDetailsPage extends StatelessWidget {
+  final ExerciseModel exercise;
   const ExerciseDetailsPage({
     Key? key,
+    required this.exercise,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, title: 'Exercise Details'),
+      appBar: customAppBar(context,
+          title: exercise.name, showDefaultActionButtons: false),
+      backgroundColor: Colors.white,
       body: ListView(
         padding: const EdgeInsets.all(kDefaultPadding),
         children: [
-          GestureDetector(
-            onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => VideoPlayerPage(
-              //           isNetwork: true, videoUrl: data.parkingVideoUrl)),
-              // );
-            },
-            child: Stack(
-              children: [
-                Image.asset(programmeImage),
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.5),
-                    ),
-                    child: Center(
-                      child: Image.asset(
-                        videoIcon,
-                        width: 56,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.4,
+            width: double.infinity,
+            child: CachedNetworkImage(imageUrl: exercise.image ?? ""),
           ),
           const SizedBox(height: kDefaultPadding),
           Row(
             children: [
               Expanded(
                 child: Text(
-                  "Natural Balance Between body and Mental Development."
-                      .toUpperCase(),
+                  exercise.name.toUpperCase(),
                   style: Theme.of(context).textTheme.headline6!.copyWith(
                       color: primaryColor, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(width: kDefaultPadding),
-              const ProgrammeSpecialButton(icon: Icons.add),
+              ProgrammeSpecialButton(
+                icon: Icons.play_arrow,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          PlayProgramPage(exercises: [exercise]),
+                    ),
+                  );
+                },
+              ),
               const SizedBox(width: kDefaultPadding),
             ],
           ),
           const SizedBox(height: kDefaultPadding),
-          Text(
-            "Sitting".toUpperCase(),
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(color: primaryColor, fontWeight: FontWeight.bold),
+          Text(exercise.description ?? ""),
+          const SizedBox(height: kDefaultPadding),
+          Padding(
+            padding: const EdgeInsets.all(kDefaultPadding),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: const [
+                Text(
+                  "10\nReps",
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "5\nSets",
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "5 sec\nHold",
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: kDefaultPadding / 2),
-          const Text(
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it"),
-          const SizedBox(height: kDefaultPadding * 2),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
-              Text(
-                "10\nReps",
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                "5\nSets",
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                "5 sec\nHold",
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
+          const SizedBox(height: kDefaultPadding),
         ],
       ),
     );

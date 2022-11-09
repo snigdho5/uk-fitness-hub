@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/config/constants.dart';
@@ -22,7 +23,8 @@ class BodyFocusPage extends ConsumerWidget {
     ));
 
     return Scaffold(
-      appBar: customAppBar(context, title: "Body Focus"),
+      appBar: customAppBar(context,
+          title: "Body Focus", showDefaultActionButtons: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -102,6 +104,9 @@ class BodyFocusPage extends ConsumerWidget {
                             child: CachedNetworkImage(
                               imageUrl: item.image ?? "",
                               fit: BoxFit.cover,
+                              placeholder: (context, url) => const Center(
+                                child: CupertinoActivityIndicator(),
+                              ),
                               errorWidget: (context, url, error) =>
                                   const Icon(Icons.error),
                             ),
