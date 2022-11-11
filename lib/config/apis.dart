@@ -31,6 +31,12 @@ class APIs {
   static const String editProgramme = "edit-programme";
   static const String deleteProgramme = "delete-programme";
 
+  //Equipmets
+  static const String equipments = "equipments";
+
   //Contact with travis
   static const String contactWithTravis = "add-travis-contact";
+
+  //Global Search
+  static const String globalSearch = "global-search";
 }

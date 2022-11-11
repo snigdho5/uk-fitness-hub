@@ -38,6 +38,8 @@ const String notification = '${_iconsPath}notification.png';
 const String calendar = '${_iconsPath}calendar.png';
 //progress
 const String progress = '${_iconsPath}progress.png';
+//Search
+const String search = '${_iconsPath}search.png';
 //result
 const String result = '${_iconsPath}result.png';
 

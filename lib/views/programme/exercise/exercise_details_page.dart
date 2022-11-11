@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/models/exercise_model.dart';
+import 'package:ukfitnesshub/providers/equipment_provider.dart';
+import 'package:ukfitnesshub/views/categories/exercises_by_equiment_page.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/programme/play_program_page.dart';
 
-class ExerciseDetailsPage extends StatelessWidget {
+class ExerciseDetailsPage extends ConsumerWidget {
   final ExerciseModel exercise;
   const ExerciseDetailsPage({
     Key? key,
@@ -13,7 +16,9 @@ class ExerciseDetailsPage extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final allEquipmentsRef = ref.watch(allEquipmentsFutureProvider);
+
     return Scaffold(
       appBar: customAppBar(context,
           title: exercise.name, showDefaultActionButtons: false),
@@ -76,6 +81,105 @@ class ExerciseDetailsPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: kDefaultPadding),
+          allEquipmentsRef.when(
+            data: (equipments) {
+              final width = (MediaQuery.of(context).size.width / 3) -
+                  (kDefaultPadding * 2);
+              equipments = equipments
+                  .where((element) =>
+                      exercise.equipmentIds?.contains(element.id.toString()) ??
+                      false)
+                  .toList();
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    "Equipments Required".toUpperCase(),
+                    textAlign: TextAlign.start,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  const SizedBox(height: kDefaultPadding),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      (equipments.length > 3
+                          ? const Icon(Icons.arrow_back_ios,
+                              size: 16, color: primaryColor)
+                          : const SizedBox.shrink()),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: equipments.map(
+                              (e) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ExercisesByEquipmetsListPage(
+                                                    equipmentModel: e)));
+                                  },
+                                  child: Container(
+                                    width: width,
+                                    height: width,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: kDefaultPadding / 4),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      borderRadius: BorderRadius.circular(
+                                          kDefaultPadding / 2),
+                                    ),
+                                    padding: const EdgeInsets.all(
+                                        kDefaultPadding / 2),
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: CachedNetworkImage(
+                                            imageUrl: e.image ?? "",
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                            height: kDefaultPadding / 2),
+                                        Text(
+                                          e.name,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .caption!
+                                              .copyWith(
+                                                color: primaryColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ).toList(),
+                          ),
+                        ),
+                      ),
+                      (equipments.length > 3
+                          ? const Icon(Icons.arrow_forward_ios,
+                              size: 16, color: primaryColor)
+                          : const SizedBox.shrink()),
+                    ],
+                  ),
+                ],
+              );
+            },
+            loading: () => const SizedBox(),
+            error: (error, stack) => const SizedBox(),
+          ),
+          const SizedBox(height: kDefaultPadding * 2),
         ],
       ),
     );

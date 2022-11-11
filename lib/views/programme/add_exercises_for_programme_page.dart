@@ -252,8 +252,8 @@ class ExercisePopupWidget extends StatefulWidget {
 class _ExercisePopupWidgetState extends State<ExercisePopupWidget> {
   late int _defaultTime;
 
-  int maxTime = 600;
-  int minTime = 10;
+  int maxTime = 1200;
+  int minTime = 30;
 
   @override
   void initState() {
@@ -278,7 +278,7 @@ class _ExercisePopupWidgetState extends State<ExercisePopupWidget> {
             style: Theme.of(context)
                 .textTheme
                 .headline6!
-                .copyWith(fontWeight: FontWeight.bold),
+                .copyWith(fontWeight: FontWeight.bold, color: primaryColor),
           ),
           const SizedBox(height: kDefaultPadding),
           SizedBox(

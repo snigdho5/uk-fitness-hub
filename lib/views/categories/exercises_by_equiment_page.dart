@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/config/constants.dart';
-import 'package:ukfitnesshub/models/categories/sub_category_model.dart';
+import 'package:ukfitnesshub/models/equipment_model.dart';
 import 'package:ukfitnesshub/providers/exercises_provider.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/home/home_page.dart';
 import 'package:ukfitnesshub/views/programme/exercise/exercise_details_page.dart';
 
-class ExercisesListPage extends ConsumerWidget {
-  final SubCategoryModel categoryModel;
-  const ExercisesListPage({Key? key, required this.categoryModel})
+class ExercisesByEquipmetsListPage extends ConsumerWidget {
+  final EquipmentModel equipmentModel;
+  const ExercisesByEquipmetsListPage({Key? key, required this.equipmentModel})
       : super(key: key);
 
   @override
@@ -18,12 +18,16 @@ class ExercisesListPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: customAppBar(context,
-          title: categoryModel.name, showDefaultActionButtons: false),
+          title: equipmentModel.name, showDefaultActionButtons: false),
       body: exercisesRef.when(
         data: (data) {
           data = data.where((element) {
-            return element.subcategoryIds
-                .any((element) => element.trim() == categoryModel.id);
+            if (element.equipmentIds == null) {
+              return false;
+            } else {
+              return element.equipmentIds!
+                  .contains(equipmentModel.id.trim().toString());
+            }
           }).toList();
 
           return ListView.builder(

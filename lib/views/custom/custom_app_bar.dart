@@ -3,10 +3,13 @@ import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/views/custom/menu_page.dart';
 import 'package:ukfitnesshub/views/profile/profile_page.dart';
 
-AppBar customAppBar(BuildContext context,
-    {required String title,
-    bool showDefaultActionButtons = true,
-    List<Widget>? customActions}) {
+AppBar customAppBar(
+  BuildContext context, {
+  required String title,
+  Widget? widget,
+  bool showDefaultActionButtons = true,
+  List<Widget>? customActions,
+}) {
   return AppBar(
     flexibleSpace: Container(
       decoration: const BoxDecoration(
@@ -18,14 +21,15 @@ AppBar customAppBar(BuildContext context,
       ),
     ),
     backgroundColor: Colors.transparent,
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Image.asset(logo, width: kDefaultPadding * 1.5),
-        const SizedBox(width: kDefaultPadding / 2),
-        Expanded(child: Text(title.toUpperCase())),
-      ],
-    ),
+    title: widget ??
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Image.asset(logo, width: kDefaultPadding * 1.5),
+            const SizedBox(width: kDefaultPadding / 2),
+            Expanded(child: Text(title.toUpperCase())),
+          ],
+        ),
     actions: showDefaultActionButtons
         ? [
             Image.asset(notification, width: kDefaultPadding * 1.2),
