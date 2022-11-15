@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/helper/config_loading.dart';
 import 'package:ukfitnesshub/providers/country_provider.dart';
+import 'package:ukfitnesshub/providers/settings_provider.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/auth/login_page.dart';
 import 'package:ukfitnesshub/views/bottom_nav_bar_page.dart';
@@ -23,6 +25,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       title: appName,
       debugShowCheckedModeBanner: false,
@@ -49,8 +55,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   Future<void> initalize() async {
-    await ref.read(countriesProvider).getCountries().then((value) {
-      Future.delayed(const Duration(seconds: 2), () {
+    await Future.wait([
+      ref.read(countriesProvider).getCountries(),
+      ref.read(settingsProvider).getSettings(),
+    ]).then((value) {
+      Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -58,6 +67,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           ),
         );
       });
+    }).onError((error, stackTrace) {
+      EasyLoading.showToast(
+        "There is an error!\nPlease try again later.",
+        toastPosition: EasyLoadingToastPosition.bottom,
+      );
     });
   }
 
@@ -84,7 +98,9 @@ class LandingWidget extends ConsumerWidget {
     final userProfileRef = ref.watch(userHiveProvider);
     final user = userProfileRef.getUser();
 
-    return user == null ? const LoginPage() : const BottomNavbarPage();
+    return user == null
+        ? const LoginPage()
+        : BottomNavbarPage(userProfileModel: user);
   }
 }
 

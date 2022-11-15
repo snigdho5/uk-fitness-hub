@@ -9,6 +9,7 @@ import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/models/exercise_model.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
+import 'package:ukfitnesshub/views/programme/exercise/exercise_details_page.dart';
 
 class PlayProgramPage extends StatelessWidget {
   final List<ExerciseModel> exercises;
@@ -444,9 +445,16 @@ class _ExercisePlayPageState extends State<ExercisePlayPage> {
           const SizedBox(height: kDefaultPadding * 2),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-            child: Text(widget.exercise.name.toUpperCase(),
-                style: Theme.of(context).textTheme.headline5!.copyWith(
-                    fontWeight: FontWeight.bold, color: primaryColor)),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(widget.exercise.name.toUpperCase(),
+                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                          fontWeight: FontWeight.bold, color: primaryColor)),
+                ),
+                ExerciseYoutubeVideoButton(exercise: widget.exercise),
+              ],
+            ),
           ),
           const SizedBox(height: kDefaultPadding / 2),
           if (widget.exercise.description != null)

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/models/user_profile_model.dart';
 import 'package:ukfitnesshub/views/home/home_page.dart';
 import 'package:ukfitnesshub/views/programme/programme_listing_page.dart';
+import 'package:ukfitnesshub/views/progress/progress_page.dart';
+import 'package:ukfitnesshub/views/settings/subscription_widget.dart';
 
 class BottomNavbarPage extends StatefulWidget {
-  const BottomNavbarPage({Key? key}) : super(key: key);
+  final UserProfileModel userProfileModel;
+  const BottomNavbarPage({
+    Key? key,
+    required this.userProfileModel,
+  }) : super(key: key);
 
   @override
   State<BottomNavbarPage> createState() => _BottomNavbarPageState();
@@ -12,6 +19,31 @@ class BottomNavbarPage extends StatefulWidget {
 
 class _BottomNavbarPageState extends State<BottomNavbarPage> {
   bool _showSearch = false;
+
+  @override
+  void initState() {
+    DateTime now = DateTime.now();
+    DateTime? trialDate = widget.userProfileModel.trialEndDate;
+
+    print("Now: $now");
+    print("Trial Date: $trialDate");
+
+    if (trialDate != null && trialDate.isBefore(now)) {
+      Future.delayed(const Duration(seconds: 1), () {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return const TrialEndDialog();
+          },
+        );
+      });
+    } else {
+      print('Trial is not over');
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +103,16 @@ class _BottomNavbarPageState extends State<BottomNavbarPage> {
               context,
               MaterialPageRoute(
                 builder: (context) => const ProgramListingTabView(),
+              ),
+            );
+            setState(() {
+              _showSearch = false;
+            });
+          } else if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProgressPage(),
               ),
             );
             setState(() {

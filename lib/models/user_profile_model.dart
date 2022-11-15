@@ -12,10 +12,11 @@ class UserProfileModel {
   String countryCode;
   String goal;
   String hearFrom;
-  String createdDtime;
+  DateTime createdDtime;
   String lastLogin;
   String image;
   int v;
+  DateTime? trialEndDate;
 
   UserProfileModel({
     required this.id,
@@ -35,6 +36,7 @@ class UserProfileModel {
     required this.lastLogin,
     required this.image,
     required this.v,
+    required this.trialEndDate,
   });
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) =>
@@ -52,10 +54,14 @@ class UserProfileModel {
         countryCode: json["country_code"],
         goal: json["goal"],
         hearFrom: json["hear_from"],
-        createdDtime: json["created_dtime"],
+        createdDtime:
+            DateTime.parse(json["created_dtime"].toString().split(" ")[0]),
         lastLogin: json["last_login"],
         image: json["image"],
         v: json["__v"],
+        trialEndDate: json["trial_end_date"] == null
+            ? null
+            : DateTime.parse(json["trial_end_date"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -76,5 +82,6 @@ class UserProfileModel {
         "last_login": lastLogin,
         "image": image,
         "__v": v,
+        "trial_end_date": trialEndDate?.toIso8601String(),
       };
 }

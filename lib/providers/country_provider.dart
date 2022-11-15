@@ -26,7 +26,7 @@ class CountryProvider extends ChangeNotifier {
         _countries.addAll(countries);
         notifyListeners();
       } catch (e) {
-        print(e);
+        rethrow;
       }
     }
   }

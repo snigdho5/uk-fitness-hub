@@ -8,6 +8,7 @@ import 'package:ukfitnesshub/providers/package_info_provider.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/profile/profile_page.dart';
+import 'package:ukfitnesshub/views/settings/other_pages.dart';
 import 'package:ukfitnesshub/views/settings/settings_page.dart';
 
 class MenuPage extends ConsumerWidget {
@@ -44,6 +45,37 @@ class MenuPage extends ConsumerWidget {
                     },
                   ),
                   const Divider(height: 0),
+                  //Terms and Conditions
+                  ListTile(
+                    title: const Text("Terms and Conditions"),
+                    leading: const Icon(Icons.description_outlined),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const TermsAndConditions()));
+                    },
+                  ),
+                  const Divider(height: 0),
+                  //Privacy Policy
+                  ListTile(
+                    title: const Text("Privacy Policy"),
+                    leading: const Icon(Icons.privacy_tip_outlined),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const PrivacyPolicy()));
+                    },
+                  ),
+                  const Divider(height: 0),
+                  //About
+                  ListTile(
+                    title: const Text("About"),
+                    leading: const Icon(Icons.info_outline),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const About()));
+                    },
+                  ),
+                  const Divider(height: 0),
+
                   ListTile(
                     title: const Text("Logout"),
                     leading: const Icon(Icons.exit_to_app),

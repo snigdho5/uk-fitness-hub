@@ -9,6 +9,7 @@ class ExerciseModel {
   String categoryId;
   List<String> subcategoryIds;
   String defaultTime;
+  String? videoUrl;
 
   ExerciseModel({
     required this.id,
@@ -21,6 +22,7 @@ class ExerciseModel {
     required this.categoryId,
     required this.subcategoryIds,
     required this.defaultTime,
+    this.videoUrl,
   });
 
   factory ExerciseModel.fromJson(Map<String, dynamic> json) => ExerciseModel(
@@ -34,6 +36,7 @@ class ExerciseModel {
         categoryId: json["category_id"],
         subcategoryIds: (json["sub_category_ids"] as String).split(","),
         defaultTime: json["default_time"],
+        videoUrl: json["video_url"],
       );
 
   ExerciseModel copyWith({
@@ -47,6 +50,7 @@ class ExerciseModel {
     String? categoryId,
     List<String>? subcategoryIds,
     String? defaultTime,
+    String? videoUrl,
   }) {
     return ExerciseModel(
       id: id ?? this.id,
@@ -59,6 +63,7 @@ class ExerciseModel {
       categoryId: categoryId ?? this.categoryId,
       subcategoryIds: subcategoryIds ?? this.subcategoryIds,
       defaultTime: defaultTime ?? this.defaultTime,
+      videoUrl: videoUrl ?? this.videoUrl,
     );
   }
 }

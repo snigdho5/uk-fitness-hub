@@ -11,6 +11,7 @@ import 'package:ukfitnesshub/providers/exercises_provider.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
 import 'package:ukfitnesshub/views/programme/add_new_programme_page.dart';
+import 'package:ukfitnesshub/views/programme/exercise/exercise_details_page.dart';
 
 class AddExercisesForProgrammePage extends ConsumerStatefulWidget {
   final List<ExerciseIdModel> exerciseIds;
@@ -243,7 +244,9 @@ class AddExercisesBody extends StatelessWidget {
 
 class ExercisePopupWidget extends StatefulWidget {
   final ExerciseModel exercise;
-  const ExercisePopupWidget({super.key, required this.exercise});
+  final bool isEditable;
+  const ExercisePopupWidget(
+      {super.key, required this.exercise, this.isEditable = true});
 
   @override
   State<ExercisePopupWidget> createState() => _ExercisePopupWidgetState();
@@ -273,12 +276,17 @@ class _ExercisePopupWidgetState extends State<ExercisePopupWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            widget.exercise.name,
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(fontWeight: FontWeight.bold, color: primaryColor),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  widget.exercise.name,
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                      fontWeight: FontWeight.bold, color: primaryColor),
+                ),
+              ),
+              ExerciseYoutubeVideoButton(exercise: widget.exercise),
+            ],
           ),
           const SizedBox(height: kDefaultPadding),
           SizedBox(
@@ -294,32 +302,34 @@ class _ExercisePopupWidgetState extends State<ExercisePopupWidget> {
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: kDefaultPadding),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text("Duration: "),
+          if (widget.isEditable)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Duration: "),
 
-              //Show duration as 02:10 min:sec
-              Text(durationString,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2!
-                      .copyWith(fontWeight: FontWeight.bold, fontSize: 18)),
-            ],
-          ),
-          Slider(
-              value: _defaultTime.toDouble(),
-              min: minTime.toDouble(),
-              max: maxTime.toDouble(),
-              divisions: (maxTime - minTime) ~/ 5,
-              onChanged: (value) {
-                setState(() {
-                  _defaultTime = value.toInt();
-                });
-              }),
+                //Show duration as 02:10 min:sec
+                Text(durationString,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2!
+                        .copyWith(fontWeight: FontWeight.bold, fontSize: 18)),
+              ],
+            ),
+          if (widget.isEditable)
+            Slider(
+                value: _defaultTime.toDouble(),
+                min: minTime.toDouble(),
+                max: maxTime.toDouble(),
+                divisions: (maxTime - minTime) ~/ 5,
+                onChanged: (value) {
+                  setState(() {
+                    _defaultTime = value.toInt();
+                  });
+                }),
           const SizedBox(height: kDefaultPadding),
           CustomButton(
-            text: 'Add',
+            text: (widget.isEditable) ? "Add" : 'Done',
             onPressed: () {
               ExerciseIdModel exerciseIdModel = ExerciseIdModel(
                 id: widget.exercise.id,

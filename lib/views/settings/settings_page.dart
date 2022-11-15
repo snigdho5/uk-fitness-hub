@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/settings/change_password_page.dart';
+import 'package:ukfitnesshub/views/settings/subscription_widget.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -24,6 +25,19 @@ class SettingsPage extends ConsumerWidget {
               },
             ),
             const Divider(height: 0),
+            ListTile(
+              title: const Text("Subscription"),
+              leading: const Icon(Icons.subscriptions),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) {
+                    return const TrialEndDialog(isTrialEnded: false);
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),

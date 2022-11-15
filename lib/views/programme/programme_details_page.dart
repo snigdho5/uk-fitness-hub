@@ -10,6 +10,7 @@ import 'package:ukfitnesshub/models/programme_model.dart';
 import 'package:ukfitnesshub/providers/exercises_provider.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
+import 'package:ukfitnesshub/views/programme/add_exercises_for_programme_page.dart';
 import 'package:ukfitnesshub/views/programme/play_program_page.dart';
 
 class ProgramDetailsPage extends ConsumerStatefulWidget {
@@ -79,6 +80,16 @@ class _ProgramDetailsPageState extends ConsumerState<ProgramDetailsPage> {
                           elevation: 0,
                           key: ValueKey(exercise.id),
                           child: ListTile(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (context) {
+                                  return ExercisePopupWidget(
+                                      exercise: exercise, isEditable: false);
+                                },
+                              );
+                            },
                             title: Text(
                               exercise.name.toUpperCase(),
                               style: Theme.of(context)

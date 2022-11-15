@@ -10,6 +10,7 @@ import 'package:ukfitnesshub/models/exercise_model.dart';
 import 'package:ukfitnesshub/models/programme_model.dart';
 import 'package:ukfitnesshub/providers/category_provider.dart';
 import 'package:ukfitnesshub/providers/globar_search_provider.dart';
+import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/categories/body_focus_page.dart';
 import 'package:ukfitnesshub/views/categories/exercises_by_equiment_page.dart';
 import 'package:ukfitnesshub/views/categories/exercises_list_page.dart';
@@ -38,6 +39,13 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final categoriesRef = ref.watch(categoriesFutureProvider);
+
+    final user = ref.watch(userHiveProvider).getUser();
+    DateTime now = DateTime.now();
+    DateTime? trialDate = user?.trialEndDate;
+
+    int daysLeft = trialDate?.difference(now).inDays ?? 0;
+    bool isEndOfTrial = daysLeft <= 0;
 
     return Scaffold(
       appBar: customAppBar(
@@ -107,6 +115,52 @@ class _HomePageState extends ConsumerState<HomePage> {
                     style: Theme.of(context).textTheme.headline6!.copyWith(
                         fontWeight: FontWeight.w900, color: primaryColor),
                   ),
+                  if (!isEndOfTrial)
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.calendar_month,
+                          color: primaryColor,
+                          size: 20,
+                        ),
+                        const SizedBox(width: kDefaultPadding / 4),
+                        Expanded(
+                          child: Text.rich(
+                            TextSpan(
+                              text: "Your 14 days trial ends in ",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .caption!
+                                          .color),
+                              children: [
+                                TextSpan(
+                                  text: "$daysLeft",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text: " days",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2!
+                                      .copyWith(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .caption!
+                                              .color),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   const SizedBox(height: kDefaultPadding),
                   GestureDetector(
                     onTap: () {

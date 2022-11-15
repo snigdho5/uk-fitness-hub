@@ -39,4 +39,7 @@ class APIs {
 
   //Global Search
   static const String globalSearch = "global-search";
+
+  //Settings
+  static const String settings = "settings";
 }
