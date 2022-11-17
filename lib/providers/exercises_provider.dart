@@ -45,3 +45,45 @@ final allExercisesFutureProvider =
     return [];
   }
 });
+
+Future<bool> addExerciseRecord({
+  required String userId,
+  required String token,
+  required String exerciseId,
+  required String weight,
+}) async {
+  final url = Uri.parse(baseUrl + APIs.addRecord);
+
+  final headers = {
+    "Authorization": "Bearer $token",
+  };
+
+  final body = {
+    "user_id": userId,
+    "exercise_id": exerciseId,
+    "weight": weight,
+  };
+
+  final Response response = await post(
+    url,
+    body: body,
+    headers: headers,
+  );
+
+  final responseBody = jsonDecode(response.body);
+  final responseStatus = responseBody['status'];
+
+  if (responseStatus == "1") {
+    final data = responseBody['respdata'];
+
+    print(data);
+
+    return data["new_record"];
+  } else {
+    EasyLoading.showToast(
+      responseBody['message'],
+      toastPosition: EasyLoadingToastPosition.bottom,
+    );
+    return false;
+  }
+}

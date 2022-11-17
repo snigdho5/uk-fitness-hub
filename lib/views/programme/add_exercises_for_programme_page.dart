@@ -273,72 +273,74 @@ class _ExercisePopupWidgetState extends State<ExercisePopupWidget> {
       padding: const EdgeInsets.all(kDefaultPadding),
       color: Colors.white,
       height: MediaQuery.of(context).size.height * 0.7,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  widget.exercise.name,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                      fontWeight: FontWeight.bold, color: primaryColor),
-                ),
-              ),
-              ExerciseYoutubeVideoButton(exercise: widget.exercise),
-            ],
-          ),
-          const SizedBox(height: kDefaultPadding),
-          SizedBox(
-            height: 200,
-            child: CachedNetworkImage(
-              imageUrl: widget.exercise.image ?? "",
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ),
-          ),
-          const SizedBox(height: kDefaultPadding),
-          Text(
-            widget.exercise.description ?? "",
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          const SizedBox(height: kDefaultPadding),
-          if (widget.isEditable)
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Duration: "),
-
-                //Show duration as 02:10 min:sec
-                Text(durationString,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle2!
-                        .copyWith(fontWeight: FontWeight.bold, fontSize: 18)),
+                Expanded(
+                  child: Text(
+                    widget.exercise.name,
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                        fontWeight: FontWeight.bold, color: primaryColor),
+                  ),
+                ),
+                ExerciseYoutubeVideoButton(exercise: widget.exercise),
               ],
             ),
-          if (widget.isEditable)
-            Slider(
-                value: _defaultTime.toDouble(),
-                min: minTime.toDouble(),
-                max: maxTime.toDouble(),
-                divisions: (maxTime - minTime) ~/ 5,
-                onChanged: (value) {
-                  setState(() {
-                    _defaultTime = value.toInt();
-                  });
-                }),
-          const SizedBox(height: kDefaultPadding),
-          CustomButton(
-            text: (widget.isEditable) ? "Add" : 'Done',
-            onPressed: () {
-              ExerciseIdModel exerciseIdModel = ExerciseIdModel(
-                id: widget.exercise.id,
-                time: _defaultTime,
-              );
-              Navigator.pop(context, exerciseIdModel);
-            },
-          ),
-        ],
+            const SizedBox(height: kDefaultPadding),
+            SizedBox(
+              height: 200,
+              child: CachedNetworkImage(
+                imageUrl: widget.exercise.image ?? "",
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+            ),
+            const SizedBox(height: kDefaultPadding),
+            Text(
+              widget.exercise.description ?? "",
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            const SizedBox(height: kDefaultPadding),
+            if (widget.isEditable)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Duration: "),
+
+                  //Show duration as 02:10 min:sec
+                  Text(durationString,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2!
+                          .copyWith(fontWeight: FontWeight.bold, fontSize: 18)),
+                ],
+              ),
+            if (widget.isEditable)
+              Slider(
+                  value: _defaultTime.toDouble(),
+                  min: minTime.toDouble(),
+                  max: maxTime.toDouble(),
+                  divisions: (maxTime - minTime) ~/ 5,
+                  onChanged: (value) {
+                    setState(() {
+                      _defaultTime = value.toInt();
+                    });
+                  }),
+            const SizedBox(height: kDefaultPadding),
+            CustomButton(
+              text: (widget.isEditable) ? "Add" : 'Done',
+              onPressed: () {
+                ExerciseIdModel exerciseIdModel = ExerciseIdModel(
+                  id: widget.exercise.id,
+                  time: _defaultTime,
+                );
+                Navigator.pop(context, exerciseIdModel);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

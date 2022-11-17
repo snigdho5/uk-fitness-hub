@@ -154,6 +154,9 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "Please enter your email";
+                              } else if (!value.contains("@") ||
+                                  !value.contains(".")) {
+                                return "Please enter a valid email";
                               }
                               return null;
                             },

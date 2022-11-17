@@ -1,14 +1,22 @@
 import 'dart:async';
+
 import 'package:animated_check/animated_check.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/models/exercise_model.dart';
+import 'package:ukfitnesshub/models/user_profile_model.dart';
+import 'package:ukfitnesshub/providers/exercises_provider.dart';
+import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
+import 'package:ukfitnesshub/views/custom/custom_text_field.dart';
 import 'package:ukfitnesshub/views/programme/exercise/exercise_details_page.dart';
 
 class PlayProgramPage extends StatelessWidget {
@@ -81,7 +89,10 @@ class _PlayProgramPageBodyState extends State<PlayProgramPageBody> {
           if (widget.exercises.indexOf(exercise) != widget.exercises.length - 1)
             RestingPage(seconds: 20, onRestingFinished: _onPageFinished),
         ],
-        FinishedPage(isProgramme: widget.isProgramme),
+        FinishedPage(
+          isProgramme: widget.isProgramme,
+          exercise: widget.isProgramme ? null : widget.exercises.first,
+        ),
       ],
     );
   }
@@ -536,9 +547,11 @@ class _ExercisePlayPageState extends State<ExercisePlayPage> {
 
 class FinishedPage extends StatefulWidget {
   final bool isProgramme;
+  final ExerciseModel? exercise;
   const FinishedPage({
     super.key,
     required this.isProgramme,
+    this.exercise,
   });
 
   @override
@@ -564,52 +577,147 @@ class _FinishedPageState extends State<FinishedPage>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(kDefaultPadding * 2),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-                padding: const EdgeInsets.all(kDefaultPadding),
-                width: MediaQuery.of(context).size.width * 0.5,
-                height: MediaQuery.of(context).size.width * 0.5,
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: primaryColor.withOpacity(0.4),
-                      spreadRadius: 3,
-                      blurRadius: 10,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
+    return SingleChildScrollView(
+      child: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.all(kDefaultPadding * 2),
+        height: MediaQuery.of(context).size.height - kToolbarHeight,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  padding: const EdgeInsets.all(kDefaultPadding),
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: MediaQuery.of(context).size.width * 0.5,
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: primaryColor.withOpacity(0.4),
+                        spreadRadius: 3,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: AnimatedCheck(
+                    progress: _animation,
+                    size: MediaQuery.of(context).size.width * 0.3,
+                    color: Colors.white,
+                  )),
+              const SizedBox(height: kDefaultPadding * 2),
+              Text("Congratulations!",
+                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                      fontWeight: FontWeight.bold, color: primaryColor)),
+              const SizedBox(height: kDefaultPadding / 2),
+              Text(
+                "You have completed the ${widget.isProgramme ? 'programme' : 'exercise'}",
+              ),
+              const SizedBox(height: kDefaultPadding * 2),
+              if (!widget.isProgramme && widget.exercise != null)
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                  child: CustomButton(
+                    text: "Add Record",
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AddRecordWidget(exercise: widget.exercise!);
+                        },
+                      );
+                    },
+                  ),
                 ),
-                child: AnimatedCheck(
-                  progress: _animation,
-                  size: MediaQuery.of(context).size.width * 0.3,
-                  color: Colors.white,
-                )),
-            const SizedBox(height: kDefaultPadding * 2),
-            Text("Congratulations!",
+              if (!widget.isProgramme) const SizedBox(height: kDefaultPadding),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                child: CustomButton(
+                  text: "Go Back",
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AddRecordWidget extends StatefulWidget {
+  final ExerciseModel exercise;
+  const AddRecordWidget({
+    Key? key,
+    required this.exercise,
+  }) : super(key: key);
+
+  @override
+  State<AddRecordWidget> createState() => _AddRecordWidgetState();
+}
+
+class _AddRecordWidgetState extends State<AddRecordWidget> {
+  final TextEditingController _weightController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(kDefaultPadding)),
+      child: Padding(
+        padding: const EdgeInsets.all(kDefaultPadding * 2),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("How much did you lift?",
                 style: Theme.of(context).textTheme.headline5!.copyWith(
                     fontWeight: FontWeight.bold, color: primaryColor)),
-            const SizedBox(height: kDefaultPadding / 2),
-            Text(
-              "You have completed the ${widget.isProgramme ? 'programme' : 'exercise'}",
+            const SizedBox(height: kDefaultPadding),
+            CustomTextFormField(
+              controller: _weightController,
+              title: "Weight",
+              isNumber: true,
+              suffix: widget.exercise.weightUnit,
+              keyboardType: TextInputType.number,
             ),
-            const SizedBox(height: kDefaultPadding * 2),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-              child: CustomButton(
-                text: "Go Back",
-                onPressed: () {
-                  Navigator.of(context).pop();
+            const SizedBox(height: kDefaultPadding),
+            Consumer(builder: (context, ref, child) {
+              return CustomButton(
+                text: "Add Record",
+                onPressed: () async {
+                  final UserProfileModel? userModel =
+                      ref.read(userHiveProvider).getUser();
+                  if (userModel != null) {
+                    EasyLoading.show(status: "Adding record...");
+                    await addExerciseRecord(
+                      userId: userModel.id,
+                      token: userModel.token,
+                      exerciseId: widget.exercise.id,
+                      weight: _weightController.text.trim(),
+                    ).then((value) {
+                      if (value) {
+                        EasyLoading.showSuccess(
+                          "New Personal Best!",
+                          duration: const Duration(seconds: 4),
+                          dismissOnTap: true,
+                        );
+                        Navigator.of(context).pop();
+                      } else {
+                        EasyLoading.dismiss();
+                        Navigator.of(context).pop();
+                      }
+                    });
+                  }
                 },
-              ),
-            ),
+              );
+            }),
           ],
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/providers/auth_providers.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
+import 'package:ukfitnesshub/views/auth/forgot_password/send_otp_page.dart';
 import 'package:ukfitnesshub/views/auth/sign_up_page.dart';
 // ignore: unused_import
 import 'package:ukfitnesshub/views/bottom_nav_bar_page.dart';
@@ -97,6 +98,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           _onLogin();
                         }
                       }),
+                  const SizedBox(height: kDefaultPadding / 2),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SendOtpPage()));
+                    },
+                    child: Text(
+                      "Forgot Password?",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Theme.of(context).disabledColor,
+                          fontWeight: FontWeight.w900),
+                    ),
+                  ),
                   const SizedBox(height: kDefaultPadding * 3),
                   Text(
                     "DON'T have an account?",
@@ -105,7 +121,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         color: Theme.of(context).disabledColor,
                         fontWeight: FontWeight.w900),
                   ),
-                  // const SizedBox(height: kDefaultPadding),
                   TextButton(
                     onPressed: () {
                       Navigator.push(

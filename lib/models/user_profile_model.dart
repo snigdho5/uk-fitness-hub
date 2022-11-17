@@ -12,7 +12,7 @@ class UserProfileModel {
   String countryCode;
   String goal;
   String hearFrom;
-  DateTime createdDtime;
+  String createdDtime;
   String lastLogin;
   String image;
   int v;
@@ -54,8 +54,7 @@ class UserProfileModel {
         countryCode: json["country_code"],
         goal: json["goal"],
         hearFrom: json["hear_from"],
-        createdDtime:
-            DateTime.parse(json["created_dtime"].toString().split(" ")[0]),
+        createdDtime: json["created_dtime"],
         lastLogin: json["last_login"],
         image: json["image"],
         v: json["__v"],

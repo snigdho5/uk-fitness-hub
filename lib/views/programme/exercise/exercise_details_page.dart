@@ -66,17 +66,22 @@ class ExerciseDetailsPage extends ConsumerWidget {
                     padding: const EdgeInsets.all(kDefaultPadding),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
+                      children: [
+                        if (exercise.weight != "0")
+                          Text(
+                            "${exercise.weight}\n${exercise.weightUnit}",
+                            textAlign: TextAlign.center,
+                          ),
                         Text(
-                          "10\nReps",
+                          "${exercise.reps}\nReps",
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          "5\nSets",
+                          "${exercise.sets}\nSets",
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          "5 sec\nHold",
+                          "${exercise.breakSeconds} secs\nHold",
                           textAlign: TextAlign.center,
                         ),
                       ],

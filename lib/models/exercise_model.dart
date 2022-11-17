@@ -10,6 +10,11 @@ class ExerciseModel {
   List<String> subcategoryIds;
   String defaultTime;
   String? videoUrl;
+  String breakSeconds;
+  String reps;
+  String sets;
+  String weight;
+  String weightUnit;
 
   ExerciseModel({
     required this.id,
@@ -23,6 +28,11 @@ class ExerciseModel {
     required this.subcategoryIds,
     required this.defaultTime,
     this.videoUrl,
+    required this.breakSeconds,
+    required this.reps,
+    required this.sets,
+    required this.weight,
+    required this.weightUnit,
   });
 
   factory ExerciseModel.fromJson(Map<String, dynamic> json) => ExerciseModel(
@@ -37,6 +47,11 @@ class ExerciseModel {
         subcategoryIds: (json["sub_category_ids"] as String).split(","),
         defaultTime: json["default_time"],
         videoUrl: json["video_url"],
+        breakSeconds: json["break"],
+        reps: json["reps"],
+        sets: json["sets"],
+        weight: json["weight"],
+        weightUnit: json["weight_unit"],
       );
 
   ExerciseModel copyWith({
@@ -51,6 +66,11 @@ class ExerciseModel {
     List<String>? subcategoryIds,
     String? defaultTime,
     String? videoUrl,
+    String? breakSeconds,
+    String? reps,
+    String? sets,
+    String? weight,
+    String? weightUnit,
   }) {
     return ExerciseModel(
       id: id ?? this.id,
@@ -64,6 +84,11 @@ class ExerciseModel {
       subcategoryIds: subcategoryIds ?? this.subcategoryIds,
       defaultTime: defaultTime ?? this.defaultTime,
       videoUrl: videoUrl ?? this.videoUrl,
+      breakSeconds: breakSeconds ?? this.breakSeconds,
+      reps: reps ?? this.reps,
+      sets: sets ?? this.sets,
+      weight: weight ?? this.weight,
+      weightUnit: weightUnit ?? this.weightUnit,
     );
   }
 }

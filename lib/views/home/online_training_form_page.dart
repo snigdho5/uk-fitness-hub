@@ -77,6 +77,7 @@ class _OnlineTrainingFormPageState
           SafeArea(
             bottom: false,
             child: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

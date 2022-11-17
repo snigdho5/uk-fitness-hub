@@ -202,4 +202,85 @@ class AuthProvider {
       return null;
     }
   }
+
+  static Future<ForgorPasswordData?> forgotPassword(String email) async {
+    final url = Uri.parse(baseUrl + APIs.forgotPassword);
+
+    final body = {"email": email};
+
+    final Response response = await post(url, body: body);
+
+    final responseBody = jsonDecode(response.body);
+    final responseStatus = responseBody['status'];
+
+    print(responseBody);
+
+    EasyLoading.showToast(
+      responseBody['message'],
+      toastPosition: EasyLoadingToastPosition.bottom,
+    );
+
+    if (responseStatus == "1") {
+      try {
+        final responseData = responseBody['respdata'];
+
+        final otp = responseData['forget_otp'];
+        final userId = responseData['_id'];
+
+        final ForgorPasswordData forgorPasswordData =
+            ForgorPasswordData(otp: otp, userId: userId);
+
+        return forgorPasswordData;
+      } catch (e) {
+        debugPrint(e.toString());
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  static Future<bool> resetPassword(
+      {required String userId,
+      required String otp,
+      required String newPassword}) async {
+    final url = Uri.parse(baseUrl + APIs.resetPassword);
+
+    final body = {
+      "user_id": userId,
+      "otp": otp,
+      "new_password": newPassword,
+      "repeat_password": newPassword
+    };
+
+    final Response response = await post(url, body: body);
+
+    final responseBody = jsonDecode(response.body);
+    final responseStatus = responseBody['status'];
+
+    print(responseBody);
+
+    EasyLoading.showToast(
+      responseBody['message'],
+      toastPosition: EasyLoadingToastPosition.bottom,
+    );
+
+    if (responseStatus == "1") {
+      try {
+        return true;
+      } catch (e) {
+        debugPrint(e.toString());
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+}
+
+class ForgorPasswordData {
+  String userId;
+  String otp;
+
+  ForgorPasswordData({required this.userId, required this.otp});
 }

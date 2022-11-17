@@ -9,6 +9,8 @@ class APIs {
   static const String changePassword = "change-password";
   static const String editProfile = "edit-profile";
   static const String uploadProfileImage = "upload-image";
+  static const String forgotPassword = "forgot-password";
+  static const String resetPassword = "reset-password";
 
   //countries
   static const String countries = "countries";
@@ -23,6 +25,7 @@ class APIs {
   //Exercises
   static const String allExercises = "exercises";
   static const String getExercisesBySubCategoryId = "get-exercises";
+  static const String addRecord = "add-exercise-personal-best";
 
   //Programme
   static const String programmes = "programmes";
