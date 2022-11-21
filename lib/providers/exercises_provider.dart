@@ -56,17 +56,18 @@ Future<bool> addExerciseRecord({
 
   final headers = {
     "Authorization": "Bearer $token",
+    "Content-Type": "application/json",
   };
 
-  final body = {
+  final Map<String, dynamic> body = {
     "user_id": userId,
     "exercise_id": exerciseId,
-    "weight": weight,
+    "weight": int.tryParse(weight) ?? 0,
   };
 
   final Response response = await post(
     url,
-    body: body,
+    body: jsonEncode(body),
     headers: headers,
   );
 
@@ -78,7 +79,10 @@ Future<bool> addExerciseRecord({
 
     print(data);
 
-    return data["new_record"];
+    final result = data['new_record'];
+    print("\n\nResult: $result");
+
+    return result as bool;
   } else {
     EasyLoading.showToast(
       responseBody['message'],

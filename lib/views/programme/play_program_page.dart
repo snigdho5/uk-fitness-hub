@@ -701,16 +701,18 @@ class _AddRecordWidgetState extends State<AddRecordWidget> {
                       token: userModel.token,
                       exerciseId: widget.exercise.id,
                       weight: _weightController.text.trim(),
-                    ).then((value) {
-                      if (value) {
-                        EasyLoading.showSuccess(
-                          "New Personal Best!",
-                          duration: const Duration(seconds: 4),
-                          dismissOnTap: true,
-                        );
-                        Navigator.of(context).pop();
+                    ).then((value) async {
+                      EasyLoading.dismiss();
+                      if (value == true) {
+                        await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const NewPersonalBestDialog();
+                          },
+                        ).then((value) {
+                          Navigator.of(context).pop();
+                        });
                       } else {
-                        EasyLoading.dismiss();
                         Navigator.of(context).pop();
                       }
                     });
@@ -718,6 +720,40 @@ class _AddRecordWidgetState extends State<AddRecordWidget> {
                 },
               );
             }),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NewPersonalBestDialog extends StatelessWidget {
+  const NewPersonalBestDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(kDefaultPadding)),
+      child: Padding(
+        padding: const EdgeInsets.all(kDefaultPadding * 2),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("New Personal Best!",
+                style: Theme.of(context).textTheme.headline5!.copyWith(
+                    fontWeight: FontWeight.bold, color: primaryColor)),
+            const SizedBox(height: kDefaultPadding),
+            const Text(
+                "Congratulations! You have set a new personal best for this exercise. Keep up the good work! "),
+            const SizedBox(height: kDefaultPadding * 2),
+            CustomButton(
+              text: "Close",
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ],
         ),
       ),
