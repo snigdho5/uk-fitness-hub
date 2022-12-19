@@ -8,6 +8,7 @@ import 'package:ukfitnesshub/providers/auth_providers.dart';
 import 'package:ukfitnesshub/providers/country_provider.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/auth/sign_up_page.dart';
+import 'package:ukfitnesshub/views/custom/bottom_nav_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
 import 'package:ukfitnesshub/views/custom/custom_text_field.dart';
 
@@ -112,6 +113,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        bottomNavigationBar: const BottomNavBar(),
         body: Container(
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(

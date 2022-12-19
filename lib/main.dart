@@ -10,7 +10,7 @@ import 'package:ukfitnesshub/providers/country_provider.dart';
 import 'package:ukfitnesshub/providers/settings_provider.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/auth/login_page.dart';
-import 'package:ukfitnesshub/views/bottom_nav_bar_page.dart';
+import 'package:ukfitnesshub/views/wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -98,9 +98,7 @@ class LandingWidget extends ConsumerWidget {
     final userProfileRef = ref.watch(userHiveProvider);
     final user = userProfileRef.getUser();
 
-    return user == null
-        ? const LoginPage()
-        : BottomNavbarPage(userProfileModel: user);
+    return user == null ? const LoginPage() : Wrapper(userProfileModel: user);
   }
 }
 

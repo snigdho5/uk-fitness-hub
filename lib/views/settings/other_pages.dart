@@ -4,6 +4,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 import 'package:ukfitnesshub/helper/url_launcher_helper.dart';
 import 'package:ukfitnesshub/providers/settings_provider.dart';
+import 'package:ukfitnesshub/views/custom/bottom_nav_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 
 class PrivacyPolicy extends ConsumerWidget {
@@ -50,8 +51,8 @@ class OtherPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          customAppBar(context, title: title, showDefaultActionButtons: false),
+      appBar: customAppBar(context, title: title),
+      bottomNavigationBar: const BottomNavBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         child: htmlData == null

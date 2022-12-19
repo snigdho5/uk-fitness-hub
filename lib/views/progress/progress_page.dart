@@ -20,8 +20,7 @@ class _ProgressPageState extends ConsumerState<ProgressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context,
-          title: 'Progress', showDefaultActionButtons: false),
+      appBar: customAppBar(context, title: 'Progress'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

@@ -1,32 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/config/constants.dart';
-import 'package:ukfitnesshub/models/categories/category_model.dart';
-import 'package:ukfitnesshub/models/categories/sub_category_model.dart';
-import 'package:ukfitnesshub/models/equipment_model.dart';
-import 'package:ukfitnesshub/models/exercise_model.dart';
-import 'package:ukfitnesshub/models/programme_model.dart';
 import 'package:ukfitnesshub/providers/category_provider.dart';
-import 'package:ukfitnesshub/providers/globar_search_provider.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
-import 'package:ukfitnesshub/views/categories/body_focus_page.dart';
-import 'package:ukfitnesshub/views/categories/exercises_by_equiment_page.dart';
-import 'package:ukfitnesshub/views/categories/exercises_list_page.dart';
 import 'package:ukfitnesshub/views/categories/subcategories_page.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/home/online_training_form_page.dart';
-import 'package:ukfitnesshub/views/programme/exercise/exercise_details_page.dart';
-import 'package:ukfitnesshub/views/programme/programme_details_page.dart';
 
 class HomePage extends ConsumerStatefulWidget {
-  final bool showSearch;
-  final VoidCallback onTapClear;
   const HomePage({
     Key? key,
-    required this.showSearch,
-    required this.onTapClear,
   }) : super(key: key);
 
   @override
@@ -34,8 +18,6 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  final TextEditingController _searchController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final categoriesRef = ref.watch(categoriesFutureProvider);
@@ -48,199 +30,136 @@ class _HomePageState extends ConsumerState<HomePage> {
     bool isEndOfTrial = daysLeft <= 0;
 
     return Scaffold(
-      appBar: customAppBar(
-        context,
-        title: "UK Fitness Hub",
-        widget: widget.showSearch
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+      appBar: customAppBar(context, title: "UK Fitness Hub"),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(kDefaultPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: kDefaultPadding),
+            Text(
+              "Main Menu".toUpperCase(),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(fontWeight: FontWeight.w900, color: primaryColor),
+            ),
+            if (!isEndOfTrial)
+              Row(
                 children: [
-                  CupertinoButton(
-                      padding: EdgeInsets.zero,
-                      alignment: Alignment.centerLeft,
-                      onPressed: () {
-                        widget.onTapClear();
-                      },
-                      child: const Icon(CupertinoIcons.clear,
-                          color: Colors.white)),
+                  const Icon(
+                    Icons.calendar_month,
+                    color: primaryColor,
+                    size: 20,
+                  ),
+                  const SizedBox(width: kDefaultPadding / 4),
                   Expanded(
-                    child: CupertinoTextField(
-                      controller: _searchController,
-                      clearButtonMode: OverlayVisibilityMode.editing,
-                      autofocus: true,
-                      placeholder: "Search",
-                      suffixMode: OverlayVisibilityMode.editing,
-                      prefix: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Icon(Icons.search, color: primaryColor),
-                      ),
-                      suffix: GestureDetector(
-                        onTap: () {
-                          _searchController.clear();
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          child: Icon(CupertinoIcons.clear_circled_solid,
-                              color: Colors.grey, size: 16),
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: kDefaultPadding / 2),
-                    ),
-                  ),
-                  CupertinoButton(
-                    alignment: Alignment.centerRight,
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      setState(() {});
-                    },
-                    child:
-                        const Icon(CupertinoIcons.search, color: Colors.white),
-                  )
-                ],
-              )
-            : null,
-        showDefaultActionButtons: !widget.showSearch,
-      ),
-      body: widget.showSearch
-          ? SearchResultBody(searchQuery: _searchController.text)
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(kDefaultPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: kDefaultPadding),
-                  Text(
-                    "Main Menu".toUpperCase(),
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                        fontWeight: FontWeight.w900, color: primaryColor),
-                  ),
-                  if (!isEndOfTrial)
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.calendar_month,
-                          color: primaryColor,
-                          size: 20,
-                        ),
-                        const SizedBox(width: kDefaultPadding / 4),
-                        Expanded(
-                          child: Text.rich(
-                            TextSpan(
-                              text: "Your 14 days trial ends in ",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2!
-                                  .copyWith(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .caption!
-                                          .color),
-                              children: [
-                                TextSpan(
-                                  text: "$daysLeft",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(fontWeight: FontWeight.bold),
-                                ),
-                                TextSpan(
-                                  text: " days",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2!
-                                      .copyWith(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .caption!
-                                              .color),
-                                ),
-                              ],
-                            ),
+                    child: Text.rich(
+                      TextSpan(
+                        text: "Your 14 days trial ends in ",
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                            color: Theme.of(context).textTheme.caption!.color),
+                        children: [
+                          TextSpan(
+                            text: "$daysLeft",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(fontWeight: FontWeight.bold),
                           ),
-                        ),
-                      ],
-                    ),
-                  const SizedBox(height: kDefaultPadding),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const BodyFocusPage()));
-                    },
-                    child: const CategoryItem(
-                      image: bodyFocus,
-                      title: "Body Focus",
-                      subtitle: "Focus on a specific body part",
-                    ),
-                  ),
-                  categoriesRef.when(
-                    data: (data) {
-                      if (data.isEmpty) {
-                        return const SizedBox.shrink();
-                      } else {
-                        if (data.any((element) =>
-                            element.name.toLowerCase() == "rehabilitation")) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(height: kDefaultPadding),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => SubCategoriesPage(
-                                        categoryModel: data.firstWhere(
-                                            (element) =>
-                                                element.name.toLowerCase() ==
-                                                "rehabilitation"),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: const CategoryItem(
-                                  image: rehabitation,
-                                  title: "Rehabilitation",
-                                  subtitle: "Rehabilitation exercises",
-                                ),
-                              ),
-                            ],
-                          );
-                        } else {
-                          return const SizedBox.shrink();
-                        }
-                      }
-                    },
-                    error: (error, stackTrace) => const SizedBox.shrink(),
-                    loading: () => const SizedBox.shrink(),
-                  ),
-                  const SizedBox(height: kDefaultPadding),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              const OnlineTrainingFormPage()));
-                    },
-                    child: const CategoryItem(
-                      image: training,
-                      title: "Online Training with Travis",
-                      subtitle: "Get in touch with Travis",
+                          TextSpan(
+                            text: " days",
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2!
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .caption!
+                                        .color),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  const SizedBox(height: kDefaultPadding * 2),
                 ],
               ),
+
+            // GestureDetector(
+            //   onTap: () {
+            //     Navigator.of(context).push(MaterialPageRoute(
+            //         builder: (context) => const BodyFocusPage()));
+            //   },
+            //   child: const CategoryItem(
+            //     image: bodyFocus,
+            //     title: "Body Focus",
+            //     subtitle: "Focus on a specific body part",
+            //   ),
+            // ),
+            const SizedBox(height: kDefaultPadding),
+            categoriesRef.when(
+              data: (data) {
+                if (data.isEmpty) {
+                  return const SizedBox.shrink();
+                } else {
+                  return Column(
+                    children: data.map((e) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => SubCategoriesPage(
+                                        categoryModel: e,
+                                      )));
+                            },
+                            child: CategoryItem(
+                              image: e.image ?? "",
+                              title: e.name,
+                              subtitle: e.description ?? "",
+                            ),
+                          ),
+                          const SizedBox(height: kDefaultPadding),
+                        ],
+                      );
+                    }).toList(),
+                  );
+                }
+              },
+              error: (error, stackTrace) => const SizedBox.shrink(),
+              loading: () => const SizedBox.shrink(),
             ),
+
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const OnlineTrainingFormPage()));
+              },
+              child: const CategoryItem(
+                image: training,
+                isNetWorkImage: false,
+                title: "Online Training with Travis",
+                subtitle: "Get in touch with Travis",
+              ),
+            ),
+            const SizedBox(height: kDefaultPadding * 2),
+          ],
+        ),
+      ),
     );
   }
 }
 
 class CategoryItem extends StatelessWidget {
   final String image, title, subtitle;
+  final bool isNetWorkImage;
   const CategoryItem({
     Key? key,
     required this.image,
     required this.title,
     required this.subtitle,
+    this.isNetWorkImage = true,
   }) : super(key: key);
 
   @override
@@ -253,7 +172,11 @@ class CategoryItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(kDefaultPadding),
         border: Border.all(color: primaryColor),
         color: Colors.white,
-        image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
+        image: DecorationImage(
+            image: isNetWorkImage
+                ? CachedNetworkImageProvider(image)
+                : AssetImage(image) as ImageProvider,
+            fit: BoxFit.cover),
       ),
       child: Center(
         child: Column(
@@ -270,6 +193,8 @@ class CategoryItem extends StatelessWidget {
             const SizedBox(height: kDefaultPadding / 2),
             Text(
               "$subtitle >>",
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context)
                   .textTheme
                   .subtitle2!
@@ -277,307 +202,6 @@ class CategoryItem extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class SearchResultBody extends ConsumerWidget {
-  final String searchQuery;
-  const SearchResultBody({
-    super.key,
-    required this.searchQuery,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final searchResultRef = ref.watch(globalSearchProvider(searchQuery));
-    return searchResultRef.when(
-      data: (data) {
-        if (data == null) {
-          return const Center(
-            child: Text("No results found"),
-          );
-        } else {
-          List<CategoryModel> categories = data.categories;
-          List<SubCategoryModel> subCategories = data.subCategories;
-          List<ExerciseModel> exercises = data.exercises;
-          List<EquipmentModel> equipments = data.equipments;
-          List<ProgrammeModel> programmes = data.programmes;
-
-          return ListView(
-            padding: const EdgeInsets.all(kDefaultPadding),
-            children: [
-              if (programmes.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Programmes".toUpperCase(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2!
-                                .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: primaryColor),
-                          ),
-                          const Spacer(),
-                          CircleAvatar(
-                            backgroundColor: primaryColor,
-                            radius: 9,
-                            child: Center(
-                              child: Text(
-                                programmes.length.toString(),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: kDefaultPadding / 2),
-                    ...programmes.map(
-                      (programme) {
-                        return CustomListTile(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    ProgramDetailsPage(programme: programme)));
-                          },
-                          title: programme.name,
-                          image: programme.image,
-                        );
-                      },
-                    ).toList(),
-                    const SizedBox(height: kDefaultPadding * 2),
-                  ],
-                ),
-              if (categories.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Categories".toUpperCase(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2!
-                                .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: primaryColor),
-                          ),
-                          const Spacer(),
-                          CircleAvatar(
-                            backgroundColor: primaryColor,
-                            radius: 9,
-                            child: Center(
-                              child: Text(
-                                categories.length.toString(),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: kDefaultPadding / 2),
-                    ...categories.map(
-                      (category) {
-                        return CustomListTile(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SubCategoriesPage(
-                                    categoryModel: category)));
-                          },
-                          title: category.name,
-                          image: category.image,
-                        );
-                      },
-                    ).toList(),
-                    const SizedBox(height: kDefaultPadding * 2),
-                  ],
-                ),
-              if (subCategories.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Sub Categories".toUpperCase(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2!
-                                .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: primaryColor),
-                          ),
-                          const Spacer(),
-                          CircleAvatar(
-                            backgroundColor: primaryColor,
-                            radius: 9,
-                            child: Center(
-                              child: Text(
-                                subCategories.length.toString(),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: kDefaultPadding / 2),
-                    ...subCategories.map(
-                      (subCategory) {
-                        return CustomListTile(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ExercisesListPage(
-                                    categoryModel: subCategory)));
-                          },
-                          title: subCategory.name,
-                          image: subCategory.image,
-                        );
-                      },
-                    ).toList(),
-                    const SizedBox(height: kDefaultPadding * 2),
-                  ],
-                ),
-              if (exercises.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Exercises".toUpperCase(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2!
-                                .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: primaryColor),
-                          ),
-                          const Spacer(),
-                          CircleAvatar(
-                            backgroundColor: primaryColor,
-                            radius: 9,
-                            child: Center(
-                              child: Text(
-                                exercises.length.toString(),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: kDefaultPadding / 2),
-                    ...exercises.map(
-                      (exercise) {
-                        return CustomListTile(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    ExerciseDetailsPage(exercise: exercise)));
-                          },
-                          title: exercise.name,
-                          image: exercise.image,
-                        );
-                      },
-                    ).toList(),
-                    const SizedBox(height: kDefaultPadding * 2),
-                  ],
-                ),
-              if (equipments.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Equipments".toUpperCase(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2!
-                                .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: primaryColor),
-                          ),
-                          const Spacer(),
-                          CircleAvatar(
-                            backgroundColor: primaryColor,
-                            radius: 9,
-                            child: Center(
-                              child: Text(
-                                equipments.length.toString(),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: kDefaultPadding / 2),
-                    ...equipments.map(
-                      (equipment) {
-                        return CustomListTile(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    ExercisesByEquipmetsListPage(
-                                        equipmentModel: equipment)));
-                          },
-                          title: equipment.name,
-                          image: equipment.image,
-                        );
-                      },
-                    ).toList(),
-                    const SizedBox(height: kDefaultPadding),
-                  ],
-                ),
-            ],
-          );
-        }
-      },
-      error: (error, stackTrace) => const Center(
-        child: Text("No results found"),
-      ),
-      loading: () => const Center(
-        child: CircularProgressIndicator(),
       ),
     );
   }

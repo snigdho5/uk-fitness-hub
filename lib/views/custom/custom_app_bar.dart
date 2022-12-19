@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/views/custom/menu_page.dart';
 import 'package:ukfitnesshub/views/profile/profile_page.dart';
+import 'package:ukfitnesshub/views/search/search_page.dart';
 
 AppBar customAppBar(
   BuildContext context, {
@@ -32,21 +33,50 @@ AppBar customAppBar(
         ),
     actions: showDefaultActionButtons
         ? [
-            Image.asset(notification, width: kDefaultPadding * 1.2),
-            const SizedBox(width: kDefaultPadding / 2),
             GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const ProfilePage()));
-                },
-                child: Image.asset(user, width: kDefaultPadding * 1.2)),
-            const SizedBox(width: kDefaultPadding / 2),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SearchPage(),
+                  ),
+                );
+              },
+              child: Image.asset(
+                search,
+                width: kDefaultPadding * 1.4,
+                color: tertiaryColor,
+              ),
+            ),
+            const SizedBox(width: kDefaultPadding / 1.5),
+            Image.asset(
+              notification,
+              width: kDefaultPadding * 1.2,
+              color: tertiaryColor,
+            ),
+            const SizedBox(width: kDefaultPadding / 1.5),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ProfilePage()));
+              },
+              child: Image.asset(
+                user,
+                width: kDefaultPadding * 1.2,
+                color: tertiaryColor,
+              ),
+            ),
+            const SizedBox(width: kDefaultPadding / 1.5),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => const MenuPage()));
               },
-              child: Image.asset(menu, width: kDefaultPadding * 1.5),
+              child: Image.asset(
+                menu,
+                width: kDefaultPadding * 1.5,
+                color: tertiaryColor,
+              ),
             ),
             const SizedBox(width: kDefaultPadding),
           ]

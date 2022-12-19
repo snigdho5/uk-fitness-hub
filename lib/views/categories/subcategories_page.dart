@@ -6,6 +6,7 @@ import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/models/categories/category_model.dart';
 import 'package:ukfitnesshub/providers/category_provider.dart';
 import 'package:ukfitnesshub/views/categories/exercises_list_page.dart';
+import 'package:ukfitnesshub/views/custom/bottom_nav_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 
 class SubCategoriesPage extends ConsumerWidget {
@@ -18,8 +19,8 @@ class SubCategoriesPage extends ConsumerWidget {
     final subCategoriesRef = ref.watch(allSubCategoriesFutureProvider);
 
     return Scaffold(
-      appBar: customAppBar(context,
-          title: categoryModel.name, showDefaultActionButtons: false),
+      appBar: customAppBar(context, title: categoryModel.name),
+      bottomNavigationBar: const BottomNavBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

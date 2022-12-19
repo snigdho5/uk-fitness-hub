@@ -24,8 +24,18 @@ class ExerciseDetailsPage extends ConsumerWidget {
     final allEquipmentsRef = ref.watch(allEquipmentsFutureProvider);
 
     return Scaffold(
-      appBar: customAppBar(context,
-          title: exercise.name, showDefaultActionButtons: false),
+      appBar: customAppBar(
+        context,
+        title: exercise.name,
+        showDefaultActionButtons: false,
+        customActions: [
+          IconButton(
+            tooltip: "Add to a program",
+            icon: const Icon(Icons.add),
+            onPressed: () {},
+          ),
+        ],
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         top: false,

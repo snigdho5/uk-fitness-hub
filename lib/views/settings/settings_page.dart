@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ukfitnesshub/views/custom/bottom_nav_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/settings/change_password_page.dart';
 import 'package:ukfitnesshub/views/settings/subscription_widget.dart';
@@ -10,8 +11,8 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return Scaffold(
-      appBar: customAppBar(context,
-          title: "Settings", showDefaultActionButtons: false),
+      appBar: customAppBar(context, title: "Settings"),
+      bottomNavigationBar: const BottomNavBar(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

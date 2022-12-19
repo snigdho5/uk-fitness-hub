@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/providers/contact_with_travis_provider.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
+import 'package:ukfitnesshub/views/custom/bottom_nav_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
 import 'package:ukfitnesshub/views/custom/custom_text_field.dart';
 
@@ -68,6 +69,7 @@ class _OnlineTrainingFormPageState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomNavigationBar: const BottomNavBar(),
       body: Stack(
         children: [
           Image.asset(
