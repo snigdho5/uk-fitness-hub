@@ -16,6 +16,7 @@ import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/programme/exercise/exercise_details_page.dart';
 import 'package:ukfitnesshub/views/programme/programme_details_page.dart';
 import 'package:ukfitnesshub/views/home/home_page.dart';
+import 'package:ukfitnesshub/views/search/search_filter.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -64,7 +65,7 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             CupertinoButton(
-              alignment: Alignment.centerRight,
+              alignment: Alignment.center,
               padding: EdgeInsets.zero,
               onPressed: () {
                 setState(() {});
@@ -103,8 +104,36 @@ class SearchResultBody extends ConsumerWidget {
           List<ProgrammeModel> programmes = data.programmes;
 
           return ListView(
-            padding: const EdgeInsets.all(kDefaultPadding),
+            padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
             children: [
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text(
+                  "Search Results",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: primaryColor,
+                  ),
+                ),
+                subtitle: Text(
+                  "Found ${categories.length + subCategories.length + exercises.length + equipments.length + programmes.length} results",
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                trailing: CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  alignment: Alignment.centerRight,
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const SearchFilter()));
+                  },
+                  child: const Icon(
+                    Icons.filter_alt_outlined,
+                    color: primaryColor,
+                  ),
+                ),
+              ),
+              const Divider(height: 0),
+              const SizedBox(height: kDefaultPadding),
               if (programmes.isNotEmpty)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

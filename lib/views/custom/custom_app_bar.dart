@@ -12,6 +12,7 @@ AppBar customAppBar(
   List<Widget>? customActions,
 }) {
   return AppBar(
+    titleSpacing: 0,
     flexibleSpace: Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -26,6 +27,7 @@ AppBar customAppBar(
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            const SizedBox(width: kDefaultPadding),
             Image.asset(logo, width: kDefaultPadding * 1.5),
             const SizedBox(width: kDefaultPadding / 2),
             Expanded(child: Text(title.toUpperCase())),
