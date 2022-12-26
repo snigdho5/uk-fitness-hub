@@ -25,9 +25,11 @@ class ExerciseIdModel {
 
 class AddNewProgrammePage extends ConsumerStatefulWidget {
   final ProgrammeModel? programme;
+  final ExerciseIdModel? exerciseIdModel;
   const AddNewProgrammePage({
     Key? key,
     this.programme,
+    this.exerciseIdModel,
   }) : super(key: key);
 
   @override
@@ -53,6 +55,10 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
             time: widget.programme!.exerciseTimes[
                 widget.programme!.exerciseIds.indexOf(element)]));
       }
+    }
+
+    if (widget.exerciseIdModel != null) {
+      _exerciseIds.add(widget.exerciseIdModel!);
     }
     super.initState();
   }

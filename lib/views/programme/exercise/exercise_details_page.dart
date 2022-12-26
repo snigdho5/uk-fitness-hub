@@ -5,12 +5,16 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/models/exercise_model.dart';
+import 'package:ukfitnesshub/models/programme_model.dart';
 import 'package:ukfitnesshub/providers/equipment_provider.dart';
 import 'package:ukfitnesshub/views/categories/exercises_by_equiment_page.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
 import 'package:ukfitnesshub/views/custom/youtube_player_widget.dart';
+import 'package:ukfitnesshub/views/programme/add_exercises_for_programme_page.dart';
+import 'package:ukfitnesshub/views/programme/add_new_programme_page.dart';
 import 'package:ukfitnesshub/views/programme/play_program_page.dart';
+import 'package:ukfitnesshub/views/programme/programme_listing_page.dart';
 
 class ExerciseDetailsPage extends ConsumerWidget {
   final ExerciseModel exercise;
@@ -32,7 +36,45 @@ class ExerciseDetailsPage extends ConsumerWidget {
           IconButton(
             tooltip: "Add to a program",
             icon: const Icon(Icons.add),
-            onPressed: () {},
+            onPressed: () async {
+              await showModalBottomSheet<ExerciseIdModel?>(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) {
+                  return ExercisePopupWidget(exercise: exercise);
+                },
+              ).then((exerciseIdModel) async {
+                if (exerciseIdModel != null) {
+                  await showModalBottomSheet<ProgrammeModel?>(
+                    context: context,
+                    builder: (context) {
+                      return const MyProgrammsListToSelect();
+                    },
+                  ).then((programm) async {
+                    if (programm != null) {
+                      if (programm.exerciseIds.contains(exerciseIdModel.id)) {
+                        EasyLoading.showInfo(
+                            "The exercise is already there in the program!");
+                        return;
+                      } else {
+                        EasyLoading.showToast(
+                          "Exercise added to the program!",
+                          toastPosition: EasyLoadingToastPosition.bottom,
+                        );
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return AddNewProgrammePage(
+                              programme: programm,
+                              exerciseIdModel: exerciseIdModel,
+                            );
+                          },
+                        ));
+                      }
+                    }
+                  });
+                }
+              });
+            },
           ),
         ],
       ),
