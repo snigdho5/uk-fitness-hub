@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/main.dart';
 import 'package:ukfitnesshub/providers/auth_providers.dart';
 import 'package:ukfitnesshub/providers/package_info_provider.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
@@ -18,6 +19,7 @@ class MenuPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final packageRef = ref.watch(packageInfoProvider);
+    final userProfileRef = ref.watch(userHiveProvider);
     return Scaffold(
       appBar: customAppBar(context, title: "Menu"),
       bottomNavigationBar: const BottomNavBar(),
@@ -81,7 +83,6 @@ class MenuPage extends ConsumerWidget {
                     title: const Text("Logout"),
                     leading: const Icon(Icons.exit_to_app),
                     onTap: () async {
-                      final userProfileRef = ref.read(userHiveProvider);
                       final user = userProfileRef.getUser();
 
                       if (user != null) {
@@ -89,10 +90,29 @@ class MenuPage extends ConsumerWidget {
                         await AuthProvider.logout(
                                 token: user.token, userId: user.id)
                             .then((value) async {
-                          await userProfileRef.removeUser().then((value) {
+                          await ref
+                              .read(userHiveProvider)
+                              .removeUser()
+                              .then((value) {
                             EasyLoading.dismiss();
-                            Navigator.pop(context);
+
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const LandingWidget()),
+                                (route) => false);
                           });
+                        });
+                      } else {
+                        await ref
+                            .read(userHiveProvider)
+                            .removeUser()
+                            .then((value) {
+                          EasyLoading.dismiss();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => const LandingWidget()),
+                              (route) => false);
                         });
                       }
                     },
