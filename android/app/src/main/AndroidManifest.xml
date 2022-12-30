@@ -30,7 +30,7 @@
 
 
    <application
-        android:label="ukfitnesshub"
+        android:label="Uk Fitness Hub"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
