@@ -74,7 +74,7 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    print(responseBody);
+    debugPrint(responseBody.toString());
     EasyLoading.showToast(
       responseBody['message'],
       toastPosition: EasyLoadingToastPosition.bottom,
@@ -114,7 +114,7 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    print(responseBody);
+    debugPrint(responseBody);
     EasyLoading.showToast(
       responseBody['message'],
       toastPosition: EasyLoadingToastPosition.bottom,
@@ -183,7 +183,7 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    print(responseBody);
+    debugPrint(responseBody);
     EasyLoading.showToast(
       responseBody['message'],
       toastPosition: EasyLoadingToastPosition.bottom,
@@ -213,7 +213,7 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    print(responseBody);
+    debugPrint(responseBody);
 
     EasyLoading.showToast(
       responseBody['message'],
@@ -258,7 +258,7 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    print(responseBody);
+    debugPrint(responseBody);
 
     EasyLoading.showToast(
       responseBody['message'],

@@ -170,10 +170,10 @@ class _ReadyTogoPageState extends State<ReadyToGoPage> {
               ),
               const SizedBox(height: kDefaultPadding * 2),
               Text("Ready to go!".toUpperCase(),
-                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                       fontWeight: FontWeight.bold, color: secondaryColor)),
               Text(widget.exercise.name,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.bold, color: primaryColor)),
               const SizedBox(height: kDefaultPadding),
               CircularPercentIndicator(
@@ -184,7 +184,7 @@ class _ReadyTogoPageState extends State<ReadyToGoPage> {
                   _initialSeconds.toString(),
                   style: Theme.of(context)
                       .textTheme
-                      .headline4!
+                      .headlineMedium!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
                 progressColor: Colors.green,
@@ -291,7 +291,7 @@ class _RestingPageState extends State<RestingPage> {
     _totalSeconds = 0;
     _initialSeconds = 0;
 
-    print('dispose');
+    debugPrint('dispose');
     super.dispose();
   }
 
@@ -307,7 +307,7 @@ class _RestingPageState extends State<RestingPage> {
             children: [
               const Spacer(),
               Text("Have Rest!".toUpperCase(),
-                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                       fontWeight: FontWeight.bold, color: secondaryColor)),
               const SizedBox(height: kDefaultPadding * 2),
               CircularPercentIndicator(
@@ -318,7 +318,7 @@ class _RestingPageState extends State<RestingPage> {
                   _initialSeconds.toString(),
                   style: Theme.of(context)
                       .textTheme
-                      .headline4!
+                      .headlineMedium!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
                 progressColor: Colors.green,
@@ -428,7 +428,7 @@ class _ExercisePlayPageState extends State<ExercisePlayPage> {
     _totalSeconds = 0;
     _initialSeconds = 0;
 
-    print('dispose');
+    debugPrint('dispose');
     super.dispose();
   }
 
@@ -460,8 +460,12 @@ class _ExercisePlayPageState extends State<ExercisePlayPage> {
               children: [
                 Expanded(
                   child: Text(widget.exercise.name.toUpperCase(),
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                          fontWeight: FontWeight.bold, color: primaryColor)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: primaryColor)),
                 ),
                 ExerciseYoutubeVideoButton(exercise: widget.exercise),
               ],
@@ -500,11 +504,13 @@ class _ExercisePlayPageState extends State<ExercisePlayPage> {
                       Padding(
                         padding: const EdgeInsets.only(left: kDefaultPadding),
                         child: Text(durationString,
-                            style:
-                                Theme.of(context).textTheme.headline5!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: primaryColor,
-                                    )),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: primaryColor,
+                                )),
                       ),
                       IconButton(
                         iconSize: MediaQuery.of(context).size.height * 0.07,
@@ -609,7 +615,7 @@ class _FinishedPageState extends State<FinishedPage>
                   )),
               const SizedBox(height: kDefaultPadding * 2),
               Text("Congratulations!",
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       fontWeight: FontWeight.bold, color: primaryColor)),
               const SizedBox(height: kDefaultPadding / 2),
               Text(
@@ -677,7 +683,7 @@ class _AddRecordWidgetState extends State<AddRecordWidget> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text("How much did you lift?",
-                style: Theme.of(context).textTheme.headline5!.copyWith(
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.bold, color: primaryColor)),
             const SizedBox(height: kDefaultPadding),
             CustomTextFormField(
@@ -742,7 +748,7 @@ class NewPersonalBestDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text("New Personal Best!",
-                style: Theme.of(context).textTheme.headline5!.copyWith(
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.bold, color: primaryColor)),
             const SizedBox(height: kDefaultPadding),
             const Text(

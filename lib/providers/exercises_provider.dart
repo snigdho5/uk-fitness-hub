@@ -77,10 +77,10 @@ Future<bool> addExerciseRecord({
   if (responseStatus == "1") {
     final data = responseBody['respdata'];
 
-    print(data);
+    debugPrint(data);
 
     final result = data['new_record'];
-    print("\n\nResult: $result");
+    debugPrint("\n\nResult: $result");
 
     return result as bool;
   } else {

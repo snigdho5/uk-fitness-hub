@@ -20,7 +20,7 @@ class ProfilePage extends ConsumerWidget {
     final userProfileRef = ref.watch(userHiveProvider);
     final user = userProfileRef.getUser();
 
-    print(userProfileRef.getUser()?.token);
+    debugPrint(userProfileRef.getUser()?.token);
 
     return Scaffold(
       bottomNavigationBar: const BottomNavBar(),

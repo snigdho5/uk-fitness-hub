@@ -55,7 +55,7 @@ class _TrialEndDialogState extends ConsumerState<TrialEndDialog> {
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
-                  .headline6!
+                  .titleLarge!
                   .copyWith(color: primaryColor, fontWeight: FontWeight.bold),
             ),
             Text(
@@ -63,7 +63,7 @@ class _TrialEndDialogState extends ConsumerState<TrialEndDialog> {
                   ? 'Please subscribe to continue using the app'
                   : 'Please subscribe to continue using the app after your trial ends',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             const SizedBox(height: kDefaultPadding),
             if (settings != null)
@@ -78,7 +78,7 @@ class _TrialEndDialogState extends ConsumerState<TrialEndDialog> {
                 title: const Text('Monthly Subscription'),
                 secondary: Text(
                   '${settings!.currrency}${settings!.subscriptionFeePerMonth}',
-                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: primaryColor, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -94,7 +94,7 @@ class _TrialEndDialogState extends ConsumerState<TrialEndDialog> {
                 title: const Text('Yearly Subscription'),
                 secondary: Text(
                   '${settings!.currrency}${settings!.subscriptionFeePerYear}',
-                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: primaryColor, fontWeight: FontWeight.bold),
                 ),
               ),

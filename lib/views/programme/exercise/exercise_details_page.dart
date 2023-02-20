@@ -100,7 +100,7 @@ class ExerciseDetailsPage extends ConsumerWidget {
                           exercise.name.toUpperCase(),
                           style: Theme.of(context)
                               .textTheme
-                              .headline6!
+                              .titleLarge!
                               .copyWith(
                                   color: primaryColor,
                                   fontWeight: FontWeight.bold),
@@ -217,7 +217,7 @@ class ExerciseDetailsPage extends ConsumerWidget {
                                                   e.name,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .caption!
+                                                      .bodySmall!
                                                       .copyWith(
                                                         color: primaryColor,
                                                         fontWeight:
@@ -303,7 +303,7 @@ class ExerciseYoutubeVideoButton extends StatelessWidget {
                             exercise.name,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline6!
+                                .titleLarge!
                                 .copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),

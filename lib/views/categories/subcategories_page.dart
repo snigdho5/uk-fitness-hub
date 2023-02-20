@@ -31,7 +31,7 @@ class SubCategoriesPage extends ConsumerWidget {
               categoryModel.name.toUpperCase(),
               style: Theme.of(context)
                   .textTheme
-                  .headline6!
+                  .titleLarge!
                   .copyWith(fontWeight: FontWeight.w900, color: primaryColor),
             ),
           ),
@@ -68,7 +68,7 @@ class SubCategoriesPage extends ConsumerWidget {
           //               textAlign: TextAlign.center,
           //               style: Theme.of(context)
           //                   .textTheme
-          //                   .headline6!
+          //                   .titleLarge!
           //                   .copyWith(fontWeight: FontWeight.w900),
           //             ),
           //           ),
@@ -136,7 +136,7 @@ class SubCategoriesPage extends ConsumerWidget {
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,

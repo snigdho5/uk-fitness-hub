@@ -91,7 +91,7 @@ class _OnlineTrainingFormPageState
                           "Online Training with Travis".toUpperCase(),
                           style: Theme.of(context)
                               .textTheme
-                              .headline6!
+                              .titleLarge!
                               .copyWith(
                                   fontWeight: FontWeight.w900,
                                   color: Colors.white),
@@ -111,7 +111,7 @@ class _OnlineTrainingFormPageState
                           style: GoogleFonts.roboto(
                             textStyle: Theme.of(context)
                                 .textTheme
-                                .headline4!
+                                .headlineMedium!
                                 .copyWith(
                                     fontWeight: FontWeight.w900,
                                     color: Colors.white),
@@ -122,7 +122,7 @@ class _OnlineTrainingFormPageState
                           style: GoogleFonts.roboto(
                             textStyle: Theme.of(context)
                                 .textTheme
-                                .headline6!
+                                .titleLarge!
                                 .copyWith(
                                     fontWeight: FontWeight.w900,
                                     color: Colors.white),
@@ -150,7 +150,7 @@ class _OnlineTrainingFormPageState
                             "Contact Me".toUpperCase(),
                             style: Theme.of(context)
                                 .textTheme
-                                .headline6!
+                                .titleLarge!
                                 .copyWith(
                                     fontWeight: FontWeight.w900,
                                     color: primaryColor),
@@ -159,7 +159,7 @@ class _OnlineTrainingFormPageState
                           Text(
                             "If you would like to get in touch to discuss your fitness, massage or rehabilitation requirements please use the form here or the details below and I will be happy to help.",
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.caption!,
+                            style: Theme.of(context).textTheme.bodySmall!,
                           ),
                           const SizedBox(height: kDefaultPadding * 2),
                           CustomTextFormField(

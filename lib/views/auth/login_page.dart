@@ -130,7 +130,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     },
                     child: Text(
                       "Sign UP for a quick account",
-                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.w900, color: primaryColor),
                     ),
                   )

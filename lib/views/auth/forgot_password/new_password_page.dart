@@ -38,7 +38,7 @@ class _NewPasswordPageState extends ConsumerState<NewPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    print("OTP: ${widget.data.otp}");
+    debugPrint("OTP: ${widget.data.otp}");
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();

@@ -21,8 +21,8 @@ class _WrapperState extends State<Wrapper> {
     DateTime now = DateTime.now();
     DateTime? trialDate = widget.userProfileModel.trialEndDate;
 
-    print("Now: $now");
-    print("Trial Date: $trialDate");
+    debugPrint("Now: $now");
+    debugPrint("Trial Date: $trialDate");
 
     if (trialDate != null && trialDate.isBefore(now)) {
       Future.delayed(const Duration(seconds: 1), () {
@@ -35,7 +35,7 @@ class _WrapperState extends State<Wrapper> {
         );
       });
     } else {
-      print('Trial is not over');
+      debugPrint('Trial is not over');
     }
 
     super.initState();

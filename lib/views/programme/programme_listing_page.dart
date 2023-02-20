@@ -138,7 +138,7 @@ class ProgrammeListingBody extends ConsumerWidget {
                               child: Text("${i + 1}.",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline6!
+                                      .titleLarge!
                                       .copyWith(fontWeight: FontWeight.bold)),
                             )
                           : null,
@@ -177,7 +177,8 @@ class ProgrammeListingBody extends ConsumerWidget {
                                                     child: const Text('No')),
                                                 TextButton(
                                                     onPressed: () async {
-                                                      print(programmes[i].id);
+                                                      debugPrint(
+                                                          programmes[i].id);
 
                                                       final userProfileRef =
                                                           ref.read(
@@ -194,7 +195,8 @@ class ProgrammeListingBody extends ConsumerWidget {
                                                               programmes[i].id,
                                                         ).then((value) {
                                                           if (value) {
-                                                            print('deleted');
+                                                            debugPrint(
+                                                                'deleted');
                                                             ref.invalidate(
                                                                 userProgrammesFutureProvider);
                                                             Navigator.pop(
@@ -270,12 +272,12 @@ class MyProgrammsListToSelect extends ConsumerWidget {
               'My Programmes',
               style: Theme.of(context)
                   .textTheme
-                  .headline6!
+                  .titleLarge!
                   .copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
               'Select a programme to add to your workout',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             const SizedBox(height: kDefaultPadding),
             for (var i = 0; i < programmes.length; i++)
@@ -295,7 +297,7 @@ class MyProgrammsListToSelect extends ConsumerWidget {
                   child: Text("${i + 1}.",
                       style: Theme.of(context)
                           .textTheme
-                          .headline6!
+                          .titleLarge!
                           .copyWith(fontWeight: FontWeight.bold)),
                 ),
               ),

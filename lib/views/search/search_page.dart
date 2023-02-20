@@ -216,7 +216,7 @@ class _ExercisesSearchListState extends State<ExercisesSearchList> {
                 "Exercises".toUpperCase(),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2!
+                    .titleSmall!
                     .copyWith(fontWeight: FontWeight.bold, color: primaryColor),
               ),
               const Spacer(),
@@ -357,7 +357,7 @@ class ProgramsSearchList extends StatelessWidget {
                   children: [
                     Text(
                       "Programmes".toUpperCase(),
-                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.bold, color: primaryColor),
                     ),
                     const Spacer(),
@@ -419,7 +419,7 @@ class EquipmentsSearchList extends StatelessWidget {
                   children: [
                     Text(
                       "Equipments".toUpperCase(),
-                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.bold, color: primaryColor),
                     ),
                     const Spacer(),
@@ -481,7 +481,7 @@ class SubCategoriesSearchList extends StatelessWidget {
                   children: [
                     Text(
                       "Sub Categories".toUpperCase(),
-                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.bold, color: primaryColor),
                     ),
                     const Spacer(),
@@ -543,7 +543,7 @@ class CategoriesSearchList extends StatelessWidget {
                   children: [
                     Text(
                       "Categories".toUpperCase(),
-                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.bold, color: primaryColor),
                     ),
                     const Spacer(),
@@ -605,7 +605,7 @@ class FilterItem extends StatelessWidget {
         children: [
           Text(
             text,
-            style: Theme.of(context).textTheme.caption!.copyWith(
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   color: primaryColor,
                 ),
           ),

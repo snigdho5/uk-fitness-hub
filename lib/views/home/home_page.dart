@@ -41,7 +41,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               "Main Menu".toUpperCase(),
               style: Theme.of(context)
                   .textTheme
-                  .headline6!
+                  .titleLarge!
                   .copyWith(fontWeight: FontWeight.w900, color: primaryColor),
             ),
             if (!isEndOfTrial)
@@ -57,8 +57,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                     child: Text.rich(
                       TextSpan(
                         text: "Your 14 days trial ends in ",
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                            color: Theme.of(context).textTheme.caption!.color),
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            color:
+                                Theme.of(context).textTheme.bodySmall!.color),
                         children: [
                           TextSpan(
                             text: "$daysLeft",
@@ -71,11 +72,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                             text: " days",
                             style: Theme.of(context)
                                 .textTheme
-                                .subtitle2!
+                                .titleSmall!
                                 .copyWith(
                                     color: Theme.of(context)
                                         .textTheme
-                                        .caption!
+                                        .bodySmall!
                                         .color),
                           ),
                         ],
@@ -187,7 +188,7 @@ class CategoryItem extends StatelessWidget {
               title.toUpperCase(),
               style: Theme.of(context)
                   .textTheme
-                  .headline6!
+                  .titleLarge!
                   .copyWith(fontWeight: FontWeight.w900, color: Colors.white),
             ),
             const SizedBox(height: kDefaultPadding / 2),
@@ -197,7 +198,7 @@ class CategoryItem extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2!
+                  .titleSmall!
                   .copyWith(fontWeight: FontWeight.w900, color: Colors.white),
             ),
           ],
@@ -267,7 +268,7 @@ class CustomListTile extends StatelessWidget {
                       title,
                       style: Theme.of(context)
                           .textTheme
-                          .headline6!
+                          .titleLarge!
                           .copyWith(fontWeight: FontWeight.bold),
                     ),
                     if (description != null)
@@ -275,7 +276,7 @@ class CustomListTile extends StatelessWidget {
                         description!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.caption,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                   ],
                 ),

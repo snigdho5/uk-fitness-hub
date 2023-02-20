@@ -88,7 +88,7 @@ class _AddExercisesForProgrammePageState
                               _exerciseIds.removeWhere(
                                   (element) => element.id == model.id);
                             } else {
-                              print("Adding");
+                              debugPrint("Adding");
 
                               final ExerciseIdModel? result =
                                   await showModalBottomSheet(
@@ -282,7 +282,7 @@ class _ExercisePopupWidgetState extends State<ExercisePopupWidget> {
                 Expanded(
                   child: Text(
                     widget.exercise.name,
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.bold, color: primaryColor),
                   ),
                 ),
@@ -300,7 +300,7 @@ class _ExercisePopupWidgetState extends State<ExercisePopupWidget> {
             const SizedBox(height: kDefaultPadding),
             Text(
               widget.exercise.description ?? "",
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: kDefaultPadding),
             if (widget.isEditable)
@@ -313,7 +313,7 @@ class _ExercisePopupWidgetState extends State<ExercisePopupWidget> {
                   Text(durationString,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle2!
+                          .titleSmall!
                           .copyWith(fontWeight: FontWeight.bold, fontSize: 18)),
                 ],
               ),

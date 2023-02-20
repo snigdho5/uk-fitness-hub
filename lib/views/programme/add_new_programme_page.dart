@@ -151,7 +151,7 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
                     ListTile(
                       title: Text(
                         _programmeName!,
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -192,7 +192,7 @@ class _AddNewProgrammePageState extends ConsumerState<AddNewProgrammePage> {
                                               'Add Exercises',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headline6!
+                                                  .titleLarge!
                                                   .copyWith(
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.white,

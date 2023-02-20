@@ -49,7 +49,7 @@ final globalSearchProvider =
       final Response response = await post(url, headers: headers, body: body);
       final responseBody = jsonDecode(response.body);
 
-      print(responseBody);
+      debugPrint(responseBody);
 
       if (response.statusCode == 200) {
         try {

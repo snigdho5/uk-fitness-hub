@@ -45,12 +45,12 @@ class _ProgressPageState extends ConsumerState<ProgressPage> {
                 Text("History".toUpperCase(),
                     style: Theme.of(context)
                         .textTheme
-                        .headline6!
+                        .titleLarge!
                         .copyWith(color: primaryColor)),
                 Text("More".toUpperCase(),
                     style: Theme.of(context)
                         .textTheme
-                        .headline6!
+                        .titleLarge!
                         .copyWith(color: primaryColor)),
               ],
             ),
@@ -79,12 +79,12 @@ class ProgressReportItem extends StatelessWidget {
         Text(value,
             style: Theme.of(context)
                 .textTheme
-                .headline6!
+                .titleLarge!
                 .copyWith(fontWeight: FontWeight.bold, color: primaryColor)),
         Text(title.toUpperCase(),
             style: Theme.of(context)
                 .textTheme
-                .caption!
+                .bodySmall!
                 .copyWith(color: primaryColor)),
       ],
     );
