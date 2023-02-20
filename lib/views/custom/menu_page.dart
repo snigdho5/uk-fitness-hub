@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/main.dart';
 import 'package:ukfitnesshub/providers/auth_providers.dart';
@@ -90,6 +90,7 @@ class MenuPage extends ConsumerWidget {
                         await AuthProvider.logout(
                                 token: user.token, userId: user.id)
                             .then((value) async {
+                          await Purchases.logOut();
                           await ref
                               .read(userHiveProvider)
                               .removeUser()

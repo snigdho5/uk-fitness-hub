@@ -1,131 +1,143 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ukfitnesshub/config/constants.dart';
-import 'package:ukfitnesshub/models/settings_model.dart';
-import 'package:ukfitnesshub/providers/settings_provider.dart';
-import 'package:ukfitnesshub/providers/user_provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:ukfitnesshub/providers/subscriptions/is_subscribed_provider.dart';
+import 'package:ukfitnesshub/providers/subscriptions/offerings_provider.dart';
 
-class TrialEndDialog extends ConsumerStatefulWidget {
-  final bool isTrialEnded;
-  const TrialEndDialog({super.key, this.isTrialEnded = true});
+class SubscriptionBuilder extends ConsumerWidget {
+  final Widget Function(BuildContext context, bool isPremiumUser) builder;
 
-  @override
-  ConsumerState<TrialEndDialog> createState() => _TrialEndDialogState();
-}
-
-class _TrialEndDialogState extends ConsumerState<TrialEndDialog> {
-  SettingsModel? settings;
-  bool _isMonthlySubscription = true;
+  const SubscriptionBuilder({Key? key, required this.builder})
+      : super(key: key);
 
   @override
-  void initState() {
-    settings = ref.read(settingsProvider).settings;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isPremiumUserRef = ref.watch(isPremiumUserProvider);
 
-    super.initState();
+    return isPremiumUserRef.when(
+      data: (data) {
+        return builder(context, data);
+      },
+      error: (error, stackTrace) {
+        return builder(context, false);
+      },
+      loading: () {
+        return const SizedBox();
+      },
+    );
   }
 
+  static Future<void> showSubscriptionDialog({
+    required BuildContext context,
+    String? message,
+  }) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return SubscriptionDialog(message: message);
+      },
+    );
+  }
+}
+
+class SubscriptionDialog extends ConsumerWidget {
+  final String? message;
+  const SubscriptionDialog({
+    super.key,
+    this.message,
+  });
+
   @override
-  Widget build(BuildContext context) {
-    final user = ref.watch(userHiveProvider).getUser();
-    DateTime now = DateTime.now();
-    DateTime? trialDate = user?.trialEndDate;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final offeringsRef = ref.watch(subscriptionOfferingsProvider);
 
-    int daysLeft = trialDate?.difference(now).inDays ?? 0;
-
-    return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.all(kDefaultPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: kDefaultPadding),
-            const Icon(
-              CupertinoIcons.info_circle,
-              color: primaryColor,
-              size: 50,
-            ),
-            const SizedBox(height: kDefaultPadding),
-            Text(
-              widget.isTrialEnded
-                  ? '14 Days Trial Ended'
-                  : 'Your trial will end in $daysLeft days',
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(color: primaryColor, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              widget.isTrialEnded
-                  ? 'Please subscribe to continue using the app'
-                  : 'Please subscribe to continue using the app after your trial ends',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            const SizedBox(height: kDefaultPadding),
-            if (settings != null)
-              RadioListTile(
-                value: true,
-                groupValue: _isMonthlySubscription,
-                onChanged: (value) {
-                  setState(() {
-                    _isMonthlySubscription = true;
-                  });
-                },
-                title: const Text('Monthly Subscription'),
-                secondary: Text(
-                  '${settings!.currrency}${settings!.subscriptionFeePerMonth}',
-                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: primaryColor, fontWeight: FontWeight.bold),
-                ),
-              ),
-            if (settings != null)
-              RadioListTile(
-                value: false,
-                groupValue: _isMonthlySubscription,
-                onChanged: (value) {
-                  setState(() {
-                    _isMonthlySubscription = false;
-                  });
-                },
-                title: const Text('Yearly Subscription'),
-                secondary: Text(
-                  '${settings!.currrency}${settings!.subscriptionFeePerYear}',
-                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: primaryColor, fontWeight: FontWeight.bold),
-                ),
-              ),
-            const SizedBox(height: kDefaultPadding * 2),
-            Row(
-              children: [
-                if (!widget.isTrialEnded)
-                  const SizedBox(width: kDefaultPadding),
-                if (!widget.isTrialEnded)
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Cancel'),
+    return AlertDialog(
+      title: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text("Your trial has ended!"),
+          Text(
+            message ?? "Subscribe to unlock premium features!",
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
+      ),
+      content: offeringsRef.when(
+        data: (data) {
+          return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: data.map(
+                (element) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          offset: const Offset(0, 1),
+                          blurRadius: 5,
+                        ),
+                      ],
                     ),
-                  ),
-                const SizedBox(width: kDefaultPadding),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      EasyLoading.showToast("Open subscription page!!");
-                    },
-                    child: const Text('Subscribe'),
-                  ),
-                ),
-                const SizedBox(width: kDefaultPadding),
-              ],
-            ),
-          ],
-        ),
+                    child: ListTile(
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 12),
+                      dense: true,
+                      onTap: () async {
+                        // Navigator.pop(context);
+                        EasyLoading.show(status: "Processing...");
+                        await Purchases.purchasePackage(element).then((value) {
+                          EasyLoading.dismiss();
+                          ref.invalidate(isPremiumUserProvider);
+                          ref.invalidate(premiumCustomerInfoProvider);
+                          Navigator.pop(context);
+                        }).onError((error, stackTrace) {
+                          debugPrint(error.toString());
+
+                          EasyLoading.showInfo("Purchase Failed!");
+                        });
+                      },
+                      title: Text(
+                        element.storeProduct.title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        element.storeProduct.description,
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      trailing: Text(
+                        element.storeProduct.priceString,
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontSize: 18,
+                          color: Theme.of(context).colorScheme.primary,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.2),
+                              offset: const Offset(0, 1),
+                              blurRadius: 2,
+                            ),
+                          ],
+                        ),
+                      ),
+                      leading: Text("${data.indexOf(element) + 1}. "),
+                      minLeadingWidth: 0,
+                    ),
+                  );
+                },
+              ).toList());
+        },
+        error: (error, stackTrace) => const Text("Error loading offers!"),
+        loading: () => const SizedBox(),
       ),
     );
   }
