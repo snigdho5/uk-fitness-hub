@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -14,6 +15,8 @@ import 'package:ukfitnesshub/views/wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
+
   await Hive.initFlutter();
   await Hive.openBox(HiveConstants.hiveBox);
   configLoading();
@@ -127,3 +130,15 @@ ThemeData _buildTheme(Brightness brightness) {
     textTheme: GoogleFonts.oswaldTextTheme(baseTheme.textTheme),
   );
 }
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+
+// 01864 034646

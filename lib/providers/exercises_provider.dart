@@ -77,7 +77,7 @@ Future<bool> addExerciseRecord({
   if (responseStatus == "1") {
     final data = responseBody['respdata'];
 
-    debugPrint(data);
+    debugPrint(data.toString());
 
     final result = data['new_record'];
     debugPrint("\n\nResult: $result");

@@ -31,10 +31,11 @@ class SubscriptionBuilder extends ConsumerWidget {
   static Future<void> showSubscriptionDialog({
     required BuildContext context,
     String? message,
+    bool isDismissible = false,
   }) async {
     await showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: isDismissible,
       builder: (context) {
         return SubscriptionDialog(message: message);
       },

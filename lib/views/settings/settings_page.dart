@@ -89,6 +89,7 @@ class SettingsPage extends ConsumerWidget {
                           } else {
                             SubscriptionBuilder.showSubscriptionDialog(
                                 context: context,
+                                isDismissible: true,
                                 message:
                                     "To get access to premium features, you can subscribe to the premium plan.");
                           }

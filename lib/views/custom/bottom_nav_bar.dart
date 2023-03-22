@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/views/profile/profile_page.dart';
 import 'package:ukfitnesshub/views/programme/programme_listing_page.dart';
 import 'package:ukfitnesshub/views/progress/progress_page.dart';
 
@@ -36,11 +37,10 @@ class BottomNavBar extends StatelessWidget {
           label: "Progress",
         ),
         BottomNavigationBarItem(
-          icon:
-              Image.asset(result, width: kDefaultPadding, color: Colors.white),
+          icon: Image.asset(user, width: kDefaultPadding, color: Colors.white),
           activeIcon:
-              Image.asset(result, width: kDefaultPadding, color: Colors.white),
-          label: "Results",
+              Image.asset(user, width: kDefaultPadding, color: Colors.white),
+          label: "Profile",
         ),
       ],
       onTap: (index) {
@@ -57,6 +57,13 @@ class BottomNavBar extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => const ProgressPage(),
+            ),
+          );
+        } else if (index == 2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProfilePage(),
             ),
           );
         }

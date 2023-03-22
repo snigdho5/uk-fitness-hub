@@ -57,18 +57,18 @@ AppBar customAppBar(
               color: tertiaryColor,
             ),
             const SizedBox(width: kDefaultPadding / 1.5),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const ProfilePage()));
-              },
-              child: Image.asset(
-                user,
-                width: kDefaultPadding * 1.2,
-                color: tertiaryColor,
-              ),
-            ),
-            const SizedBox(width: kDefaultPadding / 1.5),
+            // GestureDetector(
+            //   onTap: () {
+            //     Navigator.of(context).push(MaterialPageRoute(
+            //         builder: (context) => const ProfilePage()));
+            //   },
+            //   child: Image.asset(
+            //     user,
+            //     width: kDefaultPadding * 1.2,
+            //     color: tertiaryColor,
+            //   ),
+            // ),
+            // const SizedBox(width: kDefaultPadding / 1.5),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(

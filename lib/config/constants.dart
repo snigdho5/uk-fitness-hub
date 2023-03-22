@@ -88,5 +88,5 @@ class SubscriptionConstants {
       "You can cancel your subscription at any time.";
 
   static const String appleApiKey = "appl_qAvezbkyVfqMsNVDDhZVYuSYLvr";
-  static const String googleApiKey = "";
+  static const String googleApiKey = "goog_bgqAarrsKiLBKhduJMKydrjIlXs";
 }

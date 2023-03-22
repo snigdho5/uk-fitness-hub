@@ -45,4 +45,7 @@ class APIs {
 
   //Settings
   static const String settings = "settings";
+
+  //Progress
+  static const String progress = "progress";
 }
