@@ -25,7 +25,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     final user = ref.watch(userHiveProvider).getUser();
     DateTime now = DateTime.now();
     DateTime? trialDate = user?.trialEndDate;
-
     int daysLeft = trialDate?.difference(now).inDays ?? 0;
     bool isEndOfTrial = daysLeft <= 0;
 
@@ -192,14 +191,17 @@ class CategoryItem extends StatelessWidget {
                   .copyWith(fontWeight: FontWeight.w900, color: Colors.white),
             ),
             const SizedBox(height: kDefaultPadding / 2),
-            Text(
-              "$subtitle >>",
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall!
-                  .copyWith(fontWeight: FontWeight.w900, color: Colors.white),
+            Padding(
+              padding: const EdgeInsets.only(right: kDefaultPadding * 6),
+              child: Text(
+                "$subtitle >>",
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: Colors.white),
+              ),
             ),
           ],
         ),

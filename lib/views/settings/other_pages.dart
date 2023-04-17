@@ -1,32 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-
 import 'package:ukfitnesshub/helper/url_launcher_helper.dart';
 import 'package:ukfitnesshub/providers/settings_provider.dart';
 import 'package:ukfitnesshub/views/custom/bottom_nav_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
-
-class PrivacyPolicy extends ConsumerWidget {
-  const PrivacyPolicy({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, ref) {
-    final settings = ref.watch(settingsProvider).settings;
-    return OtherPage(title: "Privacy Policy", htmlData: settings?.appPrivacy);
-  }
-}
-
-//Terms and Conditions
-class TermsAndConditions extends ConsumerWidget {
-  const TermsAndConditions({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(settingsProvider).settings;
-    return OtherPage(title: "Terms and Conditions", htmlData: settings?.appTnc);
-  }
-}
 
 //About
 class About extends ConsumerWidget {

@@ -18,14 +18,14 @@ import 'package:ukfitnesshub/views/programme/programme_details_page.dart';
 import 'package:ukfitnesshub/views/home/home_page.dart';
 import 'package:ukfitnesshub/views/search/search_filter.dart';
 
-class SearchPage extends StatefulWidget {
+class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  ConsumerState<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchPageState extends ConsumerState<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
 
   @override

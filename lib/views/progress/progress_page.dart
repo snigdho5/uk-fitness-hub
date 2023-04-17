@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/providers/progress_provider.dart';
+import 'package:ukfitnesshub/views/custom/bottom_nav_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 
 class ProgressPage extends ConsumerStatefulWidget {
@@ -25,41 +26,24 @@ class _ProgressPageState extends ConsumerState<ProgressPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context, title: 'Progress'),
+      bottomNavigationBar: const BottomNavBar(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ...
+            const SizedBox(height: kDefaultPadding),
             Padding(
-              padding: const EdgeInsets.all(kDefaultPadding),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
-                  ProgressReportItem(title: "Exercises", value: "12"),
-                  ProgressReportItem(title: "kcal", value: "470"),
-                  ProgressReportItem(title: "minute", value: "21"),
-                ],
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
+              child: Text(
+                "Your progress bar chart for this month",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(color: primaryColor),
               ),
             ),
-            const Divider(color: primaryColor, height: 0),
-            Padding(
-              padding: const EdgeInsets.all(kDefaultPadding),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("History".toUpperCase(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: primaryColor)),
-                  Text("More".toUpperCase(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: primaryColor)),
-                ],
-              ),
-            ),
+            const SizedBox(height: kDefaultPadding),
             const FLChartSection(),
           ],
         ),
@@ -109,18 +93,19 @@ class FLChartSection extends ConsumerWidget {
 
     return progressRef.when(
       data: (data) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 24),
-            SizedBox(
-              height: 200,
-              width: double.infinity,
-              child: BarChart(mainBarData(context, data)),
-            ),
-          ],
-        );
+        return data.isEmpty
+            ? const SizedBox()
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
+                    height: 200,
+                    width: double.infinity,
+                    child: BarChart(mainBarData(context, data)),
+                  ),
+                ],
+              );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stack) {

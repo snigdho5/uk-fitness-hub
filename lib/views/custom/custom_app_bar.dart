@@ -50,12 +50,12 @@ AppBar customAppBar(
                 color: tertiaryColor,
               ),
             ),
-            const SizedBox(width: kDefaultPadding / 1.5),
-            Image.asset(
-              notification,
-              width: kDefaultPadding * 1.2,
-              color: tertiaryColor,
-            ),
+            // const SizedBox(width: kDefaultPadding / 1.5),
+            // Image.asset(
+            //   notification,
+            //   width: kDefaultPadding * 1.2,
+            //   color: tertiaryColor,
+            // ),
             const SizedBox(width: kDefaultPadding / 1.5),
             // GestureDetector(
             //   onTap: () {

@@ -25,9 +25,9 @@ class GlobalSearchItems {
   });
 }
 
-final globalSearchProvider =
-    FutureProvider.family<GlobalSearchItems?, String>((ref, query) async {
-  final userProfileRef = ref.watch(userHiveProvider);
+final globalSearchProvider = FutureProvider.family
+    .autoDispose<GlobalSearchItems?, String>((ref, query) async {
+  final userProfileRef = ref.read(userHiveProvider);
   final user = userProfileRef.getUser();
 
   if (user != null && query.isNotEmpty) {
@@ -48,8 +48,6 @@ final globalSearchProvider =
 
       final Response response = await post(url, headers: headers, body: body);
       final responseBody = jsonDecode(response.body);
-
-      debugPrint(responseBody);
 
       if (response.statusCode == 200) {
         try {

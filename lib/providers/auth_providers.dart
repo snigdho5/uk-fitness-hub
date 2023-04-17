@@ -91,6 +91,41 @@ class AuthProvider {
     }
   }
 
+  // Delete Account
+  static Future<bool> deleteAccount(
+      {required String token, required String userId}) async {
+    final url = Uri.parse(baseUrl + APIs.deleteAccount);
+
+    final data = {"user_id": userId};
+
+    final headers = {
+      "Authorization": "Bearer $token",
+    };
+
+    final Response response = await post(url, body: data, headers: headers);
+
+    final responseBody = jsonDecode(response.body);
+    final responseStatus = responseBody['status'];
+
+    debugPrint(responseBody.toString());
+
+    EasyLoading.showToast(
+      responseBody['message'],
+      toastPosition: EasyLoadingToastPosition.bottom,
+    );
+
+    if (responseStatus == "1") {
+      try {
+        return true;
+      } catch (e) {
+        debugPrint(e.toString());
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   //Change Password
   static Future<bool> changePassword(
       {required String token,

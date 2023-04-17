@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/helper/url_launcher_helper.dart';
 import 'package:ukfitnesshub/main.dart';
 import 'package:ukfitnesshub/providers/auth_providers.dart';
 import 'package:ukfitnesshub/providers/package_info_provider.dart';
@@ -53,8 +54,7 @@ class MenuPage extends ConsumerWidget {
                     title: const Text("Terms and Conditions"),
                     leading: const Icon(Icons.description_outlined),
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const TermsAndConditions()));
+                      launchURL(termsAndConditions);
                     },
                   ),
                   const Divider(height: 0),
@@ -63,8 +63,7 @@ class MenuPage extends ConsumerWidget {
                     title: const Text("Privacy Policy"),
                     leading: const Icon(Icons.privacy_tip_outlined),
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const PrivacyPolicy()));
+                      launchURL(privacyPolicy);
                     },
                   ),
                   const Divider(height: 0),
@@ -73,8 +72,7 @@ class MenuPage extends ConsumerWidget {
                     title: const Text("About"),
                     leading: const Icon(Icons.info_outline),
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const About()));
+                      launchURL(aboutUs);
                     },
                   ),
                   const Divider(height: 0),

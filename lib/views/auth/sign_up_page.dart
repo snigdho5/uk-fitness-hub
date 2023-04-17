@@ -2,8 +2,8 @@ import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/helper/url_launcher_helper.dart';
 import 'package:ukfitnesshub/providers/auth_providers.dart';
 import 'package:ukfitnesshub/providers/country_provider.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
@@ -365,6 +365,9 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                                       color: Theme.of(context).disabledColor,
                                       fontWeight: FontWeight.w900),
                             ),
+                            onTap: () {
+                              launchURL(termsAndConditions);
+                            },
                           ),
                           const SizedBox(height: kDefaultPadding),
                           CustomButton(
