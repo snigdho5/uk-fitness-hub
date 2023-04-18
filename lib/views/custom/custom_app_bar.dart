@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/views/custom/menu_page.dart';
-import 'package:ukfitnesshub/views/profile/profile_page.dart';
 import 'package:ukfitnesshub/views/search/search_page.dart';
 
 AppBar customAppBar(

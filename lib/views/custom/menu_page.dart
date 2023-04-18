@@ -11,7 +11,6 @@ import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/custom/bottom_nav_bar.dart';
 import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 import 'package:ukfitnesshub/views/profile/profile_page.dart';
-import 'package:ukfitnesshub/views/settings/other_pages.dart';
 import 'package:ukfitnesshub/views/settings/settings_page.dart';
 
 class MenuPage extends ConsumerWidget {
@@ -22,7 +21,8 @@ class MenuPage extends ConsumerWidget {
     final packageRef = ref.watch(packageInfoProvider);
     final userProfileRef = ref.watch(userHiveProvider);
     return Scaffold(
-      appBar: customAppBar(context, title: "Menu"),
+      appBar: customAppBar(context,
+          title: "Menu", customActions: [], showDefaultActionButtons: false),
       bottomNavigationBar: const BottomNavBar(),
       body: Column(
         children: [

@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 import 'package:ukfitnesshub/providers/auth_providers.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
-import 'package:ukfitnesshub/views/custom/bottom_nav_bar.dart';
 import 'package:ukfitnesshub/views/profile/update_profile_page.dart';
 import 'package:ukfitnesshub/views/programme/programme_listing_page.dart';
 
@@ -23,7 +22,6 @@ class ProfilePage extends ConsumerWidget {
     debugPrint(userProfileRef.getUser()?.token);
 
     return Scaffold(
-      bottomNavigationBar: const BottomNavBar(),
       body: Container(
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(

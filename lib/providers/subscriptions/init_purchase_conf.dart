@@ -3,9 +3,6 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:ukfitnesshub/config/constants.dart';
 
 Future<void> initPlatformStateForPurchases(String? userId) async {
-  //TODO: remove it before production
-  await Purchases.setLogLevel(LogLevel.debug);
-
   PurchasesConfiguration configuration;
 
   if (Platform.isIOS) {
