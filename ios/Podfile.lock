@@ -18,12 +18,12 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - purchases_flutter (4.11.2):
+  - purchases_flutter (4.12.0):
     - Flutter
-    - PurchasesHybridCommon (= 4.14.2)
-  - PurchasesHybridCommon (4.14.2):
-    - RevenueCat (= 4.17.9)
-  - RevenueCat (4.17.9)
+    - PurchasesHybridCommon (= 4.15.0)
+  - PurchasesHybridCommon (4.15.0):
+    - RevenueCat (= 4.18.0)
+  - RevenueCat (4.18.0)
   - share_plus (0.0.1):
     - Flutter
   - sqflite (0.0.2):
@@ -103,9 +103,9 @@ SPEC CHECKSUMS:
   just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
-  purchases_flutter: fd864f53a8242162edd4a76f8726f0de52b30dd2
-  PurchasesHybridCommon: 05e767205a460e564ec1bf3ee6057c5ac9068be1
-  RevenueCat: 8cc3e93a5e29a5bac443d38a0973a317e841f3f1
+  purchases_flutter: c93638c13a96b39fc1281d4bc4c44aa81a4224c7
+  PurchasesHybridCommon: da45a710d9f4f7819fd769b8efc3abbb5e4e8cab
+  RevenueCat: d8f5b1477c4eb78b658e86a97fd64ed4d6b3fbfd
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4

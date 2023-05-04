@@ -45,7 +45,11 @@ class _WrapperState extends ConsumerState<Wrapper> {
                   true) {
             debugPrint('User is premium');
           } else {
-            await SubscriptionBuilder.showSubscriptionDialog(context: context);
+            await SubscriptionBuilder.showSubscriptionDialog(
+              context: context,
+              message:
+                  "Subscribe to premium to unlock all features.\nYou will get access to all the contents and features of the app.",
+            );
           }
         });
       } else {

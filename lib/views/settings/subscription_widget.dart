@@ -1,7 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:ukfitnesshub/config/constants.dart';
+import 'package:ukfitnesshub/helper/url_launcher_helper.dart';
 import 'package:ukfitnesshub/providers/subscriptions/is_subscribed_provider.dart';
 import 'package:ukfitnesshub/providers/subscriptions/offerings_provider.dart';
 
@@ -62,83 +65,131 @@ class SubscriptionDialog extends ConsumerWidget {
           const Text("Your trial has ended!"),
           Text(
             message ?? "Subscribe to unlock premium features!",
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
       ),
-      content: offeringsRef.when(
-        data: (data) {
-          return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: data.map(
-                (element) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          offset: const Offset(0, 1),
-                          blurRadius: 5,
-                        ),
-                      ],
-                    ),
-                    child: ListTile(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 12),
-                      dense: true,
-                      onTap: () async {
-                        // Navigator.pop(context);
-                        EasyLoading.show(status: "Processing...");
-                        await Purchases.purchasePackage(element).then((value) {
-                          EasyLoading.dismiss();
-                          ref.invalidate(isPremiumUserProvider);
-                          ref.invalidate(premiumCustomerInfoProvider);
-                          Navigator.pop(context);
-                        }).onError((error, stackTrace) {
-                          debugPrint(error.toString());
-
-                          EasyLoading.showInfo("Purchase Failed!");
-                        });
-                      },
-                      title: Text(
-                        element.storeProduct.title,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        element.storeProduct.description,
-                        textAlign: TextAlign.start,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      trailing: Text(
-                        element.storeProduct.priceString,
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontSize: 18,
-                          color: Theme.of(context).colorScheme.primary,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.2),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          offeringsRef.when(
+            data: (data) {
+              return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: data.map(
+                    (element) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
                               offset: const Offset(0, 1),
-                              blurRadius: 2,
+                              blurRadius: 5,
                             ),
                           ],
                         ),
-                      ),
-                      leading: Text("${data.indexOf(element) + 1}. "),
-                      minLeadingWidth: 0,
+                        child: ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 12),
+                          dense: true,
+                          onTap: () async {
+                            // Navigator.pop(context);
+                            EasyLoading.show(status: "Processing...");
+                            await Purchases.purchasePackage(element)
+                                .then((value) {
+                              EasyLoading.dismiss();
+                              ref.invalidate(isPremiumUserProvider);
+                              ref.invalidate(premiumCustomerInfoProvider);
+                              Navigator.pop(context);
+                            }).onError((error, stackTrace) {
+                              debugPrint(error.toString());
+
+                              EasyLoading.showInfo("Purchase Failed!");
+                            });
+                          },
+                          title: Text(
+                            element.storeProduct.title,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            element.storeProduct.description,
+                            textAlign: TextAlign.start,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                          trailing: Text(
+                            element.storeProduct.priceString,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                              fontSize: 18,
+                              color: Theme.of(context).colorScheme.primary,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  offset: const Offset(0, 1),
+                                  blurRadius: 2,
+                                ),
+                              ],
+                            ),
+                          ),
+                          leading: Text("${data.indexOf(element) + 1}. "),
+                          minLeadingWidth: 0,
+                        ),
+                      );
+                    },
+                  ).toList());
+            },
+            error: (error, stackTrace) => const Text("Error loading offers!"),
+            loading: () => const SizedBox(),
+          ),
+          const SizedBox(height: 16),
+          const Text("You can cancel anytime!"),
+          const SizedBox(height: 16),
+          // Privacy Policy and Terms of Use
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Text.rich(
+              TextSpan(
+                text: "By continuing, you agree to our ",
+                children: [
+                  TextSpan(
+                    text: "Privacy Policy",
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        launchURL(privacyPolicy);
+                      },
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
                     ),
-                  );
-                },
-              ).toList());
-        },
-        error: (error, stackTrace) => const Text("Error loading offers!"),
-        loading: () => const SizedBox(),
+                  ),
+                  const TextSpan(text: " and "),
+                  TextSpan(
+                    text: "Terms of Use",
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        launchURL(termsAndConditions);
+                      },
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ),
+        ],
       ),
     );
   }

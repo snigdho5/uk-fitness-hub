@@ -51,11 +51,11 @@
 		<string>http</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs access to your camera.</string>
+	<string>This app needs access to your camera to update your profile picture.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app needs access to your microphone.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs access to your photo library.</string>
+	<string>This app needs access to your photo library to update your profile picture.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 </dict>
