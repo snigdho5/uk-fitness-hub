@@ -55,6 +55,7 @@ class _OnlineTrainingFormPageState
             EasyLoading.showToast(
               'Your message has been sent successfully!',
               toastPosition: EasyLoadingToastPosition.bottom,
+              duration: const Duration(seconds: 5),
             );
             Navigator.of(context).pop();
           } else {

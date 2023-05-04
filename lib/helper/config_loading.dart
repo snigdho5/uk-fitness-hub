@@ -20,5 +20,6 @@ void configLoading() {
         blurRadius: 10,
       ),
     ]
+    ..displayDuration = const Duration(milliseconds: 3500)
     ..dismissOnTap = true;
 }

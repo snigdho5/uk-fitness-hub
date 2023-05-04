@@ -173,10 +173,11 @@ class CategoryItem extends StatelessWidget {
         border: Border.all(color: primaryColor),
         color: Colors.white,
         image: DecorationImage(
-            image: isNetWorkImage
-                ? CachedNetworkImageProvider(image)
-                : AssetImage(image) as ImageProvider,
-            fit: BoxFit.cover),
+          image: isNetWorkImage
+              ? CachedNetworkImageProvider(image)
+              : AssetImage(image) as ImageProvider,
+          fit: BoxFit.fill,
+        ),
       ),
       child: Center(
         child: Column(
