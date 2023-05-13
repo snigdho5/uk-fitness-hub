@@ -71,6 +71,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         );
       });
     }).onError((error, stackTrace) {
+      print(error.toString());
+      print(stackTrace.toString());
       EasyLoading.showToast(
         "There is an error!\nPlease try again later.",
         toastPosition: EasyLoadingToastPosition.bottom,

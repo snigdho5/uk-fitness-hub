@@ -102,7 +102,7 @@ SPEC CHECKSUMS:
   in_app_review: 318597b3a06c22bb46dc454d56828c85f444f99d
   just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
-  path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
   purchases_flutter: c93638c13a96b39fc1281d4bc4c44aa81a4224c7
   PurchasesHybridCommon: da45a710d9f4f7819fd769b8efc3abbb5e4e8cab
   RevenueCat: d8f5b1477c4eb78b658e86a97fd64ed4d6b3fbfd

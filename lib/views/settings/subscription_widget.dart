@@ -81,6 +81,28 @@ class SubscriptionDialog extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: data.map(
                     (element) {
+                      String title = "";
+                      if (element.packageType == PackageType.monthly) {
+                        title = element.storeProduct.title.isEmpty
+                            ? "Monthly Subscription"
+                            : element.storeProduct.title;
+                      } else if (element.packageType == PackageType.annual) {
+                        title = element.storeProduct.title.isEmpty
+                            ? "Annual Subscription"
+                            : element.storeProduct.title;
+                      }
+
+                      String description = "";
+                      if (element.packageType == PackageType.monthly) {
+                        description = element.storeProduct.description.isEmpty
+                            ? "Full access for a month"
+                            : element.storeProduct.description;
+                      } else if (element.packageType == PackageType.annual) {
+                        description = element.storeProduct.description.isEmpty
+                            ? "Full access for a year"
+                            : element.storeProduct.description;
+                      }
+
                       return Container(
                         margin: const EdgeInsets.symmetric(vertical: 8),
                         decoration: BoxDecoration(
@@ -114,14 +136,14 @@ class SubscriptionDialog extends ConsumerWidget {
                             });
                           },
                           title: Text(
-                            element.storeProduct.title,
+                            title,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text(
-                            element.storeProduct.description,
+                            description,
                             textAlign: TextAlign.start,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
