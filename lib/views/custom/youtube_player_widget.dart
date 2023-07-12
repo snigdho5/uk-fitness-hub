@@ -20,24 +20,15 @@ class _YoutubePlayerWidgetState extends State<YoutubePlayerWidget> {
     super.initState();
 
     debugPrint('init youtube player');
-
-    _controller = YoutubePlayerController(
+    _controller = YoutubePlayerController.fromVideoId(
+      videoId: YoutubePlayerController.convertUrlToId(widget.videoUrl) ?? "",
+      autoPlay: true,
       params: const YoutubePlayerParams(
-        showControls: true,
         showFullscreenButton: true,
+        showControls: true,
         mute: false,
       ),
-    )..onInit = () async {
-        await _controller
-            .loadVideoById(
-                videoId:
-                    YoutubePlayerController.convertUrlToId(widget.videoUrl) ??
-                        "")
-            .onError((error, stackTrace) {
-          debugPrint('error: $error');
-          debugPrint('stackTrace: $stackTrace');
-        });
-      };
+    );
   }
 
   @override

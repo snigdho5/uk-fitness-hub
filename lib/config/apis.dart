@@ -1,4 +1,4 @@
-const String baseUrl = "http://dev.solutionsfinder.co.uk:3000/api/";
+const String baseUrl = "https://ukfitnessapp.com:3000/api/";
 
 class APIs {
   APIs._();

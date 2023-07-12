@@ -116,10 +116,10 @@ class FLChartSection extends ConsumerWidget {
 BarChartData mainBarData(context, List<ProgressMonthPercentageModel> data) {
   return BarChartData(
     titlesData: FlTitlesData(
-      rightTitles: AxisTitles(
+      rightTitles: const AxisTitles(
         sideTitles: SideTitles(showTitles: false),
       ),
-      topTitles: AxisTitles(
+      topTitles: const AxisTitles(
         sideTitles: SideTitles(showTitles: false),
       ),
       bottomTitles: AxisTitles(
@@ -131,13 +131,13 @@ BarChartData mainBarData(context, List<ProgressMonthPercentageModel> data) {
           reservedSize: 38,
         ),
       ),
-      leftTitles: AxisTitles(
+      leftTitles: const AxisTitles(
         sideTitles: SideTitles(showTitles: false),
       ),
     ),
     borderData: FlBorderData(show: false),
     barGroups: showingGroups(data, context),
-    gridData: FlGridData(show: false),
+    gridData: const FlGridData(show: false),
   );
 }
 
