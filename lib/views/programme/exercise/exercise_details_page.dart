@@ -85,167 +85,185 @@ class ExerciseDetailsPage extends ConsumerWidget {
           children: [
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.all(kDefaultPadding),
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    width: double.infinity,
-                    child: CachedNetworkImage(imageUrl: exercise.image ?? ""),
+                  CachedNetworkImage(
+                    imageUrl: exercise.image ?? "",
+                    fit: BoxFit.contain,
                   ),
-                  const SizedBox(height: kDefaultPadding),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          exercise.name.toUpperCase(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                                  color: primaryColor,
-                                  fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(width: kDefaultPadding),
-                      ExerciseYoutubeVideoButton(exercise: exercise),
-                      const SizedBox(width: kDefaultPadding),
-                    ],
-                  ),
-                  const SizedBox(height: kDefaultPadding),
-                  Text(exercise.description ?? ""),
-                  const SizedBox(height: kDefaultPadding),
                   Padding(
                     padding: const EdgeInsets.all(kDefaultPadding),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (exercise.weight != "0")
-                          Text(
-                            "${exercise.weight}\n${exercise.weightUnit}",
-                            textAlign: TextAlign.center,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                exercise.name.toUpperCase(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const SizedBox(width: kDefaultPadding),
+                            ExerciseYoutubeVideoButton(exercise: exercise),
+                            const SizedBox(width: kDefaultPadding),
+                          ],
+                        ),
+                        const SizedBox(height: kDefaultPadding),
+                        Text(exercise.description ?? ""),
+                        const SizedBox(height: kDefaultPadding),
+                        Padding(
+                          padding: const EdgeInsets.all(kDefaultPadding),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              if (exercise.weight != "0")
+                                Text(
+                                  "${exercise.weight}\n${exercise.weightUnit}",
+                                  textAlign: TextAlign.center,
+                                ),
+                              Text(
+                                "${exercise.reps}\nReps",
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                "${exercise.sets}\nSets",
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                "${exercise.breakSeconds} secs\nHold",
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
-                        Text(
-                          "${exercise.reps}\nReps",
-                          textAlign: TextAlign.center,
                         ),
-                        Text(
-                          "${exercise.sets}\nSets",
-                          textAlign: TextAlign.center,
+                        const SizedBox(height: kDefaultPadding),
+                        allEquipmentsRef.when(
+                          data: (equipments) {
+                            final width =
+                                (MediaQuery.of(context).size.width / 3) -
+                                    (kDefaultPadding * 2);
+                            equipments = equipments
+                                .where((element) =>
+                                    exercise.equipmentIds
+                                        ?.contains(element.id.toString()) ??
+                                    false)
+                                .toList();
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Text(
+                                  "Equipments Required".toUpperCase(),
+                                  textAlign: TextAlign.start,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                                const SizedBox(height: kDefaultPadding),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    (equipments.length > 3
+                                        ? const Icon(Icons.arrow_back_ios,
+                                            size: 16, color: primaryColor)
+                                        : const SizedBox.shrink()),
+                                    Expanded(
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: equipments.map(
+                                            (e) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ExercisesByEquipmetsListPage(
+                                                                  equipmentModel:
+                                                                      e)));
+                                                },
+                                                child: Container(
+                                                  width: width,
+                                                  height: width,
+                                                  margin: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal:
+                                                          kDefaultPadding / 4),
+                                                  decoration: BoxDecoration(
+                                                    color: Theme.of(context)
+                                                        .scaffoldBackgroundColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            kDefaultPadding /
+                                                                2),
+                                                  ),
+                                                  padding: const EdgeInsets.all(
+                                                      kDefaultPadding / 2),
+                                                  child: Column(
+                                                    children: [
+                                                      Expanded(
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl:
+                                                              e.image ?? "",
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                          height:
+                                                              kDefaultPadding /
+                                                                  2),
+                                                      Text(
+                                                        e.name,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodySmall!
+                                                            .copyWith(
+                                                              color:
+                                                                  primaryColor,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ).toList(),
+                                        ),
+                                      ),
+                                    ),
+                                    (equipments.length > 3
+                                        ? const Icon(Icons.arrow_forward_ios,
+                                            size: 16, color: primaryColor)
+                                        : const SizedBox.shrink()),
+                                  ],
+                                ),
+                              ],
+                            );
+                          },
+                          loading: () => const SizedBox(),
+                          error: (error, stack) => const SizedBox(),
                         ),
-                        Text(
-                          "${exercise.breakSeconds} secs\nHold",
-                          textAlign: TextAlign.center,
-                        ),
+                        const SizedBox(height: kDefaultPadding * 2),
                       ],
                     ),
                   ),
-                  const SizedBox(height: kDefaultPadding),
-                  allEquipmentsRef.when(
-                    data: (equipments) {
-                      final width = (MediaQuery.of(context).size.width / 3) -
-                          (kDefaultPadding * 2);
-                      equipments = equipments
-                          .where((element) =>
-                              exercise.equipmentIds
-                                  ?.contains(element.id.toString()) ??
-                              false)
-                          .toList();
-
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            "Equipments Required".toUpperCase(),
-                            textAlign: TextAlign.start,
-                            style:
-                                Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                          ),
-                          const SizedBox(height: kDefaultPadding),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              (equipments.length > 3
-                                  ? const Icon(Icons.arrow_back_ios,
-                                      size: 16, color: primaryColor)
-                                  : const SizedBox.shrink()),
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: equipments.map(
-                                      (e) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ExercisesByEquipmetsListPage(
-                                                            equipmentModel:
-                                                                e)));
-                                          },
-                                          child: Container(
-                                            width: width,
-                                            height: width,
-                                            margin: const EdgeInsets.symmetric(
-                                                horizontal:
-                                                    kDefaultPadding / 4),
-                                            decoration: BoxDecoration(
-                                              color: Theme.of(context)
-                                                  .scaffoldBackgroundColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      kDefaultPadding / 2),
-                                            ),
-                                            padding: const EdgeInsets.all(
-                                                kDefaultPadding / 2),
-                                            child: Column(
-                                              children: [
-                                                Expanded(
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: e.image ?? "",
-                                                    fit: BoxFit.contain,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                    height:
-                                                        kDefaultPadding / 2),
-                                                Text(
-                                                  e.name,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall!
-                                                      .copyWith(
-                                                        color: primaryColor,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ).toList(),
-                                  ),
-                                ),
-                              ),
-                              (equipments.length > 3
-                                  ? const Icon(Icons.arrow_forward_ios,
-                                      size: 16, color: primaryColor)
-                                  : const SizedBox.shrink()),
-                            ],
-                          ),
-                        ],
-                      );
-                    },
-                    loading: () => const SizedBox(),
-                    error: (error, stack) => const SizedBox(),
-                  ),
-                  const SizedBox(height: kDefaultPadding * 2),
                 ],
               ),
             ),

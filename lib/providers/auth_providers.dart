@@ -25,7 +25,7 @@ class AuthProvider {
         final userProfileModel = UserProfileModel.fromJson(responseData);
         return userProfileModel;
       } catch (e) {
-        debugPrint(e.toString());
+        print(e.toString());
         return null;
       }
     } else {
@@ -51,7 +51,7 @@ class AuthProvider {
         final userProfileModel = UserProfileModel.fromJson(responseData);
         return userProfileModel;
       } catch (e) {
-        debugPrint(e.toString());
+        print(e.toString());
         return null;
       }
     } else {
@@ -74,7 +74,7 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    debugPrint(responseBody.toString());
+    print(responseBody.toString());
     EasyLoading.showToast(
       responseBody['message'],
       toastPosition: EasyLoadingToastPosition.bottom,
@@ -83,7 +83,7 @@ class AuthProvider {
       try {
         return true;
       } catch (e) {
-        debugPrint(e.toString());
+        print(e.toString());
         return false;
       }
     } else {
@@ -107,7 +107,7 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    debugPrint(responseBody.toString());
+    print(responseBody.toString());
 
     EasyLoading.showToast(
       responseBody['message'],
@@ -118,7 +118,7 @@ class AuthProvider {
       try {
         return true;
       } catch (e) {
-        debugPrint(e.toString());
+        print(e.toString());
         return false;
       }
     } else {
@@ -149,7 +149,7 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    debugPrint(responseBody);
+    print(responseBody);
     EasyLoading.showToast(
       responseBody['message'],
       toastPosition: EasyLoadingToastPosition.bottom,
@@ -158,7 +158,7 @@ class AuthProvider {
       try {
         return true;
       } catch (e) {
-        debugPrint(e.toString());
+        print(e.toString());
         return false;
       }
     } else {
@@ -189,7 +189,7 @@ class AuthProvider {
         final userProfileModel = UserProfileModel.fromJson(responseData);
         return userProfileModel;
       } catch (e) {
-        debugPrint(e.toString());
+        print(e.toString());
         return null;
       }
     } else {
@@ -218,7 +218,7 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    debugPrint(responseBody);
+    print(responseBody);
     EasyLoading.showToast(
       responseBody['message'],
       toastPosition: EasyLoadingToastPosition.bottom,
@@ -230,7 +230,7 @@ class AuthProvider {
         final userProfileModel = UserProfileModel.fromJson(responseData);
         return userProfileModel;
       } catch (e) {
-        debugPrint(e.toString());
+        print(e.toString());
         return null;
       }
     } else {
@@ -248,7 +248,7 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    debugPrint(responseBody);
+    print(responseBody);
 
     EasyLoading.showToast(
       responseBody['message'],
@@ -267,7 +267,7 @@ class AuthProvider {
 
         return forgorPasswordData;
       } catch (e) {
-        debugPrint(e.toString());
+        print(e.toString());
         return null;
       }
     } else {
@@ -293,7 +293,7 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    debugPrint(responseBody);
+    print(responseBody);
 
     EasyLoading.showToast(
       responseBody['message'],
@@ -304,7 +304,7 @@ class AuthProvider {
       try {
         return true;
       } catch (e) {
-        debugPrint(e.toString());
+        print(e.toString());
         return false;
       }
     } else {

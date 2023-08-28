@@ -233,7 +233,7 @@ class CustomListTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 70),
+        constraints: const BoxConstraints(minHeight: 80),
         child: Card(
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -248,7 +248,7 @@ class CustomListTile extends StatelessWidget {
                       ? const SizedBox(width: kDefaultPadding)
                       : Container(
                           height: 80,
-                          width: 80,
+                          width: 110,
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(kDefaultPadding / 2),
@@ -261,27 +261,33 @@ class CustomListTile extends StatelessWidget {
                           ),
                         )
                   : leading!,
-              const SizedBox(width: kDefaultPadding),
+              const SizedBox(width: kDefaultPadding / 2),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    if (description != null)
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                       Text(
-                        description!,
-                        maxLines: 1,
+                        title,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
-                  ],
+                      if (description != null)
+                        Text(
+                          description!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(width: kDefaultPadding / 2),

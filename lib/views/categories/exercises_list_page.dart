@@ -29,8 +29,7 @@ class ExercisesListPage extends ConsumerWidget {
 
           return ListView.builder(
             itemCount: data.length,
-            padding: const EdgeInsets.all(kDefaultPadding),
-            shrinkWrap: true,
+            padding: const EdgeInsets.all(kDefaultPadding / 2),
             itemBuilder: (context, index) {
               final exercise = data[index];
 
@@ -47,6 +46,7 @@ class ExercisesListPage extends ConsumerWidget {
                 },
                 title: exercise.name,
                 image: exercise.image,
+                description: exercise.description,
               );
             },
           );
