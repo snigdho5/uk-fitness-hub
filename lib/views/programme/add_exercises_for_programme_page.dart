@@ -16,9 +16,9 @@ import 'package:ukfitnesshub/views/programme/exercise/exercise_details_page.dart
 class AddExercisesForProgrammePage extends ConsumerStatefulWidget {
   final List<ExerciseIdModel> exerciseIds;
   const AddExercisesForProgrammePage({
-    Key? key,
+    super.key,
     this.exerciseIds = const [],
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<AddExercisesForProgrammePage> createState() =>
@@ -145,11 +145,11 @@ class AddExercisesBody extends StatelessWidget {
   final List<SelectionItem> items;
   final Function(ExerciseModel model) onSelectionChanged;
   const AddExercisesBody({
-    Key? key,
+    super.key,
     required this.selectedExerciseIds,
     required this.items,
     required this.onSelectionChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

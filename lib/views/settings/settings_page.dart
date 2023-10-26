@@ -16,7 +16,7 @@ import 'package:ukfitnesshub/views/settings/change_password_page.dart';
 import 'package:ukfitnesshub/views/settings/subscription_widget.dart';
 
 class SettingsPage extends ConsumerWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context, ref) {

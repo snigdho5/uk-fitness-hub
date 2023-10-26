@@ -8,7 +8,7 @@ import 'package:ukfitnesshub/views/custom/custom_button.dart';
 import 'package:ukfitnesshub/views/custom/custom_text_field.dart';
 
 class SendOtpPage extends ConsumerStatefulWidget {
-  const SendOtpPage({Key? key}) : super(key: key);
+  const SendOtpPage({super.key});
 
   @override
   ConsumerState<SendOtpPage> createState() => _SendOtpPageState();

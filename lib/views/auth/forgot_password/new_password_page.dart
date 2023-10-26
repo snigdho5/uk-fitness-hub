@@ -9,9 +9,9 @@ import 'package:ukfitnesshub/views/custom/custom_text_field.dart';
 class NewPasswordPage extends ConsumerStatefulWidget {
   final ForgorPasswordData data;
   const NewPasswordPage({
-    Key? key,
+    super.key,
     required this.data,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<NewPasswordPage> createState() => _NewPasswordPageState();

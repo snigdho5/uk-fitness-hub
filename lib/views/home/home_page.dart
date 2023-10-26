@@ -10,8 +10,8 @@ import 'package:ukfitnesshub/views/home/online_training_form_page.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   ConsumerState<HomePage> createState() => _HomePageState();
@@ -155,12 +155,12 @@ class CategoryItem extends StatelessWidget {
   final String image, title, subtitle;
   final bool isNetWorkImage;
   const CategoryItem({
-    Key? key,
+    super.key,
     required this.image,
     required this.title,
     required this.subtitle,
     this.isNetWorkImage = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -219,14 +219,14 @@ class CustomListTile extends StatelessWidget {
   final Widget? trailing;
   final Widget? leading;
   const CustomListTile({
-    Key? key,
+    super.key,
     required this.onTap,
     this.description,
     required this.title,
     this.image,
     this.trailing,
     this.leading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

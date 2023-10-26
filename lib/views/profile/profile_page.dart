@@ -12,7 +12,7 @@ import 'package:ukfitnesshub/views/profile/update_profile_page.dart';
 import 'package:ukfitnesshub/views/programme/programme_listing_page.dart';
 
 class ProfilePage extends ConsumerWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context, ref) {

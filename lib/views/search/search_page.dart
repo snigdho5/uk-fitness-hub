@@ -275,36 +275,30 @@ class _ExercisesSearchListState extends State<ExercisesSearchList> {
           spacing: kDefaultPadding / 4,
           runSpacing: kDefaultPadding / 4,
           children: [
-            ..._filterCategories
-                .map((e) => FilterItem(
-                      text: e.name,
-                      onDelete: () {
-                        setState(() {
-                          _filterCategories.remove(e);
-                        });
-                      },
-                    ))
-                .toList(),
-            ..._filterSubCategories
-                .map((e) => FilterItem(
-                      text: e.name,
-                      onDelete: () {
-                        setState(() {
-                          _filterSubCategories.remove(e);
-                        });
-                      },
-                    ))
-                .toList(),
-            ..._filterEquipments
-                .map((e) => FilterItem(
-                      text: e.name,
-                      onDelete: () {
-                        setState(() {
-                          _filterEquipments.remove(e);
-                        });
-                      },
-                    ))
-                .toList(),
+            ..._filterCategories.map((e) => FilterItem(
+                  text: e.name,
+                  onDelete: () {
+                    setState(() {
+                      _filterCategories.remove(e);
+                    });
+                  },
+                )),
+            ..._filterSubCategories.map((e) => FilterItem(
+                  text: e.name,
+                  onDelete: () {
+                    setState(() {
+                      _filterSubCategories.remove(e);
+                    });
+                  },
+                )),
+            ..._filterEquipments.map((e) => FilterItem(
+                  text: e.name,
+                  onDelete: () {
+                    setState(() {
+                      _filterEquipments.remove(e);
+                    });
+                  },
+                )),
           ],
         ),
         const SizedBox(height: kDefaultPadding / 2),
@@ -327,7 +321,7 @@ class _ExercisesSearchListState extends State<ExercisesSearchList> {
               image: exercise.image,
             );
           },
-        ).toList(),
+        ),
       ],
     );
   }
@@ -390,7 +384,7 @@ class ProgramsSearchList extends StatelessWidget {
                     image: program.image,
                   );
                 },
-              ).toList(),
+              ),
             ],
           );
   }
@@ -452,7 +446,7 @@ class EquipmentsSearchList extends StatelessWidget {
                     image: equipment.image,
                   );
                 },
-              ).toList(),
+              ),
             ],
           );
   }
@@ -514,7 +508,7 @@ class SubCategoriesSearchList extends StatelessWidget {
                     image: subCategory.image,
                   );
                 },
-              ).toList(),
+              ),
             ],
           );
   }
@@ -576,7 +570,7 @@ class CategoriesSearchList extends StatelessWidget {
                     image: category.image,
                   );
                 },
-              ).toList(),
+              ),
             ],
           );
   }

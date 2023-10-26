@@ -6,13 +6,11 @@ import 'package:ukfitnesshub/providers/auth_providers.dart';
 import 'package:ukfitnesshub/providers/user_provider.dart';
 import 'package:ukfitnesshub/views/auth/forgot_password/send_otp_page.dart';
 import 'package:ukfitnesshub/views/auth/sign_up_page.dart';
-// ignore: unused_import
-import 'package:ukfitnesshub/views/wrapper.dart';
 import 'package:ukfitnesshub/views/custom/custom_button.dart';
 import 'package:ukfitnesshub/views/custom/custom_text_field.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   ConsumerState<LoginPage> createState() => _LoginPageState();

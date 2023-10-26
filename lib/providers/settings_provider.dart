@@ -21,7 +21,6 @@ class SettingsProvider extends ChangeNotifier {
     if (responseStatus == "1") {
       try {
         final responseData = responseBody['respdata'];
-        print(responseData);
         _settings = SettingsModel.fromJson(responseData[0]);
         notifyListeners();
       } catch (e) {

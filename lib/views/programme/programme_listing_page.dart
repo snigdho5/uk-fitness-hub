@@ -84,9 +84,9 @@ class _ProgramListingTabViewState extends State<ProgramListingTabView> {
 class ProgrammeListingBody extends ConsumerWidget {
   final bool isBuiltIn;
   const ProgrammeListingBody({
-    Key? key,
+    super.key,
     this.isBuiltIn = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, ref) {

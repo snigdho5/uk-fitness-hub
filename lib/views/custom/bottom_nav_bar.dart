@@ -6,8 +6,8 @@ import 'package:ukfitnesshub/views/progress/progress_page.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

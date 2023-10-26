@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart';
 import 'package:ukfitnesshub/config/apis.dart';
@@ -25,7 +23,6 @@ class AuthProvider {
         final userProfileModel = UserProfileModel.fromJson(responseData);
         return userProfileModel;
       } catch (e) {
-        print(e.toString());
         return null;
       }
     } else {
@@ -51,7 +48,6 @@ class AuthProvider {
         final userProfileModel = UserProfileModel.fromJson(responseData);
         return userProfileModel;
       } catch (e) {
-        print(e.toString());
         return null;
       }
     } else {
@@ -74,7 +70,6 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    print(responseBody.toString());
     EasyLoading.showToast(
       responseBody['message'],
       toastPosition: EasyLoadingToastPosition.bottom,
@@ -83,7 +78,6 @@ class AuthProvider {
       try {
         return true;
       } catch (e) {
-        print(e.toString());
         return false;
       }
     } else {
@@ -107,7 +101,6 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    print(responseBody.toString());
 
     EasyLoading.showToast(
       responseBody['message'],
@@ -118,7 +111,6 @@ class AuthProvider {
       try {
         return true;
       } catch (e) {
-        print(e.toString());
         return false;
       }
     } else {
@@ -149,7 +141,6 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    print(responseBody);
     EasyLoading.showToast(
       responseBody['message'],
       toastPosition: EasyLoadingToastPosition.bottom,
@@ -158,7 +149,6 @@ class AuthProvider {
       try {
         return true;
       } catch (e) {
-        print(e.toString());
         return false;
       }
     } else {
@@ -189,7 +179,6 @@ class AuthProvider {
         final userProfileModel = UserProfileModel.fromJson(responseData);
         return userProfileModel;
       } catch (e) {
-        print(e.toString());
         return null;
       }
     } else {
@@ -218,7 +207,6 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    print(responseBody);
     EasyLoading.showToast(
       responseBody['message'],
       toastPosition: EasyLoadingToastPosition.bottom,
@@ -230,7 +218,6 @@ class AuthProvider {
         final userProfileModel = UserProfileModel.fromJson(responseData);
         return userProfileModel;
       } catch (e) {
-        print(e.toString());
         return null;
       }
     } else {
@@ -248,7 +235,6 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    print(responseBody);
 
     EasyLoading.showToast(
       responseBody['message'],
@@ -267,7 +253,6 @@ class AuthProvider {
 
         return forgorPasswordData;
       } catch (e) {
-        print(e.toString());
         return null;
       }
     } else {
@@ -293,7 +278,6 @@ class AuthProvider {
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
 
-    print(responseBody);
 
     EasyLoading.showToast(
       responseBody['message'],
@@ -304,7 +288,6 @@ class AuthProvider {
       try {
         return true;
       } catch (e) {
-        print(e.toString());
         return false;
       }
     } else {

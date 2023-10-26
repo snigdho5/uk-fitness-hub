@@ -19,9 +19,9 @@ import 'package:ukfitnesshub/views/programme/programme_listing_page.dart';
 class ExerciseDetailsPage extends ConsumerWidget {
   final ExerciseModel exercise;
   const ExerciseDetailsPage({
-    Key? key,
+    super.key,
     required this.exercise,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, ref) {
@@ -199,7 +199,7 @@ class ExerciseDetailsPage extends ConsumerWidget {
                                                   width: width,
                                                   height: width,
                                                   margin: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       horizontal:
                                                           kDefaultPadding / 4),
                                                   decoration: BoxDecoration(
@@ -292,9 +292,9 @@ class ExerciseDetailsPage extends ConsumerWidget {
 
 class ExerciseYoutubeVideoButton extends StatelessWidget {
   const ExerciseYoutubeVideoButton({
-    Key? key,
+    super.key,
     required this.exercise,
-  }) : super(key: key);
+  });
 
   final ExerciseModel exercise;
 
@@ -355,10 +355,10 @@ class ProgrammeSpecialButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final IconData icon;
   const ProgrammeSpecialButton({
-    Key? key,
+    super.key,
     this.onPressed,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

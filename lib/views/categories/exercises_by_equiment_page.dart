@@ -10,8 +10,7 @@ import 'package:ukfitnesshub/views/programme/exercise/exercise_details_page.dart
 
 class ExercisesByEquipmetsListPage extends ConsumerWidget {
   final EquipmentModel equipmentModel;
-  const ExercisesByEquipmetsListPage({Key? key, required this.equipmentModel})
-      : super(key: key);
+  const ExercisesByEquipmetsListPage({super.key, required this.equipmentModel});
 
   @override
   Widget build(BuildContext context, ref) {

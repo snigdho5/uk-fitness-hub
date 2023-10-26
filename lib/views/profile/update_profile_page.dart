@@ -15,9 +15,9 @@ import 'package:ukfitnesshub/views/custom/custom_text_field.dart';
 class EditProfilePage extends ConsumerStatefulWidget {
   final UserProfileModel user;
   const EditProfilePage({
-    Key? key,
+    super.key,
     required this.user,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<EditProfilePage> createState() => _EditProfilePageState();

@@ -11,8 +11,7 @@ import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 
 class SubCategoriesPage extends ConsumerWidget {
   final CategoryModel categoryModel;
-  const SubCategoriesPage({Key? key, required this.categoryModel})
-      : super(key: key);
+  const SubCategoriesPage({super.key, required this.categoryModel});
 
   @override
   Widget build(BuildContext context, ref) {

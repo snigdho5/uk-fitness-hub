@@ -14,7 +14,7 @@ import 'package:ukfitnesshub/views/profile/profile_page.dart';
 import 'package:ukfitnesshub/views/settings/settings_page.dart';
 
 class MenuPage extends ConsumerWidget {
-  const MenuPage({Key? key}) : super(key: key);
+  const MenuPage({super.key});
 
   @override
   Widget build(BuildContext context, ref) {

@@ -660,9 +660,9 @@ class _FinishedPageState extends State<FinishedPage>
 class AddRecordWidget extends StatefulWidget {
   final ExerciseModel exercise;
   const AddRecordWidget({
-    Key? key,
+    super.key,
     required this.exercise,
-  }) : super(key: key);
+  });
 
   @override
   State<AddRecordWidget> createState() => _AddRecordWidgetState();

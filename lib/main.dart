@@ -24,7 +24,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
 }
 
 class SplashScreen extends ConsumerStatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
@@ -71,8 +71,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         );
       });
     }).onError((error, stackTrace) {
-      print(error.toString());
-      print(stackTrace.toString());
       EasyLoading.showToast(
         "There is an error!\nPlease try again later.",
         toastPosition: EasyLoadingToastPosition.bottom,
@@ -96,7 +94,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 }
 
 class LandingWidget extends ConsumerWidget {
-  const LandingWidget({Key? key}) : super(key: key);
+  const LandingWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

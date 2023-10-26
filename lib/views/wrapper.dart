@@ -11,9 +11,9 @@ import 'package:ukfitnesshub/views/settings/subscription_widget.dart';
 class Wrapper extends ConsumerStatefulWidget {
   final UserProfileModel userProfileModel;
   const Wrapper({
-    Key? key,
+    super.key,
     required this.userProfileModel,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<Wrapper> createState() => _WrapperState();

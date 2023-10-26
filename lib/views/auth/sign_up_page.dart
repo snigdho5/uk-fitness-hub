@@ -10,7 +10,7 @@ import 'package:ukfitnesshub/views/custom/custom_button.dart';
 import 'package:ukfitnesshub/views/custom/custom_text_field.dart';
 
 class SignUpPage extends ConsumerStatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({super.key});
 
   @override
   ConsumerState<SignUpPage> createState() => _SignUpPageState();

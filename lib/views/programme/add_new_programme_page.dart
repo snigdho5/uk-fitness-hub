@@ -27,10 +27,10 @@ class AddNewProgrammePage extends ConsumerStatefulWidget {
   final ProgrammeModel? programme;
   final ExerciseIdModel? exerciseIdModel;
   const AddNewProgrammePage({
-    Key? key,
+    super.key,
     this.programme,
     this.exerciseIdModel,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<AddNewProgrammePage> createState() =>

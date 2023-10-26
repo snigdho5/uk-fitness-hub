@@ -54,10 +54,10 @@ class ProgressReportItem extends StatelessWidget {
   final String title;
   final String value;
   const ProgressReportItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

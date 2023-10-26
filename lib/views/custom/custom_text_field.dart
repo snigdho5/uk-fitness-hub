@@ -16,7 +16,7 @@ class CustomTextFormField extends StatelessWidget {
   final int? maxLines;
 
   const CustomTextFormField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.title,
     this.validator,
@@ -27,7 +27,7 @@ class CustomTextFormField extends StatelessWidget {
     this.suffix,
     this.showTitleAsHint = false,
     this.maxLines,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +70,13 @@ class CustomDropdownTextField extends StatelessWidget {
   final bool isSearchable;
 
   const CustomDropdownTextField({
-    Key? key,
+    super.key,
     required this.contoller,
     required this.items,
     required this.title,
     this.validator,
     this.isSearchable = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

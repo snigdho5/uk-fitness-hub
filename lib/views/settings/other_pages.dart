@@ -8,7 +8,7 @@ import 'package:ukfitnesshub/views/custom/custom_app_bar.dart';
 
 //About
 class About extends ConsumerWidget {
-  const About({Key? key}) : super(key: key);
+  const About({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -21,10 +21,10 @@ class OtherPage extends StatelessWidget {
   final String title;
   final String? htmlData;
   const OtherPage({
-    Key? key,
+    super.key,
     required this.title,
     required this.htmlData,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
