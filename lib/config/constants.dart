@@ -75,8 +75,7 @@ const String contactImage = '${_imagePath}contact_image.png';
 const String termsAndConditions =
     'https://www.ukfitnesshub.com/ukfitnesshub-com/_img/doc/App%20Terms%20of%20use.pdf';
 
-const String privacyPolicy =
-    'https://www.ukfitnesshub.com/ukfitnesshub-com/_img/doc/App%20Privacy%20Policy.pdf';
+const String privacyPolicy = 'https://www.ukfitnesshub.com/privacy-policy/';
 
 const String aboutUs = 'https://www.ukfitnesshub.com/about-me/';
 
