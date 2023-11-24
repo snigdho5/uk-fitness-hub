@@ -24,7 +24,7 @@ class _YoutubePlayerWidgetState extends State<YoutubePlayerWidget> {
       videoId: YoutubePlayerController.convertUrlToId(widget.videoUrl) ?? "",
       autoPlay: true,
       params: const YoutubePlayerParams(
-        showFullscreenButton: true,
+        showFullscreenButton: false,
         showControls: true,
         mute: false,
       ),
@@ -47,5 +47,28 @@ class _YoutubePlayerWidgetState extends State<YoutubePlayerWidget> {
         backgroundColor: Colors.transparent,
       ),
     );
+  }
+}
+
+class YoutubeeFullScreenPage extends StatefulWidget {
+  final YoutubePlayerController controller;
+  const YoutubeeFullScreenPage({super.key, required this.controller});
+
+  @override
+  State<YoutubeeFullScreenPage> createState() => _YoutubeeFullScreenPageState();
+}
+
+class _YoutubeeFullScreenPageState extends State<YoutubeeFullScreenPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: YoutubePlayerControllerProvider(
+      controller: widget.controller,
+      child: YoutubePlayer(
+        controller: widget.controller,
+        enableFullScreenOnVerticalDrag: false,
+        backgroundColor: Colors.transparent,
+      ),
+    ));
   }
 }

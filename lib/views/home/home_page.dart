@@ -23,6 +23,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     final categoriesRef = ref.watch(categoriesFutureProvider);
 
     final user = ref.watch(userHiveProvider).getUser();
+
     DateTime now = DateTime.now();
     DateTime? trialDate = user?.trialEndDate;
     int daysLeft = trialDate?.difference(now).inDays ?? 0;
@@ -84,18 +85,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                 ],
               ),
-
-            // GestureDetector(
-            //   onTap: () {
-            //     Navigator.of(context).push(MaterialPageRoute(
-            //         builder: (context) => const BodyFocusPage()));
-            //   },
-            //   child: const CategoryItem(
-            //     image: bodyFocus,
-            //     title: "Body Focus",
-            //     subtitle: "Focus on a specific body part",
-            //   ),
-            // ),
             const SizedBox(height: kDefaultPadding),
             categoriesRef.when(
               data: (data) {
@@ -109,10 +98,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => SubCategoriesPage(
-                                        categoryModel: e,
-                                      )));
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SubCategoriesPage(categoryModel: e),
+                                ),
+                              );
                             },
                             child: CategoryItem(
                               image: e.image ?? "",
@@ -130,7 +121,6 @@ class _HomePageState extends ConsumerState<HomePage> {
               error: (error, stackTrace) => const SizedBox.shrink(),
               loading: () => const SizedBox.shrink(),
             ),
-
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(

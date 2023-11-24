@@ -159,7 +159,7 @@ class ExerciseDetailsPage extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Text(
-                                  "Equipments Required".toUpperCase(),
+                                  "Equipment Required".toUpperCase(),
                                   textAlign: TextAlign.start,
                                   style: Theme.of(context)
                                       .textTheme
@@ -309,6 +309,8 @@ class ExerciseYoutubeVideoButton extends StatelessWidget {
             barrierDismissible: false,
             builder: (context) {
               return Dialog(
+                insetPadding: const EdgeInsets.all(kDefaultPadding / 2),
+                alignment: Alignment.topCenter,
                 backgroundColor: Colors.black,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

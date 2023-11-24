@@ -16,9 +16,7 @@ final categoriesFutureProvider =
   if (user != null) {
     final url = Uri.parse(baseUrl + APIs.categories);
 
-    final headers = {
-      "Authorization": "Bearer ${user.token}",
-    };
+    final headers = {"Authorization": "Bearer ${user.token}"};
     final Response response = await get(url, headers: headers);
 
     final responseBody = jsonDecode(response.body);

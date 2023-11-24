@@ -121,6 +121,7 @@ final _swatch = {
 
 ThemeData _buildTheme(Brightness brightness) {
   var baseTheme = ThemeData(
+    useMaterial3: false,
     brightness: brightness,
     primarySwatch: _primarySwatch,
     appBarTheme: const AppBarTheme(elevation: 0),
@@ -139,6 +140,3 @@ class MyHttpOverrides extends HttpOverrides {
           (X509Certificate cert, String host, int port) => true;
   }
 }
-
-
-// 01864 034646

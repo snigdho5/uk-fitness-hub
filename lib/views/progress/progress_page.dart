@@ -34,7 +34,7 @@ class _ProgressPageState extends ConsumerState<ProgressPage> {
               padding: const EdgeInsets.symmetric(
                   horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
               child: Text(
-                "Your progress bar chart for this month",
+                "Your progress bar chart for this year",
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge!

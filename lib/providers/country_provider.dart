@@ -16,18 +16,15 @@ class CountryProvider extends ChangeNotifier {
   Future<void> getCountries() async {
     final url = Uri.parse(baseUrl + APIs.countries);
     final Response response = await get(url);
+
     final responseBody = jsonDecode(response.body);
     final responseStatus = responseBody['status'];
     if (responseStatus == "1") {
-      try {
-        final responseData = responseBody['respdata'];
-        final countries = List<CountryModel>.from(
-            responseData.map((x) => CountryModel.fromJson(x)));
-        _countries.addAll(countries);
-        notifyListeners();
-      } catch (e) {
-        rethrow;
-      }
+      final responseData = responseBody['respdata'];
+      final countries = List<CountryModel>.from(
+          responseData.map((x) => CountryModel.fromJson(x)));
+      _countries.addAll(countries);
+      notifyListeners();
     }
   }
 }
